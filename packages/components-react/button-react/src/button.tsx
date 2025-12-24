@@ -157,7 +157,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
         'nl-button--negative': Boolean(purpose) && hint === 'negative',
         'nl-button--icon-only': iconOnly,
       })}
-      aria-pressed={toggle ? String(Boolean(pressed)) : undefined}
+      aria-pressed={toggle ? (pressed ? 'true' : 'false') : undefined}
       aria-disabled={disabled ? 'true' : undefined}
       disabled={htmlDisabled}
       {...restProps}
