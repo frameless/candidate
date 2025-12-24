@@ -1,5 +1,5 @@
 {
-  "name": "@nl-design-system-candidate/storybook",
+  "name": "@nl-design-system-candidate/no-storybook",
   "author": "Community for NL Design System",
   "description": "No Storybook based on the NL Design System architecture",
   "license": "EUPL-1.2",
@@ -14,8 +14,10 @@
     "directory": "packages/no-storybook"
   },
   "scripts": {
-    "clean": "rimraf dist/",
-    "build": "rimraf dist && vite build && cp dist/assets/*.js dist/index.js",
+    "start": "http-server dist/",
+    "clean": "rimraf dist/ public/",
+    "build": "pnpm run clean && pnpm run build:stories && vite build && cp dist/assets/*.js dist/index.js",
+    "build:stories": "rimraf public/ && tsc --project tsconfig.stories.json",
     "storybook": "vite",
     "dev": "vite",
     "lint": "tsc --noEmit",
@@ -24,6 +26,7 @@
   "devDependencies": {
     "@nl-design-system-candidate/button-css": "workspace:*",
     "@nl-design-system-candidate/button-docs": "workspace:*",
+    "@nl-design-system-candidate/button-react": "workspace:*",
     "@nl-design-system-candidate/button-tokens": "workspace:*",
     "@nl-design-system-candidate/code-block-css": "workspace:*",
     "@nl-design-system-candidate/code-css": "workspace:*",
@@ -31,8 +34,11 @@
     "@nl-design-system-candidate/paragraph-css": "workspace:*",
     "@nl-design-system-unstable/voorbeeld-design-tokens": "7.4.0",
     "@nl-design-system/tsconfig": "1.0.5",
+    "@storybook/react-vite": "9.1.5",
+    "@types/react": "19.2.7",
     "@vitest/browser-playwright": "4.0.12",
     "@vitest/coverage-v8": "4.0.12",
+    "http-server": "14.1.1",
     "playwright": "1.56.1",
     "rimraf": "6.1.2",
     "tslib": "2.8.1",
@@ -44,6 +50,7 @@
     "lit": "3.3.1",
     "preact": "10.28.0",
     "prettier": "3.6.2",
-    "prismjs": "1.30.0"
+    "prismjs": "1.30.0",
+    "storybook": "10.1.10"
   }
 }

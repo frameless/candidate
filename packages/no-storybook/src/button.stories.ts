@@ -1,5 +1,15 @@
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import type { PropsWithChildren } from 'react';
+import type { ButtonProps } from '@nl-design-system-candidate/button-react';
+
+const Component = ({ label, children }: PropsWithChildren<ButtonProps & { restProps?: never }>) => [
+  'Button: ',
+  label,
+  children,
+];
+
 const meta = {
-  component: ({ label, children }) => ['Button: ', label, children],
+  component: Component,
   title: 'React Component/Button',
   parameters: {
     docs: {
@@ -92,7 +102,6 @@ const meta = {
         type: { summary: 'boolean' },
       },
     },
-    // @ts-expect-error: The restProps are indeed not part of the accepted props, but included here for documentation purpose
     restProps: {
       name: '{...restProps}',
       control: false,
@@ -115,7 +124,9 @@ const meta = {
       },
     },
   },
-};
+} satisfies Meta<typeof Component>;
+
+type Story = StoryObj<typeof meta>;
 
 export default meta;
 
@@ -389,7 +400,7 @@ export const ToggleButton: Story = {
 };
 
 export const VolleBreedte: Story = {
-  name: 'Volle breedte',
+  // name: 'Volle breedte',
   args: {
     label: 'Ik ben een button met een hele lange tekst',
     /*iconStart: <Icon />,*/

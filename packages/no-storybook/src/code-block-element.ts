@@ -1,25 +1,29 @@
 import prettier from 'prettier';
 import prettierHtml from 'prettier/plugins/html.mjs';
 import Prism from 'prismjs/components/prism-core.js';
+import prismCss from 'prismjs/themes/prism.min.css?inline';
 import 'prismjs/components/prism-markup.js';
-import { baseURL, loadLanguage } from './prism-syntax-highlighting.ts';
 
 customElements.define(
   'code-block',
   class CodeBlockElement extends HTMLElement {
+    target: Element | null = null;
+    observer: MutationObserver;
+    shadow: ShadowRoot;
+    span: HTMLSpanElement;
+    language: string = '';
     constructor() {
       super();
       this.target = this;
-      this.observer = new MutationObserver((changes) => {
+      this.observer = new MutationObserver((_changes) => {
         this.render();
       });
       this.shadow = this.attachShadow({ mode: 'open' });
-      this.span = this.shadowRoot.appendChild(this.ownerDocument.createElement('span'));
-      this.language = this.getAttribute('language');
-      const link = this.ownerDocument.createElement('link');
-      link.rel = 'stylesheet';
-      link.href = `${baseURL}themes/prism.min.css`;
-      this.shadow.appendChild(link);
+      this.span = this.shadow.appendChild(this.ownerDocument.createElement('span'));
+      this.language = this.getAttribute('language') || '';
+      const style = this.ownerDocument.createElement('style');
+      style.appendChild(this.ownerDocument.createTextNode(prismCss));
+      this.shadow.appendChild(style);
 
       this.render();
     }

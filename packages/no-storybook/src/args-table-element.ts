@@ -1,8 +1,11 @@
+import { ArgTypes } from '@storybook/react-vite';
+import type { InputType } from 'storybook/internal/csf';
 import { render, createElement } from 'preact';
 
 customElements.define(
   'args-table-preact',
-  class StoryReact extends HTMLElement {
+  class StoryReact<T = InputType> extends HTMLElement {
+    argTypes: Partial<ArgTypes<T>> = {};
     constructor() {
       super();
       const src = this.getAttribute('src');
@@ -31,7 +34,7 @@ customElements.define(
                   children: [
                     createElement('h2', { children: createElement('code', { children: name }) }),
                     createElement('p', {
-                      children: argType.description,
+                      children: (argType as InputType)?.description,
                     }),
                   ],
                 }),
