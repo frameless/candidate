@@ -50,7 +50,7 @@ const meta = {
       },
     },
     htmlDisabled: {
-      control: false,
+      control: 'boolean',
       description: `Als het absoluut noodzakelijk is om de html \`disabled\` attribute te gebruiken, dan kan dat met \`htmlDisabled\`. Bedenk dat dit voor toegankelijkheid problemen zorgt omdat de button helemaal niet meer met het toetsenbord te bereiken is en dus ook onzichtbaar is voor hulpsoftware`,
       table: {
         category: 'Props',

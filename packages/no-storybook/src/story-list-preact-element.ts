@@ -1,7 +1,8 @@
 import { createRoot } from 'react-dom/client';
 import { createElement as createElementReact, type ReactNode } from 'react';
-import type { Meta, StoryObj } from '@storybook/react-vite';
+import type { ArgTypes, Meta, StoryObj } from '@storybook/react-vite';
 import { ComponentType } from 'react';
+import { create } from 'domain';
 
 type StoriesFile = {
   default: Meta;
@@ -15,6 +16,8 @@ customElements.define(
     stories: { [index: string]: StoryObj } = {};
     defaultArgs = {};
     storyTitle = '';
+    argTypes: Partial<ArgTypes<T>> = {};
+
     constructor() {
       super();
       const src = this.getAttribute('src');
@@ -22,6 +25,7 @@ customElements.define(
         import(src).then((stories: StoriesFile) => {
           const Component = stories.default.component;
           const defaultArgs = stories.default.args;
+          this.argTypes = stories.default.argTypes;
           this.storyTitle = stories.default.title || '';
           this.stories = stories;
           this.Component = Component || null;
@@ -88,15 +92,35 @@ customElements.define(
                       Component,
                     }),
                   }),
-                  createElement('pre', {
-                    children: createElement('code', {
-                      children: createElement('code-block', {
-                        language: 'html',
-                        children: createElement('inner-html', {
-                          query: `#${canvasId}`,
+                  createElement('details', {
+                    open: true,
+                    children: [
+                      createElement('summary', { children: 'Show code' }),
+                      createElement('pre', {
+                        children: createElement('code', {
+                          children: createElement('code-block', {
+                            language: 'html',
+                            children: createElement('inner-html', {
+                              query: `#${canvasId}`,
+                            }),
+                          }),
                         }),
                       }),
-                    }),
+                    ],
+                  }),
+                  createElement('details', {
+                    open: false,
+                    children: [
+                      createElement('summary', { children: 'Properties' }),
+                      createElement('args-table', {
+                        target: canvasId,
+                        argTypes: this.argTypes,
+                        values: {
+                          ...storyObj.args,
+                          ...defaultArgs,
+                        },
+                      }),
+                    ],
                   }),
                 ];
               }),
