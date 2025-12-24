@@ -343,6 +343,7 @@ export const HTMLButton: Story = {
   },
 };
 
+/*
 export const HTMLInputButton: Story = {
   name: 'HTML Input Button',
   args: {
@@ -361,3 +362,4 @@ export const HTMLInputButton: Story = {
     return <input type="button" {...rest} value={label} />;
   },
 };
+*/

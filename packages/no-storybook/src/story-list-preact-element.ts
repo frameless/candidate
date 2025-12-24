@@ -1,4 +1,5 @@
-import { render, createElement } from 'preact';
+import { createRoot } from 'react-dom/client';
+import { createElement as createElementReact, type ReactNode } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { ComponentType } from 'react';
 
@@ -30,12 +31,39 @@ customElements.define(
       }
     }
     render() {
-      const { Component, stories, defaultArgs } = this;
       // Remove current rendering
       while (this.lastChild) {
         this.removeChild(this.lastChild);
       }
 
+      const { Component, stories, defaultArgs } = this;
+
+      const createElement = createElementReact;
+      const render = (jsx: ReactNode, rootNode: Element | DocumentFragment | Document) => {
+        const root = createRoot(rootNode);
+        root.render(jsx);
+      };
+
+      // const renderComponent = (storyObj: StoryObj) => {
+      //   let componentRendering: unknown = 'No component configured';
+
+      //   try {
+      //     componentRendering = Component
+      //       ? createElement(Component as never, {
+      //           ...defaultArgs,
+      //           ...storyObj.args,
+      //         })
+      //       : null;
+      //   } catch (e) {
+      //     componentRendering = 'Error: could not render component';
+      //     console.error(e);
+      //   }
+      //   console.log('componentRendering', componentRendering);
+      //   return componentRendering;
+      // };
+
+      const storyId = this.storyTitle.replace(/[^\w+]/g, '');
+      console.log('💩', Component);
       // Render new version
       render(
         createElement('div', {
@@ -43,28 +71,35 @@ customElements.define(
             createElement('h1', { children: this.storyTitle }),
             ...Object.entries(stories)
               .filter(([name]) => name !== 'default')
-              .map(([name, storyObj], index) => [
-                createElement('h2', { children: storyObj.name || name }),
-                createElement('story-canvas', {
-                  id: `story-${index}`,
-                  children:
-                    Component &&
-                    createElement(Component as never, {
-                      ...defaultArgs,
-                      ...storyObj.args,
+              .map(([name, storyObj], index) => {
+                const canvasId = `story-${storyId}-${index}`;
+                console.log(canvasId);
+                return [
+                  createElement('h2', { children: storyObj.name || name }),
+                  // createElement('story-canvas', {
+                  //   id: canvasId,
+                  //   children: renderComponent(storyObj),
+                  // }),
+                  createElement('story-canvas', {
+                    children: createElement('story-react', {
+                      id: canvasId,
+                      args: storyObj.args,
+                      defaultArgs,
+                      Component,
                     }),
-                }),
-                createElement('pre', {
-                  children: createElement('code', {
-                    children: createElement('code-block', {
-                      language: 'html',
-                      children: createElement('inner-html', {
-                        query: `#story-${index}`,
+                  }),
+                  createElement('pre', {
+                    children: createElement('code', {
+                      children: createElement('code-block', {
+                        language: 'html',
+                        children: createElement('inner-html', {
+                          query: `#${canvasId}`,
+                        }),
                       }),
                     }),
                   }),
-                }),
-              ]),
+                ];
+              }),
           ],
         }),
         this,

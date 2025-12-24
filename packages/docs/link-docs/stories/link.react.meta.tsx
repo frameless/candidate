@@ -1,5 +1,6 @@
 import type { Meta } from '@storybook/react-vite';
 import { Link } from '@nl-design-system-candidate/link-react/css';
+import { LinkProps } from '@nl-design-system-candidate/link-react';
 
 const API = 'API';
 const PASS_THROUGH = 'Pass through';
@@ -64,6 +65,6 @@ const meta = {
     },
   },
   component: Link,
-} satisfies Meta<typeof Link>;
+} satisfies Meta<LinkProps & { rest: never }>;
 
 export default meta;

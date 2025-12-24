@@ -38,8 +38,8 @@ customElements.define(
       let code = this.textContent;
 
       (async () => {
-        code =
-          '<p><span class="foo">Nulla cum perspiciatis autem veritatis perspiciatis consequatur reprehenderit quo. In autem suscipit dolor voluptatem consequatur maiores. Aut quo nihil vero ea aperiam dolores dignissimos. Omnis debitis illum nisi quas.</span></p>';
+        // code =
+        // '<p><span class="foo">Nulla cum perspiciatis autem veritatis perspiciatis consequatur reprehenderit quo. In autem suscipit dolor voluptatem consequatur maiores. Aut quo nihil vero ea aperiam dolores dignissimos. Omnis debitis illum nisi quas.</span></p>';
         code = await prettier.format(code, { parser: 'html', plugins: [prettierHtml] });
         if (this.language) {
           // await loadLanguage(this.language);
