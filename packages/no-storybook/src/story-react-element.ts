@@ -11,6 +11,7 @@ customElements.define(
     Component: ComponentType<unknown> | null = null;
     _args = {};
     renderRoot: Root;
+    jsxChange: ((evt: Event) => void) | null = null;
     _defaultArgs = {};
 
     set defaultArgs(value: object) {
@@ -62,6 +63,19 @@ customElements.define(
 
       // Render new version
       const result = renderComponent();
+
+      const evt = new CustomEvent('change', {
+        detail: {
+          jsx: result,
+        },
+      });
+
+      if (typeof this.jsxChange === 'function') {
+        this.jsxChange(evt);
+      }
+
+      this.dispatchEvent(evt);
+
       this.renderRoot.render(result);
     }
   },

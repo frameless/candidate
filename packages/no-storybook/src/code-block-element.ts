@@ -1,8 +1,13 @@
 import prettier from 'prettier';
+import prettierBabel from 'prettier/plugins/babel.mjs';
+import prettierEstree from 'prettier/plugins/estree.mjs';
 import prettierHtml from 'prettier/plugins/html.mjs';
 import Prism from 'prismjs/components/prism-core.js';
 import prismCss from 'prismjs/themes/prism.min.css?inline';
 import 'prismjs/components/prism-markup.js';
+import 'prismjs/components/prism-clike.js';
+import 'prismjs/components/prism-javascript.js';
+import 'prismjs/components/prism-jsx.js';
 
 customElements.define(
   'code-block',
@@ -40,7 +45,14 @@ customElements.define(
       (async () => {
         // code =
         // '<p><span class="foo">Nulla cum perspiciatis autem veritatis perspiciatis consequatur reprehenderit quo. In autem suscipit dolor voluptatem consequatur maiores. Aut quo nihil vero ea aperiam dolores dignissimos. Omnis debitis illum nisi quas.</span></p>';
-        code = await prettier.format(code, { parser: 'html', plugins: [prettierHtml] });
+        if (this.language === 'html') {
+          code = await prettier.format(code, { parser: 'html', plugins: [prettierHtml] });
+        } else if (this.language === 'jsx') {
+          code = await prettier.format(code, { parser: 'babel', plugins: [prettierBabel, prettierEstree] });
+          console.log(code);
+          // Remove ugly trailing semicolon in JSX
+          code = code.replace(/(>);(\s*)$/g, '$1$2');
+        }
         if (this.language) {
           // await loadLanguage(this.language);
           code = Prism.highlight(code, Prism.languages[this.language], this.language);

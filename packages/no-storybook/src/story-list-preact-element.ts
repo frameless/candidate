@@ -67,7 +67,7 @@ customElements.define(
       // };
 
       const storyId = this.storyTitle.replace(/[^\w+]/g, '');
-      console.log('💩', Component);
+      console.log('💩', Component, Component ? Component.displayName : '');
       // Render new version
       render(
         createElement('div', {
@@ -77,6 +77,8 @@ customElements.define(
               .filter(([name]) => name !== 'default')
               .map(([name, storyObj], index) => {
                 const canvasId = `story-${storyId}-${index}`;
+                const jsxId = `story-jsx-${storyId}-${index}`;
+                const htmlId = `story-html-${storyId}-${index}`;
                 console.log(canvasId);
                 return [
                   createElement('h2', { children: storyObj.name || name }),
@@ -90,13 +92,17 @@ customElements.define(
                       args: storyObj.args,
                       defaultArgs,
                       Component,
+                      jsxChange: (evt) => {
+                        document.getElementById(jsxId).jsx = evt.detail.jsx;
+                      },
                     }),
                   }),
                   createElement('details', {
                     open: true,
                     children: [
-                      createElement('summary', { children: 'Show code' }),
+                      createElement('summary', { children: 'Show HTML' }),
                       createElement('pre', {
+                        id: htmlId,
                         children: createElement('code', {
                           children: createElement('code-block', {
                             language: 'html',
@@ -105,6 +111,45 @@ customElements.define(
                             }),
                           }),
                         }),
+                      }),
+                      createElement('button', {
+                        children: 'Copy HTML',
+                        onClick: () => {
+                          const code = document.getElementById(htmlId)?.textContent || '';
+                          console.log('Copy', htmlId, code);
+                          navigator.clipboard.writeText(code);
+                        },
+                      }),
+                    ],
+                  }),
+                  createElement('details', {
+                    open: true,
+                    children: [
+                      createElement('summary', { children: 'Show JSX' }),
+                      createElement('pre', {
+                        children: createElement('code', {
+                          children: createElement('code-block', {
+                            language: 'jsx',
+                            children: createElement('jsx-source', {
+                              id: jsxId,
+                              children: null,
+                              jsx: Component
+                                ? createElement(Component, {
+                                    ...storyObj.args,
+                                    ...defaultArgs,
+                                  })
+                                : null,
+                            }),
+                          }),
+                        }),
+                      }),
+                      createElement('button', {
+                        children: 'Copy JSX',
+                        onClick: () => {
+                          const code = document.getElementById(jsxId)?.textContent || '';
+                          console.log('Copy', jsxId, code);
+                          navigator.clipboard.writeText(code);
+                        },
                       }),
                     ],
                   }),
