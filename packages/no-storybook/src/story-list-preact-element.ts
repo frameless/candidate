@@ -17,6 +17,7 @@ customElements.define(
     defaultArgs = {};
     storyTitle = '';
     argTypes: Partial<ArgTypes<T>> = {};
+    tokens: object | undefined;
 
     constructor() {
       super();
@@ -29,6 +30,10 @@ customElements.define(
           this.storyTitle = stories.default.title || '';
           this.stories = stories;
           this.Component = Component || null;
+          this.tokens =
+            stories.default.parameters && stories.default.parameters['tokens']
+              ? (stories.default.parameters['tokens'] as object)
+              : undefined;
           this.defaultArgs = defaultArgs ?? {};
           this.render();
         });
@@ -67,21 +72,46 @@ customElements.define(
       // };
 
       const storyId = this.storyTitle.replace(/[^\w+]/g, '');
-      console.log('💩', Component, Component ? Component.displayName : '');
+
       // Render new version
       render(
         createElement('div', {
           children: [
             createElement('h1', { children: this.storyTitle }),
+
+            createElement('details', {
+              open: false,
+              children: [
+                createElement('summary', { children: 'Documentation' }),
+                createElement('args-docs', {
+                  argTypes: this.argTypes,
+                }),
+              ],
+            }),
+            this.tokens
+              ? createElement('details', {
+                  open: false,
+                  children: [
+                    createElement('summary', { children: 'Show Design Tokens' }),
+                    createElement('design-tokens-table', {
+                      tokens: this.tokens,
+                    }),
+                  ],
+                })
+              : null,
             ...Object.entries(stories)
               .filter(([name]) => name !== 'default')
               .map(([name, storyObj], index) => {
+                const headingId = `heading-${storyId}-${index}`;
                 const canvasId = `story-${storyId}-${index}`;
                 const jsxId = `story-jsx-${storyId}-${index}`;
                 const htmlId = `story-html-${storyId}-${index}`;
-                console.log(canvasId);
+
                 return [
-                  createElement('h2', { children: storyObj.name || name }),
+                  createElement('h2', {
+                    id: headingId,
+                    children: storyObj.name || name,
+                  }),
                   // createElement('story-canvas', {
                   //   id: canvasId,
                   //   children: renderComponent(storyObj),
@@ -112,13 +142,12 @@ customElements.define(
                           }),
                         }),
                       }),
-                      createElement('button', {
-                        children: 'Copy HTML',
-                        onClick: () => {
-                          const code = document.getElementById(htmlId)?.textContent || '';
-                          console.log('Copy', htmlId, code);
-                          navigator.clipboard.writeText(code);
-                        },
+                      createElement('copy-action', {
+                        query: `#${htmlId}`,
+                        children: createElement('button', {
+                          className: 'nl-button nl-button--secondary',
+                          children: 'Copy HTML',
+                        }),
                       }),
                     ],
                   }),
@@ -143,13 +172,12 @@ customElements.define(
                           }),
                         }),
                       }),
-                      createElement('button', {
-                        children: 'Copy JSX',
-                        onClick: () => {
-                          const code = document.getElementById(jsxId)?.textContent || '';
-                          console.log('Copy', jsxId, code);
-                          navigator.clipboard.writeText(code);
-                        },
+                      createElement('copy-action', {
+                        query: `#${jsxId}`,
+                        children: createElement('button', {
+                          className: 'nl-button nl-button--secondary',
+                          children: 'Copy JSX',
+                        }),
                       }),
                     ],
                   }),

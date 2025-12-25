@@ -65,6 +65,9 @@
     </style>
   </head>
   <body class="utrecht-body">
+    <dialog open class="utrecht-drawer utrecht-drawer--inline-start">
+      <toc-sidebar></toc-sidebar>
+    </dialog>
     <a href="#main" class="nl-skip-link nl-skip-link--visible-on-focus">Direct naar de hoofdinhoud</a>
     <div class="utrecht-page-layout">
       <header class="utrecht-page-header">
@@ -79,13 +82,18 @@
             <script type="module" src="src/index.ts"></script>
 
             <!-- Web Component dependencies -->
+            <script type="module" src="src/copy-button-element.ts"></script>
             <script type="module" src="src/inner-html-element.ts"></script>
+            <script type="module" src="src/args-docs-element.ts"></script>
             <script type="module" src="src/args-table-element.ts"></script>
             <script type="module" src="src/story-list-preact-element.ts"></script>
             <script type="module" src="src/story-canvas-element.ts"></script>
             <script type="module" src="src/code-block-element.ts"></script>
             <script type="module" src="src/story-react-element.ts"></script>
             <script type="module" src="src/jsx-source-element.ts"></script>
+            <script type="module" src="src/markdown-element.ts"></script>
+            <script type="module" src="src/toc-sidebar-element.ts"></script>
+            <script type="module" src="src/design-tokens-table-element.ts"></script>
 
             <!-- Stories with dependencies, that only work in `pnpm run dev` -->
             <story-list-preact src="./button-react.stories.js"></story-list-preact>

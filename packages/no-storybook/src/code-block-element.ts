@@ -49,7 +49,6 @@ customElements.define(
           code = await prettier.format(code, { parser: 'html', plugins: [prettierHtml] });
         } else if (this.language === 'jsx') {
           code = await prettier.format(code, { parser: 'babel', plugins: [prettierBabel, prettierEstree] });
-          console.log(code);
           // Remove ugly trailing semicolon in JSX
           code = code.replace(/(>);(\s*)$/g, '$1$2');
         }

@@ -8,7 +8,7 @@ import '../../components-css/button-css/src/test.scss';
 // import { useArgs } from 'storybook/preview-api';
 // import { getExternalLinks } from '../src/helpers/external-links';
 import description from '@nl-design-system-candidate/button-docs/docs/description.md?raw';
-
+import tokens from '@nl-design-system-candidate/button-tokens';
 // const externalLinks = getExternalLinks('https://nldesignsystem.nl/button', packageJSON.homepage);
 
 const meta = {
@@ -19,6 +19,7 @@ const meta = {
         docs: {
           subtitle: description,
         },
+        tokens,
       },
     },
   ),

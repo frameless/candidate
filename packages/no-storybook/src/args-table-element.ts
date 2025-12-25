@@ -102,7 +102,7 @@ customElements.define(
     },
     */
       // Render new version
-      this.renderRoot.render(
+      this.renderRoot.render([
         createElement('dl', {
           children: [
             ...Object.entries(argTypes)
@@ -113,11 +113,6 @@ customElements.define(
                     createElement('dt', {
                       children: createElement('label', { children: argType.name || name || '' }),
                     }),
-                    // argType.description
-                    //   ? createElement('dt', {
-                    //       children: argType.description,
-                    //     })
-                    //   : null,
                     createElement('dd', {
                       children: ArgControl({ argType: argType as InputType, name }),
                     }),
@@ -126,7 +121,7 @@ customElements.define(
               ]),
           ],
         }),
-      );
+      ]);
     }
   },
 );
