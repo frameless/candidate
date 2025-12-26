@@ -486,6 +486,10 @@ customElements.define(
                 : undefined;
             const originalCssValue = originalValue ? tokenRefToCss(originalValue) : undefined;
             const defaultValue = token ? token['$value'] : originalValue ? originalCssValue : undefined;
+            const cssProperty = tokenPathToCSSCustomProperty(path);
+
+            // TODO: Replace with checking token[$type] === 'color'
+            const isColor = /color/.test(path.at(-1) || '');
             // console.log(id, defaultValue);
             const args = {
               id,
@@ -497,7 +501,6 @@ customElements.define(
                     ? evt.target.value
                     : undefined;
                 if (typeof cssValue === 'string') {
-                  const cssProperty = tokenPathToCSSCustomProperty(path);
                   setToken(path, cssValue);
                   document.documentElement.style.setProperty(cssProperty, cssValue);
                 }
@@ -563,6 +566,15 @@ customElements.define(
                   createElement('dd', {
                     children: [
                       designTokenInput,
+                      isColor
+                        ? createElement('data', {
+                            className: 'nl-color-sample',
+                            style: {
+                              backgroundImage: 'none',
+                              backgroundColor: `var(${cssProperty})`,
+                            },
+                          })
+                        : null,
                       get(this._theme, id)
                         ? createElement('button', {
                             className: 'nl-button nl-button--subtle',
