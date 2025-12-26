@@ -21,4 +21,18 @@ export const MarkInEenParagraph: Story = {
       </p>
     );
   },
+  parameters: {
+    tokens: {
+      nl: {
+        mark: {
+          'background-color': {
+            $value: '',
+          },
+          color: {
+            $value: '',
+          },
+        },
+      },
+    },
+  },
 };

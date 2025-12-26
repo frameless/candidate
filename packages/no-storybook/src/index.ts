@@ -37,3 +37,28 @@ import '@fontsource/noto-serif/greek.css';
 import '@fontsource/noto-sans/cyrillic.css';
 import '@fontsource/noto-sans-mono/cyrillic.css';
 import '@fontsource/noto-serif/cyrillic.css';
+import { StoryList } from './story-list-element.js';
+
+const stories = [
+  import('./button-react.stories.js'),
+  import('./code-react.stories.js'),
+  import('./code-block-react.stories.js'),
+  import('./color-sample-react.stories.js'),
+  import('./data-badge-react.stories.js'),
+  import('./heading-react.stories.js'),
+  import('./link-react.stories.js'),
+  import('./mark-react.stories.js'),
+  import('./number-badge-react.stories.js'),
+  import('./paragraph-react.stories.js'),
+  import('./skip-link-react.stories.js'),
+];
+
+Promise.all(stories).then((stories) => {
+  console.log(stories);
+  stories.forEach((module) => {
+    const storyList = document.createElement('story-list') as StoryList;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    storyList.module = module as unknown as any;
+    document.querySelector('main')?.appendChild(storyList);
+  });
+});

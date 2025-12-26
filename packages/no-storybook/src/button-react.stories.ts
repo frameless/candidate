@@ -33,7 +33,34 @@ export const Button = Stories.Button;
 export const PrimaryButton = Stories.PrimaryButton;
 export const SecondaryButton = Stories.SecondaryButton;
 export const SubtleButton = Stories.SubtleButton;
+
+export const FocusButton = Stories.FocusButton;
+
+export const PressedButton = Stories.PressedButton;
+export const PrimaryPressedButton = Stories.PrimaryPressedButton;
+export const SecondaryPressedButton = Stories.SecondaryPressedButton;
+export const SubtlePressedButton = Stories.SubtlePressedButton;
 export const DisabledButton = Stories.DisabledButton;
+export const PrimaryDisabledButton = Stories.PrimaryDisabledButton;
+export const SecondaryDisabledButton = Stories.SecondaryDisabledButton;
+export const SubtleDisabledButton = Stories.SubtleDisabledButton;
+
+export const PrimaryPositiveButton = Stories.PrimaryPositiveButton;
+export const SecondaryPositiveButton = Stories.SecondaryPositiveButton;
+export const SubtlePositiveButton = Stories.SubtlePositiveButton;
+
+export const PrimaryNegativeButton = Stories.PrimaryNegativeButton;
+export const SecondaryNegativeButton = Stories.SecondaryNegativeButton;
+export const SubtleNegativeButton = Stories.SubtleNegativeButton;
+
+export const PrimaryPositivePressedButton = Stories.PrimaryPositivePressedButton;
+export const SecondaryPositivePressedButton = Stories.SecondaryPositivePressedButton;
+export const SubtlePositivePressedButton = Stories.SubtlePositivePressedButton;
+
+export const PrimaryNegativePressedButton = Stories.PrimaryNegativePressedButton;
+export const SecondaryNegativePressedButton = Stories.SecondaryNegativePressedButton;
+export const SubtleNegativePressedButton = Stories.SubtleNegativePressedButton;
+
 export const AlleenEenIcon = Stories.AlleenEenIcon;
 export const IconVoorHetLabel = Stories.IconVoorHetLabel;
 export const IconAchterHetLabel = Stories.IconAchterHetLabel;

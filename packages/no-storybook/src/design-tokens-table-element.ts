@@ -4,7 +4,7 @@ import type { InputType } from 'storybook/internal/csf';
 import { createElement, FormEvent, ReactNode, SelectHTMLAttributes } from 'react';
 import set from 'lodash-es/set';
 import get from 'lodash-es/get';
-import { unset } from 'lodash-es';
+import { cloneDeep, unset } from 'lodash-es';
 
 // Token utilities are adapted from:
 // https://github.com/nl-design-system/documentatie/blob/main/src/utils.ts
@@ -46,6 +46,15 @@ export const tokens2css = (tokens: TokenNode, selector = ':root') => {
 
   return `${selector} {
 ${entries.map(([key, value]) => `${key}: ${value};\n`).join('')}}`;
+};
+
+export const excludeTokens = (allTokens: TokenNode, excludeTokens: TokenNode): TokenNode => {
+  const excludePaths = getTokenPaths(excludeTokens);
+  const subsetTokens = cloneDeep(allTokens);
+  excludePaths.forEach((excludePath: TokenPath) => {
+    unset(subsetTokens, excludePath.join('.'));
+  });
+  return subsetTokens;
 };
 
 export interface DesignTokensTableInterface extends HTMLElement {

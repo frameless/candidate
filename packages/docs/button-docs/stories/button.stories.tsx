@@ -36,6 +36,57 @@ export const Button: Story = {
         story: `Een standaard Button`,
       },
     },
+    tokens: {
+      nl: {
+        button: {
+          default: {
+            'background-color': {
+              $value: '',
+            },
+            'border-color': {
+              $value: '',
+            },
+            'border-width': {
+              $value: '',
+            },
+            color: {
+              $value: '',
+            },
+            'font-size': {
+              $value: '',
+            },
+            'font-weight': {
+              $value: '',
+            },
+            'line-height': {
+              $value: '',
+            },
+            active: {
+              'background-color': {
+                $value: '',
+              },
+              'border-color': {
+                $value: '',
+              },
+              color: {
+                $value: '',
+              },
+            },
+            hover: {
+              'background-color': {
+                $value: '',
+              },
+              'border-color': {
+                $value: '',
+              },
+              color: {
+                $value: '',
+              },
+            },
+          },
+        },
+      },
+    },
   },
 };
 
@@ -55,6 +106,57 @@ Optioneel kan er een hint mee gegeven worden.
 - \`hint="positive"\` geeft een positief of successvol resultaat aan. Bijvoorbeeld een creatie actie.
 - \`hint="negative"\` geeft een negatief of destructief resultaat aan. Bijvoorbeeld een verwijder actie.
         `,
+      },
+    },
+    tokens: {
+      nl: {
+        button: {
+          primary: {
+            'background-color': {
+              $value: '',
+            },
+            'border-color': {
+              $value: '',
+            },
+            'border-width': {
+              $value: '',
+            },
+            color: {
+              $value: '',
+            },
+            'font-size': {
+              $value: '',
+            },
+            'font-weight': {
+              $value: '',
+            },
+            'line-height': {
+              $value: '',
+            },
+            active: {
+              'background-color': {
+                $value: '',
+              },
+              'border-color': {
+                $value: '',
+              },
+              color: {
+                $value: '',
+              },
+            },
+            hover: {
+              'background-color': {
+                $value: '',
+              },
+              'border-color': {
+                $value: '',
+              },
+              color: {
+                $value: '',
+              },
+            },
+          },
+        },
       },
     },
   },
@@ -88,6 +190,57 @@ Optioneel kan er een hint mee gegeven worden.
         `,
       },
     },
+    tokens: {
+      nl: {
+        button: {
+          secondary: {
+            'background-color': {
+              $value: '',
+            },
+            'border-color': {
+              $value: '',
+            },
+            'border-width': {
+              $value: '',
+            },
+            color: {
+              $value: '',
+            },
+            'font-size': {
+              $value: '',
+            },
+            'font-weight': {
+              $value: '',
+            },
+            'line-height': {
+              $value: '',
+            },
+            active: {
+              'background-color': {
+                $value: '',
+              },
+              'border-color': {
+                $value: '',
+              },
+              color: {
+                $value: '',
+              },
+            },
+            hover: {
+              'background-color': {
+                $value: '',
+              },
+              'border-color': {
+                $value: '',
+              },
+              color: {
+                $value: '',
+              },
+            },
+          },
+        },
+      },
+    },
   },
   render: ({ label, children: _children, ...props }, { component }) => {
     const Button = component as ComponentType<ButtonProps>;
@@ -119,6 +272,57 @@ Optioneel kan er een hint mee gegeven worden.
         `,
       },
     },
+    tokens: {
+      nl: {
+        button: {
+          subtle: {
+            'background-color': {
+              $value: '',
+            },
+            'border-color': {
+              $value: '',
+            },
+            'border-width': {
+              $value: '',
+            },
+            color: {
+              $value: '',
+            },
+            'font-size': {
+              $value: '',
+            },
+            'font-weight': {
+              $value: '',
+            },
+            'line-height': {
+              $value: '',
+            },
+            active: {
+              'background-color': {
+                $value: '',
+              },
+              'border-color': {
+                $value: '',
+              },
+              color: {
+                $value: '',
+              },
+            },
+            hover: {
+              'background-color': {
+                $value: '',
+              },
+              'border-color': {
+                $value: '',
+              },
+              color: {
+                $value: '',
+              },
+            },
+          },
+        },
+      },
+    },
   },
   render: ({ label, children: _children, ...props }, { component }) => {
     const Button = component as ComponentType<ButtonProps>;
@@ -130,6 +334,41 @@ Optioneel kan er een hint mee gegeven worden.
         <Button {...props} label={`${label} (negative)`} purpose="subtle" hint="negative" />
       </div>
     );
+  },
+};
+
+export const FocusButton: Story = {
+  name: 'Focus Button',
+  args: {
+    label: 'Klik mij!',
+    className: 'nl-button--focus',
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: `...`,
+      },
+    },
+    tokens: {
+      nl: {
+        button: {
+          'outline-offset': {
+            $value: '',
+          },
+          focus: {
+            'background-color': {
+              $value: '',
+            },
+            'border-color': {
+              $value: '',
+            },
+            color: {
+              $value: '',
+            },
+          },
+        },
+      },
+    },
   },
 };
 
@@ -148,6 +387,133 @@ Om de button focusbaar te houden voor screenreaders, wordt er \`aria-disabled="t
 Dat betekend dat de \`onClick\` handlers blijven werken, en dat de developer verantwoordelijk is om een melding te geven waarom de button disabled is.
 De styling komt van de \`.nl-button--disabled\` class.
 `,
+      },
+    },
+    tokens: {
+      nl: {
+        button: {
+          default: {
+            disabled: {
+              'background-color': {
+                $value: '',
+              },
+              'border-color': {
+                $value: '',
+              },
+              color: {
+                $value: '',
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const PrimaryDisabledButton: Story = {
+  name: 'Primary Disabled Button',
+  args: {
+    label: 'Ingedrukt',
+    disabled: true,
+    purpose: 'primary',
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: `Een ingedrukte Primary Button.`,
+      },
+    },
+
+    tokens: {
+      nl: {
+        button: {
+          primary: {
+            disabled: {
+              'background-color': {
+                $value: '',
+              },
+              'border-color': {
+                $value: '',
+              },
+              color: {
+                $value: '',
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const SecondaryDisabledButton: Story = {
+  name: 'Secondary Disabled Button',
+  args: {
+    label: 'Ingedrukt',
+    disabled: true,
+    purpose: 'secondary',
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: `Een ingedrukte Secondary Button`,
+      },
+    },
+
+    tokens: {
+      nl: {
+        button: {
+          secondary: {
+            disabled: {
+              'background-color': {
+                $value: '',
+              },
+              'border-color': {
+                $value: '',
+              },
+              color: {
+                $value: '',
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const SubtleDisabledButton: Story = {
+  name: 'Subtle Disabled Button',
+  args: {
+    label: 'Ingedrukt',
+    disabled: true,
+    purpose: 'subtle',
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: `Een ingedrukte Subtle Button.`,
+      },
+    },
+
+    tokens: {
+      nl: {
+        button: {
+          subtle: {
+            disabled: {
+              'background-color': {
+                $value: '',
+              },
+              'border-color': {
+                $value: '',
+              },
+              color: {
+                $value: '',
+              },
+            },
+          },
+        },
       },
     },
   },
@@ -173,8 +539,29 @@ export const AlleenEenIcon: Story = {
         story: `Een button met alleen een icon. Het label is niet zichtbaar, maar wel aanwezig voor toegankelijkheid.`,
       },
     },
+    tokens: {
+      nl: {
+        button: {
+          'icon-only': {
+            'padding-block-end': {
+              $value: '',
+            },
+            'padding-block-start': {
+              $value: '',
+            },
+            'padding-inline-end': {
+              $value: '',
+            },
+            'padding-inline-start': {
+              $value: '',
+            },
+          },
+        },
+      },
+    },
   },
 };
+
 export const IconVoorHetLabel: Story = {
   name: 'Icon voor het label',
   argTypes: {
@@ -192,6 +579,20 @@ export const IconVoorHetLabel: Story = {
     docs: {
       description: {
         story: `Een button met een icon voor het label`,
+      },
+    },
+    tokens: {
+      nl: {
+        button: {
+          'column-gap': {
+            $value: '',
+          },
+          icon: {
+            size: {
+              $value: '',
+            },
+          },
+        },
       },
     },
   },
@@ -214,6 +615,20 @@ export const IconAchterHetLabel: Story = {
     docs: {
       description: {
         story: `Een button met een icon achter het label`,
+      },
+    },
+    tokens: {
+      nl: {
+        button: {
+          'column-gap': {
+            $value: '',
+          },
+          icon: {
+            size: {
+              $value: '',
+            },
+          },
+        },
       },
     },
   },
@@ -271,17 +686,845 @@ export const GeformatteerdLabelEnEenIcon: Story = {
   },
 };
 
-export const ToggleButton: Story = {
-  name: 'Toggle Button',
+export const PressedButton: Story = {
+  name: 'Pressed Button',
   args: {
     label: 'Ingedrukt',
     pressed: true,
-    toggle: true,
   },
   parameters: {
     docs: {
       description: {
-        story: `Een ingedrukte button. De styling komt van de \`.nl-button--pressed\` class, de semantische role via \`aria-pressed="true"\`.`,
+        story: `Een ingedrukte Button.`,
+      },
+    },
+    tokens: {
+      nl: {
+        button: {
+          default: {
+            pressed: {
+              'background-color': {
+                $value: '',
+              },
+              'border-color': {
+                $value: '',
+              },
+              color: {
+                $value: '',
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const PrimaryPressedButton: Story = {
+  name: 'Primary Pressed Button',
+  args: {
+    label: 'Ingedrukt',
+    pressed: true,
+    purpose: 'primary',
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: `Een ingedrukte Primary Button.`,
+      },
+    },
+
+    tokens: {
+      nl: {
+        button: {
+          primary: {
+            pressed: {
+              'background-color': {
+                $value: '',
+              },
+              'border-color': {
+                $value: '',
+              },
+              color: {
+                $value: '',
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const SecondaryPressedButton: Story = {
+  name: 'Secondary Pressed Button',
+  args: {
+    label: 'Ingedrukt',
+    pressed: true,
+    purpose: 'secondary',
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: `Een ingedrukte Secondary Button`,
+      },
+    },
+
+    tokens: {
+      nl: {
+        button: {
+          secondary: {
+            pressed: {
+              'background-color': {
+                $value: '',
+              },
+              'border-color': {
+                $value: '',
+              },
+              color: {
+                $value: '',
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const SubtlePressedButton: Story = {
+  name: 'Subtle Pressed Button',
+  args: {
+    label: 'Ingedrukt',
+    pressed: true,
+    purpose: 'subtle',
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: `Een ingedrukte Subtle Button.`,
+      },
+    },
+
+    tokens: {
+      nl: {
+        button: {
+          subtle: {
+            pressed: {
+              'background-color': {
+                $value: '',
+              },
+              'border-color': {
+                $value: '',
+              },
+              color: {
+                $value: '',
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const PrimaryPositiveButton: Story = {
+  name: 'Primary Positive Button',
+  args: {
+    label: 'Ingedrukt',
+    purpose: 'primary',
+    hint: 'positive',
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: `Een ingedrukte positieve Primary Button.`,
+      },
+    },
+    tokens: {
+      nl: {
+        button: {
+          primary: {
+            positive: {
+              'background-color': {
+                $value: '',
+              },
+              'border-color': {
+                $value: '',
+              },
+              color: {
+                $value: '',
+              },
+              active: {
+                'background-color': {
+                  $value: '',
+                },
+                'border-color': {
+                  $value: '',
+                },
+                color: {
+                  $value: '',
+                },
+              },
+              hover: {
+                'background-color': {
+                  $value: '',
+                },
+                'border-color': {
+                  $value: '',
+                },
+                color: {
+                  $value: '',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const PrimaryNegativeButton: Story = {
+  name: 'Primary Negative Button',
+  args: {
+    label: 'Ingedrukt',
+    purpose: 'primary',
+    hint: 'negative',
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: `Een ingedrukte negative Primary Button.`,
+      },
+    },
+    tokens: {
+      nl: {
+        button: {
+          primary: {
+            negative: {
+              'background-color': {
+                $value: '',
+              },
+              'border-color': {
+                $value: '',
+              },
+              color: {
+                $value: '',
+              },
+              active: {
+                'background-color': {
+                  $value: '',
+                },
+                'border-color': {
+                  $value: '',
+                },
+                color: {
+                  $value: '',
+                },
+              },
+              hover: {
+                'background-color': {
+                  $value: '',
+                },
+                'border-color': {
+                  $value: '',
+                },
+                color: {
+                  $value: '',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const SecondaryPositiveButton: Story = {
+  name: 'Secondary Positive Button',
+  args: {
+    label: 'Ingedrukt',
+    purpose: 'secondary',
+    hint: 'positive',
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: `Een ingedrukte positieve Secondary Button.`,
+      },
+    },
+    tokens: {
+      nl: {
+        button: {
+          secondary: {
+            positive: {
+              'background-color': {
+                $value: '',
+              },
+              'border-color': {
+                $value: '',
+              },
+              color: {
+                $value: '',
+              },
+              active: {
+                'background-color': {
+                  $value: '',
+                },
+                'border-color': {
+                  $value: '',
+                },
+                color: {
+                  $value: '',
+                },
+              },
+              hover: {
+                'background-color': {
+                  $value: '',
+                },
+                'border-color': {
+                  $value: '',
+                },
+                color: {
+                  $value: '',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const SecondaryNegativeButton: Story = {
+  name: 'Secondary Negative Button',
+  args: {
+    label: 'Ingedrukt',
+    purpose: 'secondary',
+    hint: 'negative',
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: `Een ingedrukte negative Secondary Button.`,
+      },
+    },
+    tokens: {
+      nl: {
+        button: {
+          secondary: {
+            negative: {
+              'background-color': {
+                $value: '',
+              },
+              'border-color': {
+                $value: '',
+              },
+              color: {
+                $value: '',
+              },
+              active: {
+                'background-color': {
+                  $value: '',
+                },
+                'border-color': {
+                  $value: '',
+                },
+                color: {
+                  $value: '',
+                },
+              },
+              hover: {
+                'background-color': {
+                  $value: '',
+                },
+                'border-color': {
+                  $value: '',
+                },
+                color: {
+                  $value: '',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const SubtlePositiveButton: Story = {
+  name: 'Subtle Positive Button',
+  args: {
+    label: 'Ingedrukt',
+    purpose: 'subtle',
+    hint: 'positive',
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: `Een ingedrukte positieve Subtle Button.`,
+      },
+    },
+    tokens: {
+      nl: {
+        button: {
+          subtle: {
+            positive: {
+              'background-color': {
+                $value: '',
+              },
+              'border-color': {
+                $value: '',
+              },
+              color: {
+                $value: '',
+              },
+              active: {
+                'background-color': {
+                  $value: '',
+                },
+                'border-color': {
+                  $value: '',
+                },
+                color: {
+                  $value: '',
+                },
+              },
+              hover: {
+                'background-color': {
+                  $value: '',
+                },
+                'border-color': {
+                  $value: '',
+                },
+                color: {
+                  $value: '',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const SubtleNegativeButton: Story = {
+  name: 'Subtle Negative Button',
+  args: {
+    label: 'Ingedrukt',
+    purpose: 'subtle',
+    hint: 'negative',
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: `Een ingedrukte negative Subtle Button.`,
+      },
+    },
+    tokens: {
+      nl: {
+        button: {
+          subtle: {
+            negative: {
+              'background-color': {
+                $value: '',
+              },
+              'border-color': {
+                $value: '',
+              },
+              color: {
+                $value: '',
+              },
+              active: {
+                'background-color': {
+                  $value: '',
+                },
+                'border-color': {
+                  $value: '',
+                },
+                color: {
+                  $value: '',
+                },
+              },
+              hover: {
+                'background-color': {
+                  $value: '',
+                },
+                'border-color': {
+                  $value: '',
+                },
+                color: {
+                  $value: '',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const PrimaryPositivePressedButton: Story = {
+  name: 'Primary Positive Pressed Button',
+  args: {
+    label: 'Ingedrukt',
+    pressed: true,
+    purpose: 'primary',
+    hint: 'positive',
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: `Een ingedrukte positieve Primary Button.`,
+      },
+    },
+    tokens: {
+      nl: {
+        button: {
+          primary: {
+            positive: {
+              pressed: {
+                'background-color': {
+                  $value: '',
+                },
+                'border-color': {
+                  $value: '',
+                },
+                color: {
+                  $value: '',
+                },
+                active: {
+                  'background-color': {
+                    $value: '',
+                  },
+                  'border-color': {
+                    $value: '',
+                  },
+                  color: {
+                    $value: '',
+                  },
+                },
+                hover: {
+                  'background-color': {
+                    $value: '',
+                  },
+                  'border-color': {
+                    $value: '',
+                  },
+                  color: {
+                    $value: '',
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const PrimaryNegativePressedButton: Story = {
+  name: 'Primary Negative Pressed Button',
+  args: {
+    label: 'Ingedrukt',
+    pressed: true,
+    purpose: 'primary',
+    hint: 'negative',
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: `Een ingedrukte negative Primary Button.`,
+      },
+    },
+    tokens: {
+      nl: {
+        button: {
+          primary: {
+            negative: {
+              pressed: {
+                'background-color': {
+                  $value: '',
+                },
+                'border-color': {
+                  $value: '',
+                },
+                color: {
+                  $value: '',
+                },
+                active: {
+                  'background-color': {
+                    $value: '',
+                  },
+                  'border-color': {
+                    $value: '',
+                  },
+                  color: {
+                    $value: '',
+                  },
+                },
+                hover: {
+                  'background-color': {
+                    $value: '',
+                  },
+                  'border-color': {
+                    $value: '',
+                  },
+                  color: {
+                    $value: '',
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const SecondaryPositivePressedButton: Story = {
+  name: 'Secondary Positive Pressed Button',
+  args: {
+    label: 'Ingedrukt',
+    pressed: true,
+    purpose: 'secondary',
+    hint: 'positive',
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: `Een ingedrukte positieve Secondary Button.`,
+      },
+    },
+    tokens: {
+      nl: {
+        button: {
+          secondary: {
+            positive: {
+              pressed: {
+                'background-color': {
+                  $value: '',
+                },
+                'border-color': {
+                  $value: '',
+                },
+                color: {
+                  $value: '',
+                },
+                active: {
+                  'background-color': {
+                    $value: '',
+                  },
+                  'border-color': {
+                    $value: '',
+                  },
+                  color: {
+                    $value: '',
+                  },
+                },
+                hover: {
+                  'background-color': {
+                    $value: '',
+                  },
+                  'border-color': {
+                    $value: '',
+                  },
+                  color: {
+                    $value: '',
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const SecondaryNegativePressedButton: Story = {
+  name: 'Secondary Negative Pressed Button',
+  args: {
+    label: 'Ingedrukt',
+    pressed: true,
+    purpose: 'secondary',
+    hint: 'negative',
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: `Een ingedrukte negative Secondary Button.`,
+      },
+    },
+    tokens: {
+      nl: {
+        button: {
+          secondary: {
+            negative: {
+              pressed: {
+                'background-color': {
+                  $value: '',
+                },
+                'border-color': {
+                  $value: '',
+                },
+                color: {
+                  $value: '',
+                },
+                active: {
+                  'background-color': {
+                    $value: '',
+                  },
+                  'border-color': {
+                    $value: '',
+                  },
+                  color: {
+                    $value: '',
+                  },
+                },
+                hover: {
+                  'background-color': {
+                    $value: '',
+                  },
+                  'border-color': {
+                    $value: '',
+                  },
+                  color: {
+                    $value: '',
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const SubtlePositivePressedButton: Story = {
+  name: 'Subtle Positive Pressed Button',
+  args: {
+    label: 'Ingedrukt',
+    pressed: true,
+    purpose: 'subtle',
+    hint: 'positive',
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: `Een ingedrukte positieve Subtle Button.`,
+      },
+    },
+    tokens: {
+      nl: {
+        button: {
+          subtle: {
+            positive: {
+              pressed: {
+                'background-color': {
+                  $value: '',
+                },
+                'border-color': {
+                  $value: '',
+                },
+                color: {
+                  $value: '',
+                },
+                active: {
+                  'background-color': {
+                    $value: '',
+                  },
+                  'border-color': {
+                    $value: '',
+                  },
+                  color: {
+                    $value: '',
+                  },
+                },
+                hover: {
+                  'background-color': {
+                    $value: '',
+                  },
+                  'border-color': {
+                    $value: '',
+                  },
+                  color: {
+                    $value: '',
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const SubtleNegativePressedButton: Story = {
+  name: 'Subtle Negative Pressed Button',
+  args: {
+    label: 'Ingedrukt',
+    pressed: true,
+    purpose: 'subtle',
+    hint: 'negative',
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: `Een ingedrukte negative Subtle Button.`,
+      },
+    },
+    tokens: {
+      nl: {
+        button: {
+          subtle: {
+            negative: {
+              pressed: {
+                'background-color': {
+                  $value: '',
+                },
+                'border-color': {
+                  $value: '',
+                },
+                color: {
+                  $value: '',
+                },
+                active: {
+                  'background-color': {
+                    $value: '',
+                  },
+                  'border-color': {
+                    $value: '',
+                  },
+                  color: {
+                    $value: '',
+                  },
+                },
+                hover: {
+                  'background-color': {
+                    $value: '',
+                  },
+                  'border-color': {
+                    $value: '',
+                  },
+                  color: {
+                    $value: '',
+                  },
+                },
+              },
+            },
+          },
+        },
       },
     },
   },

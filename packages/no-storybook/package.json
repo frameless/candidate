@@ -16,7 +16,7 @@
   "scripts": {
     "start": "http-server dist/",
     "clean": "rimraf dist/ public/",
-    "build": "pnpm run clean && pnpm run build:stories && vite build && cp dist/assets/*.js dist/index.js",
+    "build": "pnpm run clean && pnpm run build:stories && vite build",
     "build:stories": "rimraf public/ && tsc --project tsconfig.stories.json",
     "storybook": "vite",
     "dev": "vite",
