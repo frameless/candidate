@@ -4,6 +4,7 @@ import type { InputType } from 'storybook/internal/csf';
 import { createElement, FormEvent, ReactNode } from 'react';
 import set from 'lodash-es/set';
 import get from 'lodash-es/get';
+import { unset } from 'lodash-es';
 
 // Token utilities are adapted from:
 // https://github.com/nl-design-system/documentatie/blob/main/src/utils.ts
@@ -38,7 +39,10 @@ export function sortTokenPaths(tokenPaths: TokenPath[]): TokenPath[] {
 export const tokens2css = (tokens: TokenNode, selector = ':root') => {
   const paths = getTokenPaths(tokens);
 
-  const entries = paths.map((path) => [tokenPathToCSSCustomProperty(path), get(tokens, path.join('.'))['$value']]);
+  const entries = paths.map((path) => [
+    tokenPathToCSSCustomProperty(path),
+    get(tokens, tokenPathToDottedTokenPath(path))['$value'],
+  ]);
 
   return `${selector} {
 ${entries.map(([key, value]) => `${key}: ${value};\n`).join('')}}`;
@@ -51,6 +55,7 @@ customElements.define(
     _values: { [index: string]: unknown } = {};
     renderRoot: Root;
     _tokens: TokenNode = {};
+    _defaultTokens: TokenNode = {};
     _theme: TokenNode = {};
     css: string = ''; // temporary, should only expose `_theme`
     themeChange: ((evt: DesignTokensTable) => void) | undefined; // temporary
@@ -61,6 +66,14 @@ customElements.define(
     }
     get tokens() {
       return this._tokens;
+    }
+
+    set defaultTokens(value: TokenNode) {
+      this._defaultTokens = value;
+      this.render();
+    }
+    get defaultTokens() {
+      return this._defaultTokens;
     }
 
     set theme(value: TokenNode) {
@@ -87,6 +100,7 @@ customElements.define(
           ...args,
           children: options.map(({ value, children }) =>
             createElement('option', {
+              key: value,
               value,
               children,
             }),
@@ -107,24 +121,49 @@ customElements.define(
         'negative',
         'highlight',
         'selected',
+        'default-inverse',
+        'accent-1-inverse',
+        'accent-2-inverse',
+        'accent-3-inverse',
+        'action-1-inverse',
+        'action-2-inverse',
+        'disabled-inverse',
+        'info-inverse',
+        'positive-inverse',
+        'negative-inverse',
+        'highlight-inverse',
+        'selected-inverse',
       ];
 
       const createColorScale = (name: string) => [
-        { value: `--basis-color-${name}-color-document`, children: `${name} color-document` },
-        { value: `--basis-color-${name}-color-subtle`, children: `${name} color-subtle` },
-        { value: `--basis-color-${name}-color-active`, children: `${name} color-active` },
-        { value: `--basis-color-${name}-color-hover`, children: `${name} color-hover` },
-        { value: `--basis-color-${name}-color-default`, children: `${name} color-default` },
-        { value: `--basis-color-${name}-border-active`, children: `${name} border-active` },
-        { value: `--basis-color-${name}-border-hover`, children: `${name} border-hover` },
-        { value: `--basis-color-${name}-border-default`, children: `${name} border-default` },
-        { value: `--basis-color-${name}-border-subtle`, children: `${name} border-subtle` },
-        { value: `--basis-color-${name}-bg-active`, children: `${name} bg-active` },
-        { value: `--basis-color-${name}-bg-hover`, children: `${name} bg-hover` },
-        { value: `--basis-color-${name}-bg-default`, children: `${name} bg-default` },
-        { value: `--basis-color-${name}-bg-subtle`, children: `${name} bg-subtle` },
-        { value: `--basis-color-${name}-bg-document`, children: `${name} bg-document` },
+        { value: `var(--basis-color-${name}-color-document)`, children: `${name} color-document` },
+        { value: `var(--basis-color-${name}-color-subtle)`, children: `${name} color-subtle` },
+        { value: `var(--basis-color-${name}-color-active)`, children: `${name} color-active` },
+        { value: `var(--basis-color-${name}-color-hover)`, children: `${name} color-hover` },
+        { value: `var(--basis-color-${name}-color-default)`, children: `${name} color-default` },
+        { value: `var(--basis-color-${name}-border-active)`, children: `${name} border-active` },
+        { value: `var(--basis-color-${name}-border-hover)`, children: `${name} border-hover` },
+        { value: `var(--basis-color-${name}-border-default)`, children: `${name} border-default` },
+        { value: `var(--basis-color-${name}-border-subtle)`, children: `${name} border-subtle` },
+        { value: `var(--basis-color-${name}-bg-active)`, children: `${name} bg-active` },
+        { value: `var(--basis-color-${name}-bg-hover)`, children: `${name} bg-hover` },
+        { value: `var(--basis-color-${name}-bg-default)`, children: `${name} bg-default` },
+        { value: `var(--basis-color-${name}-bg-subtle)`, children: `${name} bg-subtle` },
+        { value: `var(--basis-color-${name}-bg-document)`, children: `${name} bg-document` },
       ];
+      const transparentColor = { value: `var(--basis-color-transparent)`, children: `transparent` };
+      const focusBorderColor = { value: `var(--basis-focus-border)`, children: `focus border color` };
+      const focusColor = { value: `var(--basis-focus-color)`, children: `focus color` };
+      const focusBackgroundColor = { value: `var(--basis-focus-background-color)`, children: `focus background color` };
+      const pointerTargetInlineSize = {
+        value: `var(--basis-pointer-target-min-inline-size)`,
+        children: 'pointer target inline',
+      };
+      const pointerTargetBlockSize = {
+        value: `var(--basis-pointer-target-min-block-size)`,
+        children: 'pointer target block',
+      };
+      const pointerTargetSize = [pointerTargetBlockSize, pointerTargetInlineSize];
 
       const colorScales = Object.fromEntries(colorPurposes.map((name) => [name, createColorScale(name)]));
 
@@ -136,6 +175,24 @@ customElements.define(
         options.filter((option) => option.value.includes('-bg-'));
       const colorOnly = (options: Option[]): Option[] =>
         options.filter((option) => /-color-(document|subtle|active|hover|default)/.test(option.value));
+
+      const headingFontFamily = {
+        value: 'var(--basis-heading-font-family)',
+        children: 'heading font family',
+      };
+      const headingFontWeight = {
+        value: 'var(--basis-heading-font-weight)',
+        children: 'heading font weight',
+      };
+
+      const headingColor = {
+        value: 'var(--basis-heading-color)',
+        children: 'heading color',
+      };
+
+      const noSpace = { value: '0px', children: '0' };
+      const noBorderRadius = { value: '0px', children: 'square corners' };
+      const noBorderWidth = { value: '0px', children: 'no border' };
 
       const basisFontFamily = [
         { value: 'var(--basis-text-font-family-default)', children: 'default' },
@@ -197,6 +254,20 @@ customElements.define(
         { value: 'var(--basis-space-inline-2xs)', children: '2xs inline' },
       ];
 
+      const basisSpaceText = [
+        { value: 'var(--basis-space-text-6xl)', children: '6xl text' },
+        { value: 'var(--basis-space-text-5xl)', children: '5xl text' },
+        { value: 'var(--basis-space-text-4xl)', children: '4xl text' },
+        { value: 'var(--basis-space-text-3xl)', children: '3xl text' },
+        { value: 'var(--basis-space-text-2xl)', children: '2xl text' },
+        { value: 'var(--basis-space-text-xl)', children: 'xl text' },
+        { value: 'var(--basis-space-text-lg)', children: 'lg text' },
+        { value: 'var(--basis-space-text-md)', children: 'md text' },
+        { value: 'var(--basis-space-text-sm)', children: 'sm text' },
+        { value: 'var(--basis-space-text-xs)', children: 'xs text' },
+        { value: 'var(--basis-space-text-2xs)', children: '2xs text' },
+      ];
+
       const basisSpaceBlock = [
         { value: 'var(--basis-space-block-6xl)', children: '6xl block' },
         { value: 'var(--basis-space-block-5xl)', children: '5xl block' },
@@ -246,7 +317,7 @@ customElements.define(
 
       const basisFontWeight = [
         { value: 'var(--basis-text-font-weight-bold)', children: 'bold' },
-        { value: 'var(--basis-text-font-size-default)', children: 'default' },
+        { value: 'var(--basis-text-font-weight-default)', children: 'default' },
       ];
 
       const basisIcon = [
@@ -262,7 +333,7 @@ customElements.define(
       const scales = [
         {
           parts: ['border-radius'],
-          options: basisBorderRadius,
+          options: [noBorderRadius, ...basisBorderRadius],
         },
         {
           parts: [
@@ -273,7 +344,7 @@ customElements.define(
             'padding-inline',
             'margin-inline',
           ],
-          options: basisSpaceInline,
+          options: [noSpace, ...basisSpaceInline],
         },
         {
           parts: [
@@ -284,7 +355,7 @@ customElements.define(
             'padding-block',
             'margin-block',
           ],
-          options: basisSpaceBlock,
+          options: [noSpace, ...basisSpaceBlock],
         },
         {
           parts: ['row-gap'],
@@ -292,11 +363,11 @@ customElements.define(
         },
         {
           parts: ['column-gap'],
-          options: basisSpaceColumn,
+          options: [...basisSpaceColumn, ...basisSpaceText],
         },
         {
           parts: ['font-family'],
-          options: basisFontFamily,
+          options: [...basisFontFamily, headingFontFamily],
         },
         {
           parts: ['font-size'],
@@ -304,7 +375,7 @@ customElements.define(
         },
         {
           parts: ['font-weight'],
-          options: basisFontWeight,
+          options: [...basisFontWeight, headingFontWeight],
         },
         {
           parts: ['line-height'],
@@ -312,38 +383,38 @@ customElements.define(
         },
         {
           parts: ['block-size', 'min-block-size', 'max-block-size'],
-          options: basisSize,
+          options: [...basisSize, pointerTargetBlockSize],
         },
         {
           parts: ['inline-size', 'min-inline-size', 'max-inline-size'],
-          options: basisSize,
+          options: [...basisSize, pointerTargetInlineSize],
         },
         {
           // `size` isn't really a CSS token, but useful for icon.size
           // TODO: Detect if it is `.icon.size`, the only show icon scale
           parts: ['size'],
-          options: basisSize,
+          options: [...basisSize, ...pointerTargetSize],
         },
         {
           parts: ['color', 'text-decoration-color'],
-          options: colorOnly(allColors),
+          options: [...colorOnly(allColors), transparentColor, focusColor, headingColor],
         },
         {
-          parts: ['border-color', 'outline-color', 'outline-offset', 'text-decoration-thickness'],
-          options: borderColorOnly(allColors),
+          parts: ['border-color', 'outline-color'],
+          options: [...borderColorOnly(allColors), transparentColor, focusBorderColor],
         },
         {
           parts: ['background-color'],
-          options: backgroundColorOnly(allColors),
+          options: [...backgroundColorOnly(allColors), transparentColor, focusBackgroundColor],
         },
         {
-          parts: ['border-width', 'outline-width'],
-          options: basisBorderWidth,
+          parts: ['border-width', 'outline-width', 'outline-offset', 'text-decoration-thickness'],
+          options: [noBorderWidth, ...basisBorderWidth],
         },
         {
           parts: ['cursor'],
           options: [
-            { value: 'normal', children: 'normal' },
+            { value: 'default', children: 'default' },
             { value: 'pointer', children: 'pointer' },
             { value: 'wait', children: 'wait' },
             { value: 'text', children: 'text' },
@@ -355,17 +426,21 @@ customElements.define(
           parts: ['text-decoration-line'],
           options: [
             { value: 'none', children: 'none' },
-            { value: 'solid', children: 'solid' },
+            { value: 'underline', children: 'underline' },
             // TODO: Add all cursor options
           ],
         },
       ];
 
-      const setToken = (path: TokenPath, value: string) => {
+      const setToken = (path: TokenPath, value: string | undefined) => {
         const newTheme = {
           ...this._theme,
         };
-        set(newTheme, path.join('.'), { $value: value });
+        if (typeof value === 'undefined') {
+          unset(newTheme, tokenPathToDottedTokenPath(path));
+        } else {
+          set(newTheme, tokenPathToDottedTokenPath(path), { $value: value });
+        }
         this._theme = newTheme;
         this.css = tokens2css(this._theme, '.example-theme');
         const evt = new CustomEvent('themeChange');
@@ -373,20 +448,34 @@ customElements.define(
           this.themeChange(this);
         }
         this.dispatchEvent(evt);
+        this.render();
       };
+
+      // Hack
+      const tokenRefToCss = (arg: string) => arg.replace(/\./g, '-').replace(/^{(.+)}$/, 'var(--$1)');
 
       // Render new version
       this.renderRoot.render([
         createElement('dl', {
           children: tokenPaths.map((path) => {
-            const id = path.join('.');
+            const id = tokenPathToDottedTokenPath(path);
+            const token = get(this._theme, id);
+            const defaultToken = get(this._defaultTokens, id);
+            const originalValue =
+              defaultToken && defaultToken['original']
+                ? (defaultToken['original']['$value'] as unknown as string)
+                : undefined;
+            const originalCssValue = originalValue ? tokenRefToCss(originalValue) : undefined;
+            const defaultValue = token ? token['$value'] : originalValue ? originalCssValue : undefined;
+            // console.log(id, defaultValue);
             const args = {
               id,
+              defaultValue,
+              title: originalValue,
               onInput: (evt: FormEvent<HTMLInputElement>) => {
                 const cssValue = evt.target.value;
                 if (typeof cssValue === 'string') {
-                  const cssProperty = `--${path.join('-')}`;
-                  console.log(`${cssProperty}: ${cssValue}`);
+                  const cssProperty = tokenPathToCSSCustomProperty(path);
                   setToken(path, cssValue);
                   document.documentElement.style.setProperty(cssProperty, cssValue);
                 }
@@ -401,14 +490,29 @@ customElements.define(
 
             let options: Option[] = [];
 
+            const createOptionKeys = (options: Option[]) =>
+              options.map((option) => ({
+                key: option.value,
+                ...option,
+              }));
+
             if (tokenScale) {
-              options = tokenScale.options;
+              options = createOptionKeys(tokenScale.options);
             }
 
             if (path.at(-1) === 'size' && path.at(-2) === 'icon') {
               options = basisIcon;
             }
 
+            // const compareCaseInsensitive = (a: string, b: string) => a === b || a.toLowerCase() === b.toLowerCase();
+            // const valueExistsAsOption =
+            //   !originalValue || !options.some(({ value }) => compareCaseInsensitive(value, originalCssValue || ''));
+            const valueExistsAsOption = !originalValue || !options.some(({ value }) => value === originalCssValue);
+            const unknownOption: Option = {
+              key: 'undefined',
+              value: '',
+              children: originalValue,
+            };
             if (tokenScale) {
               // TODO: If it is a `negative` token, prioritize the `negative` color scale
               // TODO: If it is a `positive` token, prioritize the `positive` color scale
@@ -420,12 +524,14 @@ customElements.define(
               // TODO: If it is a `active` token, prioritize the `active` colors
               designTokenInput = createElement(DesignTokenSelect, {
                 ...args,
-                options: options,
+                ['aria-invalid']: valueExistsAsOption ? 'true' : undefined,
+                options: createOptionKeys(valueExistsAsOption ? [unknownOption, ...options] : options),
               });
             }
 
             return [
               createElement('div', {
+                key: id,
                 children: [
                   createElement('dt', {
                     children: createElement('label', {
@@ -434,7 +540,20 @@ customElements.define(
                     }),
                   }),
                   createElement('dd', {
-                    children: designTokenInput,
+                    children: [
+                      designTokenInput,
+                      get(this._theme, id)
+                        ? createElement('button', {
+                            className: 'nl-button nl-button--subtle',
+                            children: 'Reset',
+                            onClick: () => {
+                              setToken(path, undefined);
+                              const cssProperty = tokenPathToCSSCustomProperty(path);
+                              document.documentElement.style.removeProperty(cssProperty);
+                            },
+                          })
+                        : null,
+                    ],
                   }),
                 ],
               }),

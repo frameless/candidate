@@ -109,6 +109,7 @@ customElements.define(
               .filter(([name]) => name !== 'default')
               .map(([name, argType]) => [
                 createElement('div', {
+                  key: name,
                   children: [
                     createElement('dt', {
                       children: createElement('label', { children: argType.name || name || '' }),

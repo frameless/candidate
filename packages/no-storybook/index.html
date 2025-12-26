@@ -4,65 +4,6 @@
     <meta charset="utf-8" />
     <title>No Storybook · NL Design System</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="https://unpkg.com/@utrecht/body-css@1.2.1/dist/index.css" />
-    <link rel="stylesheet" href="https://unpkg.com/@utrecht/page-body-css@0.1.1/dist/index.css" />
-    <link rel="stylesheet" href="https://unpkg.com/@utrecht/button-css@2.3.1/dist/index.css" />
-    <link rel="stylesheet" href="https://unpkg.com/@utrecht/button-link-css@1.3.1/dist/index.css" />
-    <link rel="stylesheet" href="https://unpkg.com/@utrecht/nav-bar-css@1.4.1/dist/index.css" />
-    <link rel="stylesheet" href="https://unpkg.com/@utrecht/nav-list-css@1.3.1/dist/index.css" />
-    <link rel="stylesheet" href="https://unpkg.com/@utrecht/textbox-css@3.0.0/dist/index.css" />
-    <link rel="stylesheet" href="https://unpkg.com/@utrecht/page-layout-css@2.0.1/dist/index.css" />
-    <link rel="stylesheet" href="https://unpkg.com/@utrecht/code-block-css@2.0.1/dist/index.css" />
-    <link rel="stylesheet" href="https://unpkg.com/@utrecht/root-css@2.0.1/dist/index.css" />
-    <link rel="stylesheet" href="https://unpkg.com/@utrecht/textbox-css@3.0.1/dist/html/index.css" />
-    <link rel="stylesheet" href="https://unpkg.com/@utrecht/form-label-css/dist/html/index.css" />
-    <link rel="stylesheet" href="https://unpkg.com/@utrecht/checkbox-css/dist/html/index.css" />
-    <link rel="stylesheet" href="https://unpkg.com/@utrecht/select-css/dist/html/index.css" />
-    <link rel="stylesheet" href="https://unpkg.com/@utrecht/heading-1-css/dist/html/index.css" />
-    <link rel="stylesheet" href="https://unpkg.com/@utrecht/heading-2-css/dist/html/index.css" />
-    <link rel="stylesheet" href="https://unpkg.com/@utrecht/heading-3-css/dist/html/index.css" />
-    <style>
-      /* see https://fontsource.org/fonts/noto-sans/cdn */
-      /* noto-sans-latin-wght-normal */
-      @font-face {
-        font-family: 'Noto Sans';
-        font-style: normal;
-        font-display: swap;
-        font-weight: 100 900;
-        src: url(https://cdn.jsdelivr.net/fontsource/fonts/noto-sans:vf@latest/latin-wght-normal.woff2)
-          format('woff2-variations');
-        unicode-range:
-          U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F,
-          U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-      }
-
-      /* https://fontsource.org/fonts/noto-serif/cdn */
-      /* noto-serif-latin-wght-normal */
-      @font-face {
-        font-family: 'Noto Serif';
-        font-style: normal;
-        font-display: swap;
-        font-weight: 100 900;
-        src: url(https://cdn.jsdelivr.net/fontsource/fonts/noto-serif:vf@latest/latin-wght-normal.woff2)
-          format('woff2-variations');
-        unicode-range:
-          U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F,
-          U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-      }
-      /* https://fontsource.org/fonts/noto-sans-mono/cdn */
-      /* noto-sans-mono-latin-wght-normal */
-      @font-face {
-        font-family: 'Noto Sans Mono';
-        font-style: normal;
-        font-display: swap;
-        font-weight: 100 900;
-        src: url(https://cdn.jsdelivr.net/fontsource/fonts/noto-sans-mono:vf@latest/latin-wght-normal.woff2)
-          format('woff2-variations');
-        unicode-range:
-          U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F,
-          U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-      }
-    </style>
   </head>
   <body class="utrecht-body">
     <dialog open class="utrecht-drawer utrecht-drawer--inline-start">
@@ -86,7 +27,7 @@
             <script type="module" src="src/inner-html-element.ts"></script>
             <script type="module" src="src/args-docs-element.ts"></script>
             <script type="module" src="src/args-table-element.ts"></script>
-            <script type="module" src="src/story-list-preact-element.ts"></script>
+            <script type="module" src="src/story-list-element.ts"></script>
             <script type="module" src="src/story-canvas-element.ts"></script>
             <script type="module" src="src/code-block-element.ts"></script>
             <script type="module" src="src/story-react-element.ts"></script>
@@ -96,27 +37,27 @@
             <script type="module" src="src/design-tokens-table-element.ts"></script>
 
             <!-- Stories with dependencies, that only work in `pnpm run dev` -->
-            <story-list-preact src="./button-react.stories.js"></story-list-preact>
+            <story-list src="./button-react.stories.js"></story-list>
             <args-table-preact src="./button-react.stories.js"></args-table-preact>
-            <story-list-preact src="./code-react.stories.js"></story-list-preact>
+            <story-list src="./code-react.stories.js"></story-list>
             <args-table-preact src="./code-react.stories.js"></args-table-preact>
-            <story-list-preact src="./code-block-react.stories.js"></story-list-preact>
+            <story-list src="./code-block-react.stories.js"></story-list>
             <args-table-preact src="./code-block-react.stories.js"></args-table-preact>
-            <story-list-preact src="./color-sample-react.stories.js"></story-list-preact>
+            <story-list src="./color-sample-react.stories.js"></story-list>
             <args-table-preact src="./color-sample-react.stories.js"></args-table-preact>
-            <story-list-preact src="./data-badge-react.stories.js"></story-list-preact>
+            <story-list src="./data-badge-react.stories.js"></story-list>
             <args-table-preact src="./data-badge-react.stories.js"></args-table-preact>
-            <story-list-preact src="./heading-react.stories.js"></story-list-preact>
+            <story-list src="./heading-react.stories.js"></story-list>
             <args-table-preact src="./heading-react.stories.js"></args-table-preact>
-            <story-list-preact src="./link-react.stories.js"></story-list-preact>
+            <story-list src="./link-react.stories.js"></story-list>
             <args-table-preact src="./link-react.stories.js"></args-table-preact>
-            <story-list-preact src="./mark-react.stories.js"></story-list-preact>
+            <story-list src="./mark-react.stories.js"></story-list>
             <args-table-preact src="./mark-react.stories.js"></args-table-preact>
-            <story-list-preact src="./number-badge-react.stories.js"></story-list-preact>
+            <story-list src="./number-badge-react.stories.js"></story-list>
             <args-table-preact src="./number-badge-react.stories.js"></args-table-preact>
-            <story-list-preact src="./paragraph-react.stories.js"></story-list-preact>
+            <story-list src="./paragraph-react.stories.js"></story-list>
             <args-table-preact src="./paragraph-react.stories.js"></args-table-preact>
-            <story-list-preact src="./skip-link-react.stories.js"></story-list-preact>
+            <story-list src="./skip-link-react.stories.js"></story-list>
             <args-table-preact src="./skip-link-react.stories.js"></args-table-preact>
           </main>
         </div>

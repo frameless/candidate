@@ -33,32 +33,31 @@ customElements.define(
       const { argTypes } = this;
 
       // Render new version
-      this.renderRoot.render([
+      this.renderRoot.render(
         createElement('dl', {
-          children: [
-            ...Object.entries(argTypes)
-              .filter(([name]) => name !== 'default')
-              .map(([name, argType]) => [
-                createElement('div', {
-                  children: [
-                    createElement('dt', {
-                      children: createElement('h3', {
-                        children: argType.name || name || '',
-                      }),
+          children: Object.entries(argTypes)
+            .filter(([name]) => name !== 'default')
+            .map(([name, argType]) => [
+              createElement('div', {
+                key: name,
+                children: [
+                  createElement('dt', {
+                    children: createElement('h3', {
+                      children: argType.name || name || '',
                     }),
-                    argType.description
-                      ? createElement('dt', {
-                          children: createElement('markdown-html', {
-                            value: argType.description,
-                          }),
-                        })
-                      : null,
-                  ],
-                }),
-              ]),
-          ],
+                  }),
+                  argType.description
+                    ? createElement('dt', {
+                        children: createElement('markdown-html', {
+                          value: argType.description,
+                        }),
+                      })
+                    : null,
+                ],
+              }),
+            ]),
         }),
-      ]);
+      );
     }
   },
 );

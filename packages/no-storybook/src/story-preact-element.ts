@@ -41,7 +41,7 @@ customElements.define(
           componentRendering = 'Error: could not render component';
           console.error(e);
         }
-        console.log('componentRendering', componentRendering);
+
         return componentRendering;
       };
 

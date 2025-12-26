@@ -65,7 +65,7 @@ customElements.define(
       const { items: _items } = this;
 
       // Render new version
-      this.renderRoot.render([createElement(SideNavigation, { items: [this._items] })]);
+      this.renderRoot.render(createElement(SideNavigation, { items: [this._items] }));
     }
   },
 );
