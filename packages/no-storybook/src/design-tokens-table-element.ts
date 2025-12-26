@@ -1,7 +1,7 @@
 import { createRoot, Root } from 'react-dom/client';
 import { ArgTypes } from '@storybook/react-vite';
 import type { InputType } from 'storybook/internal/csf';
-import { createElement, FormEvent, ReactNode } from 'react';
+import { createElement, FormEvent, ReactNode, SelectHTMLAttributes } from 'react';
 import set from 'lodash-es/set';
 import get from 'lodash-es/get';
 import { unset } from 'lodash-es';
@@ -48,9 +48,16 @@ export const tokens2css = (tokens: TokenNode, selector = ':root') => {
 ${entries.map(([key, value]) => `${key}: ${value};\n`).join('')}}`;
 };
 
+export interface DesignTokensTableInterface extends HTMLElement {
+  css: string;
+  tokens: TokenNode;
+  defaultTokens: TokenNode;
+  themeChange: ((evt: DesignTokensTableInterface) => void) | undefined;
+}
+
 customElements.define(
   'design-tokens-table',
-  class DesignTokensTable<T = InputType> extends HTMLElement {
+  class DesignTokensTable<T = InputType> extends HTMLElement implements DesignTokensTableInterface {
     _argTypes: Partial<ArgTypes<T>> = {};
     _values: { [index: string]: unknown } = {};
     renderRoot: Root;
@@ -58,7 +65,7 @@ customElements.define(
     _defaultTokens: TokenNode = {};
     _theme: TokenNode = {};
     css: string = ''; // temporary, should only expose `_theme`
-    themeChange: ((evt: DesignTokensTable) => void) | undefined; // temporary
+    themeChange: ((evt: DesignTokensTableInterface) => void) | undefined; // temporary
 
     set tokens(value: TokenNode) {
       this._tokens = value;
@@ -95,7 +102,10 @@ customElements.define(
       const tokenPaths = getTokenPaths(tokens);
 
       type Option = { value: string; children: ReactNode };
-      const DesignTokenSelect = ({ options, ...args }: { options: Option[] }) => {
+      const DesignTokenSelect = ({
+        options,
+        ...args
+      }: { options: Option[] } & SelectHTMLAttributes<HTMLSelectElement>) => {
         return createElement('select', {
           ...args,
           children: options.map(({ value, children }) =>
@@ -470,10 +480,13 @@ customElements.define(
             // console.log(id, defaultValue);
             const args = {
               id,
-              defaultValue,
+              defaultValue: String(defaultValue),
               title: originalValue,
-              onInput: (evt: FormEvent<HTMLInputElement>) => {
-                const cssValue = evt.target.value;
+              onInput: (evt: FormEvent<HTMLInputElement | HTMLSelectElement>) => {
+                const cssValue =
+                  evt.target instanceof HTMLInputElement || evt.target instanceof HTMLSelectElement
+                    ? evt.target.value
+                    : undefined;
                 if (typeof cssValue === 'string') {
                   const cssProperty = tokenPathToCSSCustomProperty(path);
                   setToken(path, cssValue);
@@ -509,7 +522,6 @@ customElements.define(
             //   !originalValue || !options.some(({ value }) => compareCaseInsensitive(value, originalCssValue || ''));
             const valueExistsAsOption = !originalValue || !options.some(({ value }) => value === originalCssValue);
             const unknownOption: Option = {
-              key: 'undefined',
               value: '',
               children: originalValue,
             };

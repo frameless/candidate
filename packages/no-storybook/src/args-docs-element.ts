@@ -1,7 +1,7 @@
 import { createRoot, Root } from 'react-dom/client';
 import { ArgTypes } from '@storybook/react-vite';
-import type { InputType } from 'storybook/internal/csf';
 import { createElement } from 'react';
+import { InputType } from 'storybook/internal/csf';
 
 customElements.define(
   'args-docs',
@@ -37,25 +37,29 @@ customElements.define(
         createElement('dl', {
           children: Object.entries(argTypes)
             .filter(([name]) => name !== 'default')
-            .map(([name, argType]) => [
-              createElement('div', {
-                key: name,
-                children: [
-                  createElement('dt', {
-                    children: createElement('h3', {
-                      children: argType.name || name || '',
+            .map(([name, value]) => {
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              const argType = value as unknown as any;
+              return [
+                createElement('div', {
+                  key: name,
+                  children: [
+                    createElement('dt', {
+                      children: createElement('h3', {
+                        children: argType.name || name || '',
+                      }),
                     }),
-                  }),
-                  argType.description
-                    ? createElement('dt', {
-                        children: createElement('markdown-html', {
-                          value: argType.description,
-                        }),
-                      })
-                    : null,
-                ],
-              }),
-            ]),
+                    argType.description
+                      ? createElement('dt', {
+                          children: createElement('markdown-html', {
+                            value: argType.description,
+                          }),
+                        })
+                      : null,
+                  ],
+                }),
+              ];
+            }),
         }),
       );
     }

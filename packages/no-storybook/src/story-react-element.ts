@@ -2,15 +2,27 @@ import { createRoot, Root } from 'react-dom/client';
 import { createElement, type ReactNode } from 'react';
 import { ComponentType } from 'react';
 
+export interface JsxChangeEvent {
+  detail: {
+    jsx: ReactNode;
+  };
+}
+
+export interface StoryReactInterface extends HTMLElement {
+  jsxChange: ((evt: Event) => void) | null;
+  defaultArgs: object;
+  args: object;
+}
+
 /**
  * Render a `Component` using React, with `args` and `defaultArgs` as properties.
  */
 customElements.define(
   'story-react',
-  class StoryReactElement extends HTMLElement {
+  class StoryReactElement extends HTMLElement implements StoryReactInterface {
     Component: ComponentType<unknown> | null = null;
     _args = {};
-    renderRoot: Root;
+    _renderRoot: Root;
     jsxChange: ((evt: Event) => void) | null = null;
     _defaultArgs = {};
 
@@ -32,7 +44,7 @@ customElements.define(
 
     constructor() {
       super();
-      this.renderRoot = createRoot(this);
+      this._renderRoot = createRoot(this);
       this.render();
     }
     connectedCallback() {
@@ -68,7 +80,7 @@ customElements.define(
         detail: {
           jsx: result,
         },
-      });
+      } satisfies JsxChangeEvent);
 
       if (typeof this.jsxChange === 'function') {
         this.jsxChange(evt);
@@ -76,7 +88,7 @@ customElements.define(
 
       this.dispatchEvent(evt);
 
-      this.renderRoot.render(result);
+      this._renderRoot.render(result);
     }
   },
 );

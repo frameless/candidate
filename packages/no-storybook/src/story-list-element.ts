@@ -3,10 +3,9 @@ import { createElement as createElementReact, type ReactNode } from 'react';
 import type { ArgTypes, Meta, StoryObj } from '@storybook/react-vite';
 import { ComponentType } from 'react';
 import themeJSON from '@nl-design-system-unstable/voorbeeld-design-tokens/dist/tokens.json';
+import { JsxSourceInterface } from './jsx-source-element';
+import { DesignTokensTableInterface } from './design-tokens-table-element';
 
-const fromFigmaTokens = (arg: any) => {
-  return themeJSON;
-};
 type StoriesFile = {
   default: Meta;
   [index: string]: StoryObj;
@@ -19,9 +18,9 @@ customElements.define(
     stories: { [index: string]: StoryObj } = {};
     defaultArgs = {};
     storyTitle = '';
-    argTypes: Partial<ArgTypes<T>> = {};
+    argTypes: Partial<ArgTypes> = {};
     tokens: object | undefined;
-    defaultTheme = fromFigmaTokens(themeJSON);
+    defaultTheme = themeJSON;
 
     constructor() {
       super();
@@ -30,7 +29,7 @@ customElements.define(
         import(src).then((stories: StoriesFile) => {
           const Component = stories.default.component;
           const defaultArgs = stories.default.args;
-          this.argTypes = stories.default.argTypes;
+          this.argTypes = stories.default.argTypes || {};
           this.storyTitle = stories.default.title || '';
           this.stories = stories;
           this.Component = Component || null;
@@ -59,6 +58,11 @@ customElements.define(
 
       const storyId = this.storyTitle.replace(/[^\w+]/g, '');
       const cssId = `css-${storyId}`;
+
+      const isJsxSource = (arg: EventTarget | HTMLElement | null): arg is JsxSourceInterface =>
+        !!arg && arg instanceof HTMLElement && arg.localName === 'jsx-source';
+      const isDesignTokensTable = (arg: EventTarget | HTMLElement | null): arg is DesignTokensTableInterface =>
+        !!arg && arg instanceof HTMLElement && arg.localName === 'design-tokens-table';
 
       // Render new version
       render(
@@ -101,8 +105,8 @@ customElements.define(
                       defaultTokens: this.defaultTheme,
                       themeChange: (el: Element) => {
                         const cssCodeBlock = document.getElementById(cssId);
-                        if (cssCodeBlock) {
-                          cssCodeBlock.textContent = el.css;
+                        if (cssCodeBlock && isDesignTokensTable(el)) {
+                          cssCodeBlock.textContent = el.css || '';
                         }
                       },
                     }),
@@ -134,8 +138,11 @@ customElements.define(
                         args: storyObj.args,
                         defaultArgs,
                         Component,
-                        jsxChange: (evt) => {
-                          document.getElementById(jsxId).jsx = evt.detail.jsx;
+                        jsxChange: (evt: CustomEvent) => {
+                          const target = document.getElementById(jsxId);
+                          if (isJsxSource(target)) {
+                            target.jsx = evt.detail.jsx;
+                          }
                         },
                       }),
                     }),

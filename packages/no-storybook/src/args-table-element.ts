@@ -2,6 +2,7 @@ import { createRoot, Root } from 'react-dom/client';
 import { ArgTypes } from '@storybook/react-vite';
 import type { InputType } from 'storybook/internal/csf';
 import { createElement } from 'react';
+import { StoryReactInterface } from './story-react-element';
 
 customElements.define(
   'args-table',
@@ -32,13 +33,20 @@ customElements.define(
     render() {
       const { argTypes } = this;
 
+      const isStoryReact = (el: HTMLElement | null): el is StoryReactInterface =>
+        !!el && el.localName === 'story-react';
+      const isCheckbox = (el: EventTarget | HTMLElement | null): el is HTMLInputElement =>
+        !!el && el instanceof HTMLInputElement && el.type === 'checkbox';
+      const isSelect = (el: EventTarget | HTMLElement | null): el is HTMLInputElement =>
+        !!el && el instanceof HTMLSelectElement;
+
       const ArgInput = ({ name }: { name: string }) => {
         return createElement('input', {
           defaultValue: this._values[name],
           onInput: (evt) => {
             const target = this.getAttribute('target');
             const targetEl = target ? document.getElementById(target) : null;
-            if (targetEl) {
+            if (isStoryReact(targetEl) && isCheckbox(evt.target)) {
               targetEl.args = {
                 ...targetEl.args,
                 [name]: evt.target.value,
@@ -56,7 +64,7 @@ customElements.define(
             onInput: (evt) => {
               const target = this.getAttribute('target');
               const targetEl = target ? document.getElementById(target) : null;
-              if (targetEl) {
+              if (isStoryReact(targetEl) && isCheckbox(evt.target)) {
                 targetEl.args = {
                   ...targetEl.args,
                   [name]: evt.target.checked,
@@ -64,7 +72,10 @@ customElements.define(
               }
             },
           });
-        } else if (argType.control === 'select' || argType.control?.type === 'select') {
+        } else if (
+          argType.control === 'select' ||
+          (!!argType.control && typeof argType.control === 'object' && argType.control?.type === 'select')
+        ) {
           return createElement('select', {
             defaultValue: Object.hasOwn(this.values, name) ? this._values[name] : undefined,
             children: argType.options?.map((option) => {
@@ -73,7 +84,7 @@ customElements.define(
             onInput: (evt) => {
               const target = this.getAttribute('target');
               const targetEl = target ? document.getElementById(target) : null;
-              if (targetEl) {
+              if (isStoryReact(targetEl) && isSelect(evt.target)) {
                 targetEl.args = {
                   ...targetEl.args,
                   [name]: evt.target.value,
@@ -86,40 +97,29 @@ customElements.define(
         }
       };
 
-      /*
-          iconOnly: {
-      control: 'boolean',
-      description: 'Laat alleen icons zien, verberg de tekst.',
-      table: {
-        category: 'Props',
-        type: { summary: 'boolean' },
-      },
-    },
-    iconStart: {
-      control: false,
-      description: 'Een icon voor de content van de button',
-      table: { category: 'Props', type: { summary: 'ReactNode' } },
-    },
-    */
       // Render new version
       this.renderRoot.render([
         createElement('dl', {
           children: [
             ...Object.entries(argTypes)
               .filter(([name]) => name !== 'default')
-              .map(([name, argType]) => [
-                createElement('div', {
-                  key: name,
-                  children: [
-                    createElement('dt', {
-                      children: createElement('label', { children: argType.name || name || '' }),
-                    }),
-                    createElement('dd', {
-                      children: ArgControl({ argType: argType as InputType, name }),
-                    }),
-                  ],
-                }),
-              ]),
+              .map(([name, value]) => {
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                const argType = value as unknown as any;
+                return [
+                  createElement('div', {
+                    key: name,
+                    children: [
+                      createElement('dt', {
+                        children: createElement('label', { children: argType.name || name || '' }),
+                      }),
+                      createElement('dd', {
+                        children: ArgControl({ argType: argType as InputType, name }),
+                      }),
+                    ],
+                  }),
+                ];
+              }),
           ],
         }),
       ]);
