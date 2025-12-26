@@ -4,6 +4,7 @@ import { Code as CodeComponent } from '@nl-design-system-candidate/code-react';
 import codeMeta from '@nl-design-system-candidate/code-docs/stories/code.react.meta';
 import * as Stories from '@nl-design-system-candidate/code-docs/stories/code.stories';
 // import { getExternalLinks } from '../src/helpers/external-links';
+import tokens from '@nl-design-system-candidate/code-tokens';
 
 // const externalLinks = getExternalLinks(
 //   'https://nldesignsystem.nl/button',
@@ -16,6 +17,7 @@ const meta = {
   // ...externalLinks,
   title: 'React Componenten/Code',
   id: 'code',
+  parameters: { tokens },
 } satisfies Meta<typeof CodeComponent>;
 
 export default meta;

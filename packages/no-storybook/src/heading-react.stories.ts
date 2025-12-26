@@ -4,6 +4,7 @@ import { Heading as HeadingComponent } from '@nl-design-system-candidate/heading
 import headingMeta from '@nl-design-system-candidate/heading-docs/stories/heading.react.meta';
 import * as Stories from '@nl-design-system-candidate/heading-docs/stories/heading.stories';
 // import { getExternalLinks } from '../src/helpers/external-links';
+import tokens from '@nl-design-system-candidate/heading-tokens';
 
 // const externalLinks = getExternalLinks('https://nldesignsystem.nl/heading', packageJSON.homepage);
 
@@ -12,6 +13,7 @@ const meta = {
   // ...externalLinks,
   title: 'React Componenten/Heading',
   id: 'heading',
+  parameters: { tokens },
 } satisfies Meta<typeof HeadingComponent>;
 
 export default meta;

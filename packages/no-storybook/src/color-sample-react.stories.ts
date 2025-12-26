@@ -4,6 +4,7 @@ import { ColorSample as ColorSampleComponent } from '@nl-design-system-candidate
 import colorSampleMeta from '@nl-design-system-candidate/color-sample-docs/stories/color-sample.react.meta';
 import * as Stories from '@nl-design-system-candidate/color-sample-docs/stories/color-sample.stories';
 // import { getExternalLinks } from '../src/helpers/external-links';
+import tokens from '@nl-design-system-candidate/color-sample-tokens';
 
 // const externalLinks = getExternalLinks('https://nldesignsystem.nl/color-sample', packageJSON.homepage);
 
@@ -12,6 +13,7 @@ const meta = {
   // ...externalLinks,
   title: 'React Componenten/Color Sample',
   id: 'color-sample',
+  parameters: { tokens },
 } satisfies Meta<typeof ColorSampleComponent>;
 
 export default meta;

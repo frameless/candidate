@@ -5,6 +5,7 @@ import paragraphMeta from '@nl-design-system-candidate/paragraph-docs/stories/pa
 import * as Stories from '@nl-design-system-candidate/paragraph-docs/stories/paragraph.stories';
 // import { ExampleBodyTextDecorator } from '@nl-design-system-candidate/storybook-shared/src/ExampleBodyTextDecorator';
 // import { getExternalLinks } from '../src/helpers/external-links';
+import tokens from '@nl-design-system-candidate/paragraph-tokens';
 
 // const externalLinks = getExternalLinks('https://nldesignsystem.nl/paragraph', packageJSON.homepage);
 
@@ -18,6 +19,7 @@ const meta = {
   },
   title: 'React Componenten/Paragraph',
   id: 'paragraph',
+  parameters: { tokens },
 } satisfies Meta<typeof ParagraphComponent>;
 
 export default meta;

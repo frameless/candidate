@@ -9,6 +9,7 @@ import * as Stories from '@nl-design-system-candidate/link-docs/stories/link.sto
 import '../../components-css/paragraph-css/src/paragraph.scss';
 // import { getExternalLinks } from '../src/helpers/external-links';
 import description from '@nl-design-system-candidate/link-docs/docs/description.md?raw';
+import tokens from '@nl-design-system-candidate/link-tokens';
 
 // const externalLinks = getExternalLinks('https://nldesignsystem.nl/link', packageJSON.homepage);
 
@@ -28,6 +29,7 @@ const meta = {
   ),
   title: 'React Componenten/Link',
   id: 'link',
+  parameters: { tokens },
 } satisfies Meta<typeof LinkComponent>;
 
 export default meta;

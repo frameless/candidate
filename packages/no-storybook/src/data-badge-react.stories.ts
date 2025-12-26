@@ -4,6 +4,7 @@ import { DataBadge as DataBadgeComponent } from '@nl-design-system-candidate/dat
 import dataBadgeMeta from '@nl-design-system-candidate/data-badge-docs/stories/data-badge.react.meta';
 import * as Stories from '@nl-design-system-candidate/data-badge-docs/stories/data-badge.stories';
 // import { getExternalLinks } from '../src/helpers/external-links';
+import tokens from '@nl-design-system-candidate/data-badge-tokens';
 
 // const externalLinks = getExternalLinks('https://nldesignsystem.nl/data-badge', packageJSON.homepage);
 
@@ -12,6 +13,7 @@ const meta = {
   // ...externalLinks,
   title: 'React Componenten/Data Badge',
   id: 'data-badge',
+  parameters: { tokens },
 } satisfies Meta<typeof DataBadgeComponent>;
 
 export default meta;

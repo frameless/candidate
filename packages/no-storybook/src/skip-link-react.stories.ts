@@ -4,6 +4,7 @@ import { SkipLink as SkipLinkComponent } from '../../components-react/skip-link-
 import skipLinkMeta from '@nl-design-system-candidate/skip-link-docs/stories/skip-link.react.meta';
 import * as Stories from '@nl-design-system-candidate/skip-link-docs/stories/skip-link.stories';
 // import { getExternalLinks } from '../src/helpers/external-links';
+import tokens from '@nl-design-system-candidate/skip-link-tokens';
 
 // const externalLinks = getExternalLinks('https://nldesignsystem.nl/skip-link', packageJSON.homepage);
 
@@ -12,6 +13,7 @@ const meta = {
   // ...externalLinks,
   title: 'React Componenten/Skip Link',
   id: 'skip-link',
+  parameters: { tokens },
 } satisfies Meta<typeof SkipLinkComponent>;
 
 export default meta;

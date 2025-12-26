@@ -4,6 +4,7 @@ import { NumberBadge as NumberBadgeComponent } from '../../components-react/numb
 import numberBadgeMeta from '@nl-design-system-candidate/number-badge-docs/stories/number-badge.react.meta';
 import * as Stories from '@nl-design-system-candidate/number-badge-docs/stories/number-badge.stories';
 // import { getExternalLinks } from '../src/helpers/external-links';
+import tokens from '@nl-design-system-candidate/number-badge-tokens';
 
 // const externalLinks = getExternalLinks('https://nldesignsystem.nl/number-badge', packageJSON.homepage);
 
@@ -12,6 +13,7 @@ const meta = {
   // ...externalLinks,
   title: 'React Componenten/Number Badge',
   id: 'number-badge',
+  parameters: { tokens },
 } satisfies Meta<typeof NumberBadgeComponent>;
 
 export default meta;

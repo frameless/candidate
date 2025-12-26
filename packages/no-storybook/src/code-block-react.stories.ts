@@ -4,6 +4,7 @@ import { CodeBlock as CodeBlockComponent } from '@nl-design-system-candidate/cod
 import codeBlockMeta from '@nl-design-system-candidate/code-block-docs/stories/code-block.react.meta';
 import * as Stories from '@nl-design-system-candidate/code-block-docs/stories/code-block.stories';
 // import { getExternalLinks } from '../src/helpers/external-links';
+import tokens from '@nl-design-system-candidate/code-block-tokens';
 
 // const externalLinks = getExternalLinks('https://nldesignsystem.nl/code-block', packageJSON.homepage);
 
@@ -12,6 +13,7 @@ const meta = {
   // ...externalLinks,
   title: 'React Componenten/Code Block',
   id: 'code-block',
+  parameters: { tokens },
 } satisfies Meta<typeof CodeBlockComponent>;
 
 export default meta;

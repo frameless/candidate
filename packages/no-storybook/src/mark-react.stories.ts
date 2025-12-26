@@ -5,6 +5,7 @@ import markMeta from '@nl-design-system-candidate/mark-docs/stories/mark.react.m
 import * as Stories from '@nl-design-system-candidate/mark-docs/stories/mark.stories';
 import '../../components-css/paragraph-css/src/paragraph.scss';
 // import { getExternalLinks } from '../src/helpers/external-links';
+import tokens from '@nl-design-system-candidate/mark-tokens';
 
 // const externalLinks = getExternalLinks('https://nldesignsystem.nl/mark', packageJSON.homepage);
 
@@ -14,6 +15,7 @@ const meta = {
   component: MarkComponent,
   title: 'React Componenten/Mark',
   id: 'mark',
+  parameters: { tokens },
 } satisfies Meta<typeof MarkComponent>;
 
 export default meta;

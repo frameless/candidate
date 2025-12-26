@@ -72,7 +72,7 @@ customElements.define(
       // };
 
       const storyId = this.storyTitle.replace(/[^\w+]/g, '');
-
+      const cssId = `css-${storyId}`;
       // Render new version
       render(
         createElement('div', {
@@ -93,8 +93,32 @@ customElements.define(
                   open: false,
                   children: [
                     createElement('summary', { children: 'Show Design Tokens' }),
+                    createElement('pre', {
+                      children: createElement('code', {
+                        children: createElement('code-block', {
+                          id: cssId,
+                          language: 'css',
+                          children: `.example-theme{}`,
+                        }),
+                      }),
+                    }),
+                    createElement('copy-action', {
+                      query: `#${cssId}`,
+                      children: createElement('button', {
+                        className: 'nl-button nl-button--secondary',
+                        children: 'Copy CSS',
+                      }),
+                    }),
                     createElement('design-tokens-table', {
                       tokens: this.tokens,
+                      themeChange: (el: Element) => {
+                        const cssCodeBlock = document.getElementById(cssId);
+                        console.log('xxx');
+                        if (cssCodeBlock) {
+                          console.log(el);
+                          cssCodeBlock.textContent = el.css;
+                        }
+                      },
                     }),
                   ],
                 })
