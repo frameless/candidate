@@ -73,7 +73,7 @@ const clampStyles = {
   overflow: 'hidden',
 };
 
-export const HeadingSizes: Story = {
+export const DesignHeadingSizes: Story = {
   name: 'Design: Heading Sizes',
   args: {
     children: 'The quick brown fox jumps over the lazy dog',

@@ -1,15 +1,40 @@
 import type { StoryObj } from '@storybook/react-vite';
-import type { ParagraphProps } from '@nl-design-system-candidate/paragraph-react';
+import { Paragraph, type ParagraphProps } from '@nl-design-system-candidate/paragraph-react';
 
 type Story = StoryObj<ParagraphProps>;
 
-export const Paragraph: Story = {
-  name: 'Paragraph',
+export const DesignParagraphShared: Story = {
+  name: 'Design: Paragraph en Lead Paragraph',
   args: {
     children: 'Op brute wĳze ving de schooljuf de quasi-kalme lynx.',
     purpose: undefined,
   },
   parameters: {
+    designStory: true,
+    tokens: {
+      nl: {
+        paragraph: {
+          color: { $value: '' },
+          'font-family': { $value: '' },
+        },
+      },
+    },
+  },
+  render: ({ children }) => (
+    <>
+      <Paragraph purpose="lead">{children}</Paragraph>
+      <Paragraph>{children}</Paragraph>
+    </>
+  ),
+};
+export const DesignParagraph: Story = {
+  name: 'Design: Paragraph',
+  args: {
+    children: 'Op brute wĳze ving de schooljuf de quasi-kalme lynx.',
+    purpose: undefined,
+  },
+  parameters: {
+    designStory: true,
     tokens: {
       nl: {
         paragraph: {
@@ -24,13 +49,14 @@ export const Paragraph: Story = {
   },
 };
 
-export const Lead: Story = {
-  name: 'Paragraph Lead',
+export const DesignLead: Story = {
+  name: 'Design: Paragraph Lead',
   args: {
     children: 'Op brute wĳze ving de schooljuf de quasi-kalme lynx.',
     purpose: 'lead',
   },
   parameters: {
+    designStory: true,
     tokens: {
       nl: {
         paragraph: {

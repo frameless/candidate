@@ -24,5 +24,6 @@ const meta = {
 
 export default meta;
 
-export const Paragraph = Stories.Paragraph;
-export const Lead = Stories.Lead;
+export const DesignParagraphShared = Stories.DesignParagraphShared;
+export const DesignParagraph = Stories.DesignParagraph;
+export const DesignLead = Stories.DesignLead;

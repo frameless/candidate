@@ -103,8 +103,12 @@ export class StoryList extends HTMLElement {
           showTokens
             ? createElement('details', {
                 open: true,
+                title: 'Design Tokens that do not have design stories',
                 style: {
-                  backgroundColor: 'lime',
+                  backgroundColor: 'var(--basis-color-negative-bg-default)',
+                  borderColor: 'var(--basis-color-negative-border-default)',
+                  borderWidth: '2px',
+                  borderStyle: 'solid',
                 },
                 children: [
                   createElement('summary', { children: 'Show Design Tokens' }),

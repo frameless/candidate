@@ -26,6 +26,20 @@ const Icon = () => (
 );
 
 export const Button: Story = {
+  name: 'Button',
+  args: {
+    label: 'Klik mij!',
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: `Een standaard Button`,
+      },
+    },
+  },
+};
+
+export const DesignButton: Story = {
   name: 'Design: Button',
   args: {
     label: 'Klik mij!',
@@ -74,7 +88,7 @@ const ButtonVariants = ({ ...props }: ButtonProps) => (
   </div>
 );
 
-export const ButtonBorders: Story = {
+export const DesignButtonBorders: Story = {
   name: 'Design: Button Borders',
   args: {
     label: 'Klik mij!',
@@ -120,7 +134,7 @@ export const ButtonBorders: Story = {
   },
 };
 
-export const ButtonTypography: Story = {
+export const DesignButtonTypography: Story = {
   name: 'Design: Button Typography',
   args: {
     label: 'Klik mij!',
@@ -200,7 +214,7 @@ const RenderButtonStates = ({ ...props }: ButtonProps) => (
   </>
 );
 
-export const ButtonStates: Story = {
+export const DesignButtonStates: Story = {
   name: 'Design: Button States',
   args: {
     label: 'Klik mij!',
@@ -255,7 +269,7 @@ export const ButtonStates: Story = {
   },
 };
 
-export const PrimaryButtonStates: Story = {
+export const DesignPrimaryButtonStates: Story = {
   name: 'Design: Button States',
   args: {
     label: 'Klik mij!',
@@ -311,7 +325,7 @@ export const PrimaryButtonStates: Story = {
   },
 };
 
-export const SecondaryButtonStates: Story = {
+export const DesignSecondaryButtonStates: Story = {
   name: 'Design: Secondary Button States',
   args: {
     label: 'Klik mij!',
@@ -367,7 +381,7 @@ export const SecondaryButtonStates: Story = {
   },
 };
 
-export const SubtleButtonStates: Story = {
+export const DesignSubtleButtonStates: Story = {
   name: 'Design: Subtle Button States',
   args: {
     label: 'Klik mij!',
@@ -423,7 +437,7 @@ export const SubtleButtonStates: Story = {
   },
 };
 
-export const PrimaryPositiveButtonStates: Story = {
+export const DesignPrimaryPositiveButtonStates: Story = {
   name: 'Design: Primary Positive Button States',
   args: {
     label: 'Klik mij!',
@@ -481,7 +495,7 @@ export const PrimaryPositiveButtonStates: Story = {
     },
   },
 };
-export const SecondaryPositiveButtonStates: Story = {
+export const DesignSecondaryPositiveButtonStates: Story = {
   name: 'Design: Secondary Positive Button States',
   args: {
     label: 'Klik mij!',
@@ -539,7 +553,7 @@ export const SecondaryPositiveButtonStates: Story = {
     },
   },
 };
-export const SubtlePositiveButtonStates: Story = {
+export const DesignSubtlePositiveButtonStates: Story = {
   name: 'Design: Subtle Positive Button States',
   args: {
     label: 'Klik mij!',
@@ -598,7 +612,7 @@ export const SubtlePositiveButtonStates: Story = {
   },
 };
 
-export const PrimaryNegativeButtonStates: Story = {
+export const DesignPrimaryNegativeButtonStates: Story = {
   name: 'Design: Primary Negative Button States',
   args: {
     label: 'Klik mij!',
@@ -656,7 +670,7 @@ export const PrimaryNegativeButtonStates: Story = {
     },
   },
 };
-export const SecondaryNegativeButtonStates: Story = {
+export const DesignSecondaryNegativeButtonStates: Story = {
   name: 'Design: Secondary Negative Button States',
   args: {
     label: 'Klik mij!',
@@ -714,7 +728,7 @@ export const SecondaryNegativeButtonStates: Story = {
     },
   },
 };
-export const SubtleNegativeButtonStates: Story = {
+export const DesignSubtleNegativeButtonStates: Story = {
   name: 'Design: Subtle Negative Button States',
   args: {
     label: 'Klik mij!',
@@ -774,13 +788,12 @@ export const SubtleNegativeButtonStates: Story = {
 };
 
 export const PrimaryButton: Story = {
-  name: 'Design: Primary Button',
+  name: 'Primary Button',
   args: {
     label: 'Primary Button',
     purpose: 'primary',
   },
   parameters: {
-    designStory: true,
     docs: {
       description: {
         story: `Button die een primaire actie aanduid. Een primaire actie is de meest logische keuze in een flow.
@@ -790,6 +803,22 @@ Optioneel kan er een hint mee gegeven worden.
 - \`hint="positive"\` geeft een positief of successvol resultaat aan. Bijvoorbeeld een creatie actie.
 - \`hint="negative"\` geeft een negatief of destructief resultaat aan. Bijvoorbeeld een verwijder actie.
         `,
+      },
+    },
+  },
+};
+
+export const DesignPrimaryButton: Story = {
+  name: 'Design: Primary Button',
+  args: {
+    label: 'Primary Button',
+    purpose: 'primary',
+  },
+  parameters: {
+    designStory: true,
+    docs: {
+      description: {
+        story: `... `,
       },
     },
     tokens: {
@@ -827,6 +856,26 @@ Optioneel kan er een hint mee gegeven worden.
 };
 
 export const SecondaryButton: Story = {
+  name: 'Secondary Button',
+  args: {
+    label: 'Secondary Button',
+    purpose: 'secondary',
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: `Button die een secondare actie aanduid. De secondaire actie wordt gebruikt als alternatief voor de primaire actie.
+Optioneel kan er een hint mee gegeven worden.
+
+- \`hint="positive"\` geeft een positief of successvol resultaat aan. Bijvoorbeeld een creatie actie.
+- \`hint="negative"\` geeft een negatief of destructief resultaat aan. Bijvoorbeeld een verwijder actie.
+        `,
+      },
+    },
+  },
+};
+
+export const DesignSecondaryButton: Story = {
   name: 'Design: Secondary Button',
   args: {
     label: 'Secondary Button',
@@ -879,6 +928,26 @@ Optioneel kan er een hint mee gegeven worden.
 };
 
 export const SubtleButton: Story = {
+  name: 'Subtle Button',
+  args: {
+    label: 'Subtle Button',
+    purpose: 'subtle',
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: `Een subtle button is een button die niet meteen de aandacht trekt.
+Optioneel kan er een hint mee gegeven worden.
+
+- \`hint="positive"\` geeft een positief of successvol resultaat aan. Bijvoorbeeld een creatie actie.
+- \`hint="negative"\` geeft een negatief of destructief resultaat aan. Bijvoorbeeld een verwijder actie.
+        `,
+      },
+    },
+  },
+};
+
+export const DesignSubtleButton: Story = {
   name: 'Design: Subtle Button',
   args: {
     label: 'Subtle Button',
@@ -930,7 +999,7 @@ Optioneel kan er een hint mee gegeven worden.
   },
 };
 
-export const FocusButton: Story = {
+export const DesignFocusButton: Story = {
   name: 'Design: Focus Button',
   args: {
     label: 'Klik mij!',
@@ -967,6 +1036,26 @@ export const FocusButton: Story = {
 };
 
 export const DisabledButton: Story = {
+  name: 'Disabled Button',
+  args: {
+    label: 'Klik mij!',
+    disabled: true,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: `Een button die (tijdelijk) niet bruikbaar is. Hoewel dit patroon vaak gebruikt wordt, kan het verwarrend zijn voor gebruikers.
+
+Om de button focusbaar te houden voor screenreaders, wordt er \`aria-disabled="true"\` op de button geplaatst om aan te geven dat deze disabled is.
+Dat betekend dat de \`onClick\` handlers blijven werken, en dat de developer verantwoordelijk is om een melding te geven waarom de button disabled is.
+De styling komt van de \`.nl-button--disabled\` class.
+`,
+      },
+    },
+  },
+};
+
+export const DesignDisabledButton: Story = {
   name: 'Design: Disabled Button',
   args: {
     label: 'Klik mij!',
@@ -976,12 +1065,7 @@ export const DisabledButton: Story = {
     designStory: true,
     docs: {
       description: {
-        story: `Een button die (tijdelijk) niet bruikbaar is. Hoewel dit patroon vaak gebruikt wordt, kan het verwarrend zijn voor gebruikers.
-
-Om de button focusbaar te houden voor screenreaders, wordt er \`aria-disabled="true"\` op de button geplaatst om aan te geven dat deze disabled is.
-Dat betekend dat de \`onClick\` handlers blijven werken, en dat de developer verantwoordelijk is om een melding te geven waarom de button disabled is.
-De styling komt van de \`.nl-button--disabled\` class.
-`,
+        story: `...`,
       },
     },
     tokens: {
@@ -1006,7 +1090,7 @@ De styling komt van de \`.nl-button--disabled\` class.
   },
 };
 
-export const PrimaryDisabledButton: Story = {
+export const DesignPrimaryDisabledButton: Story = {
   name: 'Design: Primary Disabled Button',
   args: {
     label: 'Ingedrukt',
@@ -1043,7 +1127,7 @@ export const PrimaryDisabledButton: Story = {
   },
 };
 
-export const SecondaryDisabledButton: Story = {
+export const DesignSecondaryDisabledButton: Story = {
   name: 'Design: Secondary Disabled Button',
   args: {
     label: 'Ingedrukt',
@@ -1080,7 +1164,7 @@ export const SecondaryDisabledButton: Story = {
   },
 };
 
-export const SubtleDisabledButton: Story = {
+export const DesignSubtleDisabledButton: Story = {
   name: 'Design: Subtle Disabled Button',
   args: {
     label: 'Ingedrukt',
@@ -2167,7 +2251,7 @@ export const VolleBreedte: Story = {
   },
 };
 
-export const ButtonSize: Story = {
+export const DesignButtonSize: Story = {
   name: 'Design: Button Size',
   args: {
     label: 'Voorbeeld',

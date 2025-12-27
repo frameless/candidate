@@ -21,3 +21,8 @@ export default meta;
 export const NumberBadge = Stories.NumberBadge;
 export const NumberBadgeMetValue = Stories.NumberBadgeMetValue;
 export const NumberBadgeMetLabel = Stories.NumberBadgeMetLabel;
+
+export const DesignNumberBadgeColor = Stories.DesignNumberBadgeColor;
+export const DesignNumberBadgeSize = Stories.DesignNumberBadgeSize;
+export const DesignNumberBadgeBorder = Stories.DesignNumberBadgeBorder;
+export const DesignNumberBadgeTypography = Stories.DesignNumberBadgeTypography;

@@ -560,7 +560,10 @@ customElements.define(
                   createElement('dt', {
                     children: createElement('label', {
                       htmlFor: id,
-                      children: id,
+                      children: createElement('code', {
+                        htmlFor: id,
+                        children: id,
+                      }),
                     }),
                   }),
                   createElement('dd', {

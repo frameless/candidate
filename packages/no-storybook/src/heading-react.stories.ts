@@ -20,11 +20,11 @@ export default meta;
 
 // export const Heading1MetMeerdereRegelsTekst = Stories.Heading1MetMeerdereRegelsTekst;
 
-export const HeadingSizes = Stories.HeadingSizes;
+export const DesignHeadingSizes = Stories.DesignHeadingSizes;
 
 type Story = StoryObj<typeof meta>;
 
-export const Heading1: Story = {
+export const DesignHeading1: Story = {
   name: 'Design: Heading 1',
   args: {
     children: 'The quick brown fox jumps over the lazy dog',
@@ -50,7 +50,7 @@ export const Heading1: Story = {
   },
 };
 
-export const Heading2: Story = {
+export const DesignHeading2: Story = {
   name: 'Design: Heading 2',
   args: {
     children: 'The quick brown fox jumps over the lazy dog',
@@ -76,7 +76,7 @@ export const Heading2: Story = {
   },
 };
 
-export const Heading3: Story = {
+export const DesignHeading3: Story = {
   name: 'Design: Heading 3',
   args: {
     children: 'The quick brown fox jumps over the lazy dog',
@@ -102,7 +102,7 @@ export const Heading3: Story = {
   },
 };
 
-export const Heading4: Story = {
+export const DesignHeading4: Story = {
   name: 'Design: Heading 4',
   args: {
     children: 'The quick brown fox jumps over the lazy dog',
@@ -128,7 +128,7 @@ export const Heading4: Story = {
   },
 };
 
-export const Heading5: Story = {
+export const DesignHeading5: Story = {
   name: 'Design: Heading 5',
   args: {
     children: 'The quick brown fox jumps over the lazy dog',
@@ -154,7 +154,7 @@ export const Heading5: Story = {
   },
 };
 
-export const Heading6: Story = {
+export const DesignHeading6: Story = {
   name: 'Design: Heading 6',
   args: {
     children: 'The quick brown fox jumps over the lazy dog',

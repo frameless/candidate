@@ -13,6 +13,9 @@ export const Mark: Story = {
 
 export const MarkInEenParagraph: Story = {
   name: 'Mark in een Paragraph',
+  args: {
+    children: 'Gemarkeerde tekst',
+  },
   render: (_props, { component }) => {
     const Mark = component as ComponentType<MarkProps>;
     return (
@@ -22,6 +25,28 @@ export const MarkInEenParagraph: Story = {
     );
   },
   parameters: {
+    tokens: {
+      nl: {
+        mark: {
+          'background-color': {
+            $value: '',
+          },
+          color: {
+            $value: '',
+          },
+        },
+      },
+    },
+  },
+};
+
+export const DesignMark: Story = {
+  name: 'Design: Mark',
+  args: {
+    children: 'Gemarkeerde tekst',
+  },
+  parameters: {
+    designStory: true,
     tokens: {
       nl: {
         mark: {

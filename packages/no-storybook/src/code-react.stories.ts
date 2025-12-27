@@ -23,3 +23,5 @@ const meta = {
 export default meta;
 
 export const Code = Stories.Code;
+export const DesignCodeTypography = Stories.DesignCodeTypography;
+export const DesignCodeColor = Stories.DesignCodeColor;

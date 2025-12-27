@@ -11,7 +11,7 @@ export const SkipLink: Story = {
   },
 };
 
-export const SkipLinkTypography: Story = {
+export const DesignSkipLinkTypography: Story = {
   name: 'Design: Skip Link Typography',
   args: {
     children: 'Naar de inhoud',
@@ -44,7 +44,7 @@ export const SkipLinkTypography: Story = {
   },
 };
 
-export const SkipLinkSize: Story = {
+export const DesignSkipLinkSize: Story = {
   name: 'Design: Skip Link Size',
   args: {
     children: 'Naar de inhoud',
@@ -77,7 +77,7 @@ export const SkipLinkSize: Story = {
   },
 };
 
-export const SkipLinkFocus: Story = {
+export const DesignSkipLinkFocus: Story = {
   name: 'Design: Skip Link Focus',
   args: {
     children: 'Naar de inhoud',

@@ -18,4 +18,7 @@ const meta = {
 
 export default meta;
 
-export const ColorSample = Stories.ColorSample;
+export const ColorSample = Stories.DefaultColorSample;
+export const DesignColorSampleColor = Stories.DesignColorSampleColor;
+export const DesignColorSampleBorder = Stories.DesignColorSampleBorder;
+export const DesignColorSampleSize = Stories.DesignColorSampleSize;

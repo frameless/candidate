@@ -15,11 +15,13 @@
  * 5. :focus-visible (todo)
  */
 
-.nl-link:any-link:hover {
+.nl-link:any-link:hover,
+.nl-link.nl-link--hover:any-link {
   @include mixin.nl-link--hover;
 }
 
-.nl-link:any-link:active {
+.nl-link:any-link:active,
+.nl-link.nl-link--active:any-link {
   @include mixin.nl-link--active;
 }
 

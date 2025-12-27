@@ -22,3 +22,4 @@ export default meta;
 
 export const Mark = Stories.Mark;
 export const MarkInEenParagraph = Stories.MarkInEenParagraph;
+export const DesignMark = Stories.DesignMark;

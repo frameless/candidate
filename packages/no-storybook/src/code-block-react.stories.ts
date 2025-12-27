@@ -19,3 +19,8 @@ const meta = {
 export default meta;
 
 export const CodeBlock = Stories.CodeBlock;
+
+export const DesignCodeBlockBorder = Stories.DesignCodeBlockBorder;
+export const DesignCodeBlockColor = Stories.DesignCodeBlockColor;
+export const DesignCodeBlockSize = Stories.DesignCodeBlockSize;
+export const DesignCodeBlockTypography = Stories.DesignCodeBlockTypography;

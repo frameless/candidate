@@ -36,3 +36,7 @@ export default meta;
 
 export const Link = Stories.Link;
 export const LinkInEenParagraph = Stories.LinkInEenParagraph;
+
+export const DesignLinkStates = Stories.DesignLinkStates;
+export const DesignLinkDisabled = Stories.DesignLinkDisabled;
+export const DesignLinkCurrent = Stories.DesignLinkCurrent;

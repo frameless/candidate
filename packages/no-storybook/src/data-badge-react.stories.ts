@@ -21,3 +21,8 @@ export default meta;
 export const DataBadge = Stories.DataBadge;
 export const DataBadgeMetValue = Stories.DataBadgeMetValue;
 export const DataBadgeMetDateTime = Stories.DataBadgeMetDateTime;
+
+export const DesignDataBadgeSize = Stories.DesignDataBadgeSize;
+export const DesignDataBadgeColor = Stories.DesignDataBadgeColor;
+export const DesignDataBadgeTypography = Stories.DesignDataBadgeTypography;
+export const DesignDataBadgeBorder = Stories.DesignDataBadgeBorder;
