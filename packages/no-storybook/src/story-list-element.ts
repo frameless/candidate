@@ -4,7 +4,7 @@ import type { ArgTypes, Meta, StoryObj } from '@storybook/react-vite';
 import { ComponentType } from 'react';
 import themeJSON from '@nl-design-system-unstable/voorbeeld-design-tokens/dist/tokens.json';
 import { JsxSourceInterface } from './jsx-source-element';
-import { DesignTokensTableInterface, excludeTokens, TokenNode } from './design-tokens-table-element';
+import { DesignTokensTableInterface, excludeTokens, getTokenPaths, TokenNode } from './design-tokens-table-element';
 import merge from 'lodash-es/merge';
 
 type StoriesFile = {
@@ -80,9 +80,14 @@ export class StoryList extends HTMLElement {
     const showAllTokens = false;
     const otherTokens = excludeTokens(this.tokens, storyTokens);
 
+    // TODO: There must be a faster way than this!
+    const isEmptyTokenTree = (tokens: TokenNode) => getTokenPaths(tokens).length === 0;
+
+    const showTokens = !showAllTokens && isEmptyTokenTree(otherTokens) ? false : !!this.tokens;
     // Render new version
     render(
-      createElement('div', {
+      createElement('section', {
+        className: 'docs-story-file',
         children: [
           createElement('h1', { children: this.storyTitle }),
 
@@ -95,25 +100,33 @@ export class StoryList extends HTMLElement {
               }),
             ],
           }),
-          this.tokens
+          showTokens
             ? createElement('details', {
                 open: true,
+                style: {
+                  backgroundColor: 'lime',
+                },
                 children: [
                   createElement('summary', { children: 'Show Design Tokens' }),
                   createElement('pre', {
                     children: createElement('code', {
-                      children: createElement('code-block', {
-                        id: cssId,
-                        language: 'css',
-                        children: `.example-theme{}`,
-                      }),
-                    }),
-                  }),
-                  createElement('copy-action', {
-                    query: `#${cssId}`,
-                    children: createElement('button', {
-                      className: 'nl-button nl-button--secondary',
-                      children: 'Copy CSS',
+                      children: [
+                        createElement('copy-action', {
+                          query: `#${cssId}`,
+                          children: createElement('button', {
+                            style: {
+                              float: 'inline-end',
+                            },
+                            className: 'nl-button nl-button--secondary',
+                            children: 'Copy CSS',
+                          }),
+                        }),
+                        createElement('code-block', {
+                          id: cssId,
+                          language: 'css',
+                          children: `.example-theme{}`,
+                        }),
+                      ],
                     }),
                   }),
                   createElement('design-tokens-table', {
@@ -136,9 +149,14 @@ export class StoryList extends HTMLElement {
               const canvasId = `story-${storyId}-${index}`;
               const jsxId = `story-jsx-${storyId}-${index}`;
               const htmlId = `story-html-${storyId}-${index}`;
+              const designStory = storyObj.parameters && storyObj.parameters['designStory'] === true;
+              const showHtml = !designStory;
+              const showJsx = !designStory;
+              const showProperties = !designStory;
 
-              return createElement('div', {
+              return createElement('section', {
                 key: headingId,
+                className: 'docs-story',
                 children: [
                   createElement('h2', {
                     id: headingId,
@@ -148,12 +166,20 @@ export class StoryList extends HTMLElement {
                   //   id: canvasId,
                   //   children: renderComponent(storyObj),
                   // }),
+                  storyObj.parameters &&
+                  storyObj.parameters['docs'] &&
+                  storyObj.parameters['docs'].description &&
+                  typeof storyObj.parameters['docs'].description.story === 'string'
+                    ? createElement('markdown-html', {
+                        value: storyObj.parameters['docs'].description.story,
+                      })
+                    : null,
                   createElement('story-canvas', {
                     children: createElement('story-react', {
                       id: canvasId,
                       args: storyObj.args,
                       defaultArgs,
-                      Component,
+                      Component: storyObj.render || Component,
                       jsxChange: (evt: CustomEvent) => {
                         const target = document.getElementById(jsxId);
                         if (isJsxSource(target)) {
@@ -177,93 +203,116 @@ export class StoryList extends HTMLElement {
                               }
                             },
                           }),
+                          // TODO: Only show code snippet when `desing-tokens-table` has some
+                          // modified tokens.
                           createElement('pre', {
                             children: createElement('code', {
-                              children: createElement('code-block', {
-                                id: cssId,
-                                language: 'css',
-                                children: `.example-theme{}`,
-                              }),
-                            }),
-                          }),
-                          createElement('copy-action', {
-                            query: `#${cssId}`,
-                            children: createElement('button', {
-                              className: 'nl-button nl-button--secondary',
-                              children: 'Copy CSS',
+                              children: [
+                                createElement('copy-action', {
+                                  query: `#${cssId}`,
+                                  children: createElement('button', {
+                                    style: {
+                                      float: 'inline-end',
+                                    },
+                                    className: 'nl-button nl-button--secondary',
+                                    children: 'Copy CSS',
+                                  }),
+                                }),
+                                createElement('code-block', {
+                                  id: cssId,
+                                  language: 'css',
+                                  children: `.example-theme{}`,
+                                }),
+                              ],
                             }),
                           }),
                         ],
                       })
                     : null,
-                  createElement('details', {
-                    open: true,
-                    children: [
-                      createElement('summary', { children: 'Show HTML' }),
-                      createElement('pre', {
-                        id: htmlId,
-                        children: createElement('code', {
-                          children: createElement('code-block', {
-                            language: 'html',
-                            children: createElement('inner-html', {
-                              query: `#${canvasId}`,
+                  showHtml
+                    ? createElement('details', {
+                        open: true,
+                        children: [
+                          createElement('summary', { children: 'Show HTML' }),
+                          createElement('pre', {
+                            id: htmlId,
+                            children: createElement('code', {
+                              children: [
+                                createElement('copy-action', {
+                                  query: `#${htmlId}`,
+                                  children: createElement('button', {
+                                    style: {
+                                      float: 'inline-end',
+                                    },
+                                    className: 'nl-button nl-button--secondary',
+                                    children: 'Copy HTML',
+                                  }),
+                                }),
+                                createElement('code-block', {
+                                  language: 'html',
+                                  children: createElement('inner-html', {
+                                    query: `#${canvasId}`,
+                                  }),
+                                }),
+                              ],
                             }),
                           }),
-                        }),
-                      }),
-                      createElement('copy-action', {
-                        query: `#${htmlId}`,
-                        children: createElement('button', {
-                          className: 'nl-button nl-button--secondary',
-                          children: 'Copy HTML',
-                        }),
-                      }),
-                    ],
-                  }),
-                  createElement('details', {
-                    open: true,
-                    children: [
-                      createElement('summary', { children: 'Show JSX' }),
-                      createElement('pre', {
-                        children: createElement('code', {
-                          children: createElement('code-block', {
-                            language: 'jsx',
-                            children: createElement('jsx-source', {
-                              id: jsxId,
-                              children: null,
-                              jsx: Component
-                                ? createElement(Component, {
-                                    ...storyObj.args,
-                                    ...defaultArgs,
-                                  })
-                                : null,
+                        ],
+                      })
+                    : null,
+                  showJsx
+                    ? createElement('details', {
+                        open: true,
+                        children: [
+                          createElement('summary', { children: 'Show JSX' }),
+                          createElement('pre', {
+                            children: createElement('code', {
+                              children: [
+                                createElement('copy-action', {
+                                  query: `#${jsxId}`,
+                                  children: createElement('button', {
+                                    style: {
+                                      float: 'inline-end',
+                                    },
+                                    className: 'nl-button nl-button--secondary',
+                                    children: 'Copy JSX',
+                                  }),
+                                }),
+                                createElement('code-block', {
+                                  language: 'jsx',
+                                  children: createElement('jsx-source', {
+                                    id: jsxId,
+                                    children: null,
+                                    jsx: Component
+                                      ? createElement(Component, {
+                                          ...storyObj.args,
+                                          ...defaultArgs,
+                                        })
+                                      : null,
+                                  }),
+                                }),
+                              ],
                             }),
                           }),
-                        }),
-                      }),
-                      createElement('copy-action', {
-                        query: `#${jsxId}`,
-                        children: createElement('button', {
-                          className: 'nl-button nl-button--secondary',
-                          children: 'Copy JSX',
-                        }),
-                      }),
-                    ],
-                  }),
-                  createElement('details', {
-                    open: false,
-                    children: [
-                      createElement('summary', { children: 'Properties' }),
-                      createElement('args-table', {
-                        target: canvasId,
-                        argTypes: this.argTypes,
-                        values: {
-                          ...storyObj.args,
-                          ...defaultArgs,
-                        },
-                      }),
-                    ],
-                  }),
+                        ],
+                      })
+                    : null,
+                  showProperties
+                    ? createElement('details', {
+                        open: false,
+                        children: [
+                          createElement('summary', { children: 'Properties' }),
+                          createElement('args-table', {
+                            target: canvasId,
+                            argTypes: this.argTypes,
+                            values: {
+                              ...storyObj.args,
+                              ...defaultArgs,
+                            },
+                          }),
+                        ],
+                      })
+                    : null,
                 ],
               });
             }),

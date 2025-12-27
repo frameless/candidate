@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 // import packageJSON from '../../components-react/heading-react/package.json';
 import { Heading as HeadingComponent } from '@nl-design-system-candidate/heading-react';
 import headingMeta from '@nl-design-system-candidate/heading-docs/stories/heading.react.meta';
-// import * as Stories from '@nl-design-system-candidate/heading-docs/stories/heading.stories';
+import * as Stories from '@nl-design-system-candidate/heading-docs/stories/heading.stories';
 // import { getExternalLinks } from '../src/helpers/external-links';
 import tokens from '@nl-design-system-candidate/heading-tokens';
 
@@ -20,15 +20,18 @@ export default meta;
 
 // export const Heading1MetMeerdereRegelsTekst = Stories.Heading1MetMeerdereRegelsTekst;
 
+export const HeadingSizes = Stories.HeadingSizes;
+
 type Story = StoryObj<typeof meta>;
 
 export const Heading1: Story = {
-  name: 'Heading 1',
+  name: 'Design: Heading 1',
   args: {
     children: 'The quick brown fox jumps over the lazy dog',
     level: 1,
   },
   parameters: {
+    designStory: true,
     tokens: {
       nl: {
         heading: {
@@ -48,12 +51,13 @@ export const Heading1: Story = {
 };
 
 export const Heading2: Story = {
-  name: 'Heading 2',
+  name: 'Design: Heading 2',
   args: {
     children: 'The quick brown fox jumps over the lazy dog',
     level: 2,
   },
   parameters: {
+    designStory: true,
     tokens: {
       nl: {
         heading: {
@@ -73,12 +77,13 @@ export const Heading2: Story = {
 };
 
 export const Heading3: Story = {
-  name: 'Heading 3',
+  name: 'Design: Heading 3',
   args: {
     children: 'The quick brown fox jumps over the lazy dog',
     level: 3,
   },
   parameters: {
+    designStory: true,
     tokens: {
       nl: {
         heading: {
@@ -98,12 +103,13 @@ export const Heading3: Story = {
 };
 
 export const Heading4: Story = {
-  name: 'Heading 4',
+  name: 'Design: Heading 4',
   args: {
     children: 'The quick brown fox jumps over the lazy dog',
     level: 4,
   },
   parameters: {
+    designStory: true,
     tokens: {
       nl: {
         heading: {
@@ -123,12 +129,13 @@ export const Heading4: Story = {
 };
 
 export const Heading5: Story = {
-  name: 'Heading 5',
+  name: 'Design: Heading 5',
   args: {
     children: 'The quick brown fox jumps over the lazy dog',
     level: 5,
   },
   parameters: {
+    designStory: true,
     tokens: {
       nl: {
         heading: {
@@ -148,12 +155,13 @@ export const Heading5: Story = {
 };
 
 export const Heading6: Story = {
-  name: 'Heading 6',
+  name: 'Design: Heading 6',
   args: {
     children: 'The quick brown fox jumps over the lazy dog',
     level: 6,
   },
   parameters: {
+    designStory: true,
     tokens: {
       nl: {
         heading: {

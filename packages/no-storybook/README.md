@@ -104,4 +104,6 @@ Als developer wil ik de button precies zo groot maken als de icon:
 
 Inspiratie: https://primeui.store/designer
 
+- Als ik meerdere kleuren kan instellen (bijvoorbeeld: `background-color`, `color` en `border-color`) dan wil ik de kleuren kunnen zien en herkennen in het design token overzicht, zodat ik geen tekst hoef te lezen om te weten welke ik aan moet passen.
+
 ### Component token user stories

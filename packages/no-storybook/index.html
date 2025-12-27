@@ -56,6 +56,21 @@
       <footer class="utrecht-page-footer">
         <div class="utrecht-page-footer__content">Licentie: EUPL-1.2</div>
       </footer>
+      <style>
+        .docs-story-file + .docs-story-file,
+        story-list + story-list > .docs-story-file:only-child {
+          margin-block-start: 16rem;
+        }
+        .docs-story + .docs-story {
+          margin-block-start: 10rem;
+        }
+        pre::after {
+          /* Stretch the code block to fit the the "Copy code" buttons. */
+          content: '';
+          clear: both;
+          display: table;
+        }
+      </style>
     </div>
   </body>
 </html>

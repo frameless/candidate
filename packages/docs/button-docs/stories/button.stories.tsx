@@ -26,14 +26,191 @@ const Icon = () => (
 );
 
 export const Button: Story = {
-  name: 'Button',
+  name: 'Design: Button',
   args: {
     label: 'Klik mij!',
   },
   parameters: {
+    designStory: true,
     docs: {
       description: {
         story: `Een standaard Button`,
+      },
+    },
+    tokens: {
+      nl: {
+        button: {
+          default: {
+            'border-width': {
+              $value: '',
+            },
+            'font-size': {
+              $value: '',
+            },
+            'font-weight': {
+              $value: '',
+            },
+            'line-height': {
+              $value: '',
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+const ButtonVariants = ({ ...props }: ButtonProps) => (
+  // TODO: Replace with Action Group
+  <div style={{ display: 'flex', flexDirection: 'row', columnGap: '1ch' }}>
+    <ButtonComponent {...props} iconOnly />
+    <ButtonComponent {...props} />
+    <ButtonComponent {...props} purpose="primary" iconOnly />
+    <ButtonComponent {...props} purpose="primary" />
+    <ButtonComponent {...props} purpose="secondary" iconOnly />
+    <ButtonComponent {...props} purpose="secondary" />
+    <ButtonComponent {...props} purpose="subtle" iconOnly />
+    <ButtonComponent {...props} purpose="subtle" />
+  </div>
+);
+
+export const ButtonBorders: Story = {
+  name: 'Design: Button Borders',
+  args: {
+    label: 'Klik mij!',
+    iconStart: '❤️',
+  },
+  render: ButtonVariants,
+  parameters: {
+    designStory: true,
+    docs: {
+      description: {
+        story: `Er is 1 instelling voor de border-radius van alle soorten buttons.`,
+      },
+    },
+    tokens: {
+      nl: {
+        button: {
+          'border-radius': {
+            $value: '',
+          },
+          default: {
+            'border-width': {
+              $value: '',
+            },
+          },
+          primary: {
+            'border-width': {
+              $value: '',
+            },
+          },
+          secondary: {
+            'border-width': {
+              $value: '',
+            },
+          },
+          subtle: {
+            'border-width': {
+              $value: '',
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const ButtonTypography: Story = {
+  name: 'Design: Button Typography',
+  args: {
+    label: 'Klik mij!',
+    iconStart: '❤️',
+  },
+  render: ButtonVariants,
+  parameters: {
+    designStory: true,
+    docs: {
+      description: {
+        story: `Buttons op 'n rijtje.`,
+      },
+    },
+    tokens: {
+      nl: {
+        button: {
+          'font-family': {
+            $value: '',
+          },
+          default: {
+            'font-size': {
+              $value: '',
+            },
+            'font-weight': {
+              $value: '',
+            },
+            'line-height': {
+              $value: '',
+            },
+          },
+          primary: {
+            'font-size': {
+              $value: '',
+            },
+            'font-weight': {
+              $value: '',
+            },
+            'line-height': {
+              $value: '',
+            },
+          },
+          secondary: {
+            'font-size': {
+              $value: '',
+            },
+            'font-weight': {
+              $value: '',
+            },
+            'line-height': {
+              $value: '',
+            },
+          },
+          subtle: {
+            'font-size': {
+              $value: '',
+            },
+            'font-weight': {
+              $value: '',
+            },
+            'line-height': {
+              $value: '',
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+const RenderButtonStates = ({ ...props }: ButtonProps) => (
+  <>
+    <ButtonComponent {...props} />
+    {' → hover → '}
+    <ButtonComponent {...props} className="nl-button--hover" />
+    {' → active → '}
+    <ButtonComponent {...props} className="nl-button--active" />
+  </>
+);
+
+export const ButtonStates: Story = {
+  name: 'Design: Button States',
+  args: {
+    label: 'Klik mij!',
+  },
+  render: RenderButtonStates,
+  parameters: {
+    designStory: true,
+    docs: {
+      description: {
+        story: `Een standaard Button, met hover en active states.`,
       },
     },
     tokens: {
@@ -46,19 +223,7 @@ export const Button: Story = {
             'border-color': {
               $value: '',
             },
-            'border-width': {
-              $value: '',
-            },
             color: {
-              $value: '',
-            },
-            'font-size': {
-              $value: '',
-            },
-            'font-weight': {
-              $value: '',
-            },
-            'line-height': {
               $value: '',
             },
             active: {
@@ -90,22 +255,18 @@ export const Button: Story = {
   },
 };
 
-export const PrimaryButton: Story = {
-  name: 'Primary Button',
+export const PrimaryButtonStates: Story = {
+  name: 'Design: Button States',
   args: {
-    label: 'Primary Button',
+    label: 'Klik mij!',
     purpose: 'primary',
   },
+  render: RenderButtonStates,
   parameters: {
+    designStory: true,
     docs: {
       description: {
-        story: `Button die een primaire actie aanduid. Een primaire actie is de meest logische keuze in een flow.
-Wees spaarzaam met een primary button. Te veel primary buttons in beeld kan verwarrend zijn voor de gebruiker.
-Optioneel kan er een hint mee gegeven worden.
-
-- \`hint="positive"\` geeft een positief of successvol resultaat aan. Bijvoorbeeld een creatie actie.
-- \`hint="negative"\` geeft een negatief of destructief resultaat aan. Bijvoorbeeld een verwijder actie.
-        `,
+        story: `Een Primary Button, met hover en active states.`,
       },
     },
     tokens: {
@@ -118,19 +279,7 @@ Optioneel kan er een hint mee gegeven worden.
             'border-color': {
               $value: '',
             },
-            'border-width': {
-              $value: '',
-            },
             color: {
-              $value: '',
-            },
-            'font-size': {
-              $value: '',
-            },
-            'font-weight': {
-              $value: '',
-            },
-            'line-height': {
               $value: '',
             },
             active: {
@@ -154,6 +303,510 @@ Optioneel kan er een hint mee gegeven worden.
               color: {
                 $value: '',
               },
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const SecondaryButtonStates: Story = {
+  name: 'Design: Secondary Button States',
+  args: {
+    label: 'Klik mij!',
+    purpose: 'secondary',
+  },
+  render: RenderButtonStates,
+  parameters: {
+    designStory: true,
+    docs: {
+      description: {
+        story: `Een Secondary Button, met hover en active states.`,
+      },
+    },
+    tokens: {
+      nl: {
+        button: {
+          secondary: {
+            'background-color': {
+              $value: '',
+            },
+            'border-color': {
+              $value: '',
+            },
+            color: {
+              $value: '',
+            },
+            active: {
+              'background-color': {
+                $value: '',
+              },
+              'border-color': {
+                $value: '',
+              },
+              color: {
+                $value: '',
+              },
+            },
+            hover: {
+              'background-color': {
+                $value: '',
+              },
+              'border-color': {
+                $value: '',
+              },
+              color: {
+                $value: '',
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const SubtleButtonStates: Story = {
+  name: 'Design: Subtle Button States',
+  args: {
+    label: 'Klik mij!',
+    purpose: 'subtle',
+  },
+  render: RenderButtonStates,
+  parameters: {
+    designStory: true,
+    docs: {
+      description: {
+        story: `Een Subtle Button, met hover en active states.`,
+      },
+    },
+    tokens: {
+      nl: {
+        button: {
+          subtle: {
+            'background-color': {
+              $value: '',
+            },
+            'border-color': {
+              $value: '',
+            },
+            color: {
+              $value: '',
+            },
+            active: {
+              'background-color': {
+                $value: '',
+              },
+              'border-color': {
+                $value: '',
+              },
+              color: {
+                $value: '',
+              },
+            },
+            hover: {
+              'background-color': {
+                $value: '',
+              },
+              'border-color': {
+                $value: '',
+              },
+              color: {
+                $value: '',
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const PrimaryPositiveButtonStates: Story = {
+  name: 'Design: Primary Positive Button States',
+  args: {
+    label: 'Klik mij!',
+    purpose: 'primary',
+    hint: 'positive',
+  },
+  render: RenderButtonStates,
+  parameters: {
+    designStory: true,
+    docs: {
+      description: {
+        story: `Een Primary Positive Button, met hover en active states.`,
+      },
+    },
+    tokens: {
+      nl: {
+        button: {
+          primary: {
+            positive: {
+              'background-color': {
+                $value: '',
+              },
+              'border-color': {
+                $value: '',
+              },
+              color: {
+                $value: '',
+              },
+              active: {
+                'background-color': {
+                  $value: '',
+                },
+                'border-color': {
+                  $value: '',
+                },
+                color: {
+                  $value: '',
+                },
+              },
+              hover: {
+                'background-color': {
+                  $value: '',
+                },
+                'border-color': {
+                  $value: '',
+                },
+                color: {
+                  $value: '',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+};
+export const SecondaryPositiveButtonStates: Story = {
+  name: 'Design: Secondary Positive Button States',
+  args: {
+    label: 'Klik mij!',
+    purpose: 'secondary',
+    hint: 'positive',
+  },
+  render: RenderButtonStates,
+  parameters: {
+    designStory: true,
+    docs: {
+      description: {
+        story: `Een Secondary Positive Button, met hover en active states.`,
+      },
+    },
+    tokens: {
+      nl: {
+        button: {
+          secondary: {
+            positive: {
+              'background-color': {
+                $value: '',
+              },
+              'border-color': {
+                $value: '',
+              },
+              color: {
+                $value: '',
+              },
+              active: {
+                'background-color': {
+                  $value: '',
+                },
+                'border-color': {
+                  $value: '',
+                },
+                color: {
+                  $value: '',
+                },
+              },
+              hover: {
+                'background-color': {
+                  $value: '',
+                },
+                'border-color': {
+                  $value: '',
+                },
+                color: {
+                  $value: '',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+};
+export const SubtlePositiveButtonStates: Story = {
+  name: 'Design: Subtle Positive Button States',
+  args: {
+    label: 'Klik mij!',
+    purpose: 'subtle',
+    hint: 'positive',
+  },
+  render: RenderButtonStates,
+  parameters: {
+    designStory: true,
+    docs: {
+      description: {
+        story: `Een Subtle Positive Button, met hover en active states.`,
+      },
+    },
+    tokens: {
+      nl: {
+        button: {
+          subtle: {
+            positive: {
+              'background-color': {
+                $value: '',
+              },
+              'border-color': {
+                $value: '',
+              },
+              color: {
+                $value: '',
+              },
+              active: {
+                'background-color': {
+                  $value: '',
+                },
+                'border-color': {
+                  $value: '',
+                },
+                color: {
+                  $value: '',
+                },
+              },
+              hover: {
+                'background-color': {
+                  $value: '',
+                },
+                'border-color': {
+                  $value: '',
+                },
+                color: {
+                  $value: '',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const PrimaryNegativeButtonStates: Story = {
+  name: 'Design: Primary Negative Button States',
+  args: {
+    label: 'Klik mij!',
+    purpose: 'primary',
+    hint: 'negative',
+  },
+  render: RenderButtonStates,
+  parameters: {
+    designStory: true,
+    docs: {
+      description: {
+        story: `Een Primary Negative Button, met hover en active states.`,
+      },
+    },
+    tokens: {
+      nl: {
+        button: {
+          primary: {
+            negative: {
+              'background-color': {
+                $value: '',
+              },
+              'border-color': {
+                $value: '',
+              },
+              color: {
+                $value: '',
+              },
+              active: {
+                'background-color': {
+                  $value: '',
+                },
+                'border-color': {
+                  $value: '',
+                },
+                color: {
+                  $value: '',
+                },
+              },
+              hover: {
+                'background-color': {
+                  $value: '',
+                },
+                'border-color': {
+                  $value: '',
+                },
+                color: {
+                  $value: '',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+};
+export const SecondaryNegativeButtonStates: Story = {
+  name: 'Design: Secondary Negative Button States',
+  args: {
+    label: 'Klik mij!',
+    purpose: 'secondary',
+    hint: 'negative',
+  },
+  render: RenderButtonStates,
+  parameters: {
+    designStory: true,
+    docs: {
+      description: {
+        story: `Een Secondary Negative Button, met hover en active states.`,
+      },
+    },
+    tokens: {
+      nl: {
+        button: {
+          secondary: {
+            negative: {
+              'background-color': {
+                $value: '',
+              },
+              'border-color': {
+                $value: '',
+              },
+              color: {
+                $value: '',
+              },
+              active: {
+                'background-color': {
+                  $value: '',
+                },
+                'border-color': {
+                  $value: '',
+                },
+                color: {
+                  $value: '',
+                },
+              },
+              hover: {
+                'background-color': {
+                  $value: '',
+                },
+                'border-color': {
+                  $value: '',
+                },
+                color: {
+                  $value: '',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+};
+export const SubtleNegativeButtonStates: Story = {
+  name: 'Design: Subtle Negative Button States',
+  args: {
+    label: 'Klik mij!',
+    purpose: 'subtle',
+    hint: 'negative',
+  },
+  render: RenderButtonStates,
+  parameters: {
+    designStory: true,
+    docs: {
+      description: {
+        story: `Een Subtle Negative Button, met hover en active states.`,
+      },
+    },
+    tokens: {
+      nl: {
+        button: {
+          subtle: {
+            negative: {
+              'background-color': {
+                $value: '',
+              },
+              'border-color': {
+                $value: '',
+              },
+              color: {
+                $value: '',
+              },
+              active: {
+                'background-color': {
+                  $value: '',
+                },
+                'border-color': {
+                  $value: '',
+                },
+                color: {
+                  $value: '',
+                },
+              },
+              hover: {
+                'background-color': {
+                  $value: '',
+                },
+                'border-color': {
+                  $value: '',
+                },
+                color: {
+                  $value: '',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const PrimaryButton: Story = {
+  name: 'Design: Primary Button',
+  args: {
+    label: 'Primary Button',
+    purpose: 'primary',
+  },
+  parameters: {
+    designStory: true,
+    docs: {
+      description: {
+        story: `Button die een primaire actie aanduid. Een primaire actie is de meest logische keuze in een flow.
+Wees spaarzaam met een primary button. Te veel primary buttons in beeld kan verwarrend zijn voor de gebruiker.
+Optioneel kan er een hint mee gegeven worden.
+
+- \`hint="positive"\` geeft een positief of successvol resultaat aan. Bijvoorbeeld een creatie actie.
+- \`hint="negative"\` geeft een negatief of destructief resultaat aan. Bijvoorbeeld een verwijder actie.
+        `,
+      },
+    },
+    tokens: {
+      nl: {
+        button: {
+          primary: {
+            'border-width': {
+              $value: '',
+            },
+            'font-size': {
+              $value: '',
+            },
+            'font-weight': {
+              $value: '',
+            },
+            'line-height': {
+              $value: '',
             },
           },
         },
@@ -174,12 +827,13 @@ Optioneel kan er een hint mee gegeven worden.
 };
 
 export const SecondaryButton: Story = {
-  name: 'Secondary Button',
+  name: 'Design: Secondary Button',
   args: {
     label: 'Secondary Button',
     purpose: 'secondary',
   },
   parameters: {
+    designStory: true,
     docs: {
       description: {
         story: `Button die een secondare actie aanduid. De secondaire actie wordt gebruikt als alternatief voor de primaire actie.
@@ -194,16 +848,7 @@ Optioneel kan er een hint mee gegeven worden.
       nl: {
         button: {
           secondary: {
-            'background-color': {
-              $value: '',
-            },
-            'border-color': {
-              $value: '',
-            },
             'border-width': {
-              $value: '',
-            },
-            color: {
               $value: '',
             },
             'font-size': {
@@ -214,28 +859,6 @@ Optioneel kan er een hint mee gegeven worden.
             },
             'line-height': {
               $value: '',
-            },
-            active: {
-              'background-color': {
-                $value: '',
-              },
-              'border-color': {
-                $value: '',
-              },
-              color: {
-                $value: '',
-              },
-            },
-            hover: {
-              'background-color': {
-                $value: '',
-              },
-              'border-color': {
-                $value: '',
-              },
-              color: {
-                $value: '',
-              },
             },
           },
         },
@@ -256,12 +879,13 @@ Optioneel kan er een hint mee gegeven worden.
 };
 
 export const SubtleButton: Story = {
-  name: 'Subtle Button',
+  name: 'Design: Subtle Button',
   args: {
     label: 'Subtle Button',
     purpose: 'subtle',
   },
   parameters: {
+    designStory: true,
     docs: {
       description: {
         story: `Een subtle button is een button die niet meteen de aandacht trekt.
@@ -276,16 +900,7 @@ Optioneel kan er een hint mee gegeven worden.
       nl: {
         button: {
           subtle: {
-            'background-color': {
-              $value: '',
-            },
-            'border-color': {
-              $value: '',
-            },
             'border-width': {
-              $value: '',
-            },
-            color: {
               $value: '',
             },
             'font-size': {
@@ -296,28 +911,6 @@ Optioneel kan er een hint mee gegeven worden.
             },
             'line-height': {
               $value: '',
-            },
-            active: {
-              'background-color': {
-                $value: '',
-              },
-              'border-color': {
-                $value: '',
-              },
-              color: {
-                $value: '',
-              },
-            },
-            hover: {
-              'background-color': {
-                $value: '',
-              },
-              'border-color': {
-                $value: '',
-              },
-              color: {
-                $value: '',
-              },
             },
           },
         },
@@ -338,12 +931,13 @@ Optioneel kan er een hint mee gegeven worden.
 };
 
 export const FocusButton: Story = {
-  name: 'Focus Button',
+  name: 'Design: Focus Button',
   args: {
     label: 'Klik mij!',
-    className: 'nl-button--focus',
+    className: 'nl-button--focus-visible',
   },
   parameters: {
+    designStory: true,
     docs: {
       description: {
         story: `...`,
@@ -373,12 +967,13 @@ export const FocusButton: Story = {
 };
 
 export const DisabledButton: Story = {
-  name: 'Disabled Button',
+  name: 'Design: Disabled Button',
   args: {
     label: 'Klik mij!',
     disabled: true,
   },
   parameters: {
+    designStory: true,
     docs: {
       description: {
         story: `Een button die (tijdelijk) niet bruikbaar is. Hoewel dit patroon vaak gebruikt wordt, kan het verwarrend zijn voor gebruikers.
@@ -412,13 +1007,14 @@ De styling komt van de \`.nl-button--disabled\` class.
 };
 
 export const PrimaryDisabledButton: Story = {
-  name: 'Primary Disabled Button',
+  name: 'Design: Primary Disabled Button',
   args: {
     label: 'Ingedrukt',
     disabled: true,
     purpose: 'primary',
   },
   parameters: {
+    designStory: true,
     docs: {
       description: {
         story: `Een ingedrukte Primary Button.`,
@@ -448,13 +1044,14 @@ export const PrimaryDisabledButton: Story = {
 };
 
 export const SecondaryDisabledButton: Story = {
-  name: 'Secondary Disabled Button',
+  name: 'Design: Secondary Disabled Button',
   args: {
     label: 'Ingedrukt',
     disabled: true,
     purpose: 'secondary',
   },
   parameters: {
+    designStory: true,
     docs: {
       description: {
         story: `Een ingedrukte Secondary Button`,
@@ -484,13 +1081,14 @@ export const SecondaryDisabledButton: Story = {
 };
 
 export const SubtleDisabledButton: Story = {
-  name: 'Subtle Disabled Button',
+  name: 'Design: Subtle Disabled Button',
   args: {
     label: 'Ingedrukt',
     disabled: true,
     purpose: 'subtle',
   },
   parameters: {
+    designStory: true,
     docs: {
       description: {
         story: `Een ingedrukte Subtle Button.`,
@@ -520,7 +1118,7 @@ export const SubtleDisabledButton: Story = {
 };
 
 export const AlleenEenIcon: Story = {
-  name: 'Alleen een icon',
+  name: 'Design: Alleen een icon',
   argTypes: {
     iconStart: {
       table: {
@@ -534,6 +1132,7 @@ export const AlleenEenIcon: Story = {
     label: 'Klik mij!',
   },
   parameters: {
+    designStory: true,
     docs: {
       description: {
         story: `Een button met alleen een icon. Het label is niet zichtbaar, maar wel aanwezig voor toegankelijkheid.`,
@@ -1565,6 +2164,33 @@ export const VolleBreedte: Story = {
         </div>
       </>
     );
+  },
+};
+
+export const ButtonSize: Story = {
+  name: 'Design: Button Size',
+  args: {
+    label: 'Voorbeeld',
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: `..`,
+      },
+    },
+    tokens: {
+      nl: {
+        button: {
+          'default.line-height': { $value: '' },
+          'min-block-size': { $value: '' },
+          'min-inline-size': { $value: '' },
+          'padding-block-end': { $value: '' },
+          'padding-block-start': { $value: '' },
+          'padding-inline-end': { $value: '' },
+          'padding-inline-start': { $value: '' },
+        },
+      },
+    },
   },
 };
 

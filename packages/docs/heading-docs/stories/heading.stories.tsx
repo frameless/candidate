@@ -1,5 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
 import type { StoryObj } from '@storybook/react-vite';
+import { Heading } from '@nl-design-system-candidate/heading-react';
 import type { HeadingProps } from '@nl-design-system-candidate/heading-react';
 import { Paragraph } from '@nl-design-system-candidate/paragraph-react/css';
 
@@ -61,5 +62,90 @@ Dit voorbeeld voldoet niet aan de best practices van NL Design System om de teks
       },
     },
     status: { type: [] },
+  },
+};
+
+const clampStyles = {
+  display: '-webkit-box',
+  '-webkit-box-orient': 'vertical',
+  '-webkit-line-clamp': '1',
+  'line-clamp': 1,
+  overflow: 'hidden',
+};
+
+export const HeadingSizes: Story = {
+  name: 'Design: Heading Sizes',
+  args: {
+    children: 'The quick brown fox jumps over the lazy dog',
+    level: 1,
+  },
+  render: ({ children }) => {
+    return (
+      <div>
+        <Heading level={1} style={clampStyles}>
+          {children}
+        </Heading>
+        <Heading level={2} style={clampStyles}>
+          {children}
+        </Heading>
+        <Heading level={3} style={clampStyles}>
+          {children}
+        </Heading>
+        <Heading level={4} style={clampStyles}>
+          {children}
+        </Heading>
+        <Heading level={5} style={clampStyles}>
+          {children}
+        </Heading>
+        <Heading level={6} style={clampStyles}>
+          {children}
+        </Heading>
+      </div>
+    );
+  },
+  parameters: {
+    designStory: true,
+    docs: {
+      description: {
+        story: `Gebruik dit overzicht om de \`font-size\` van elke Heading op elkaar af te stemmen.`,
+      },
+    },
+    tokens: {
+      nl: {
+        heading: {
+          'level-1': {
+            'font-size': { $value: '' },
+          },
+          'level-2': {
+            'font-size': { $value: '' },
+          },
+          'level-3': {
+            'font-size': { $value: '' },
+          },
+          'level-4': {
+            'font-size': { $value: '' },
+          },
+          'level-5': {
+            'font-size': { $value: '' },
+          },
+          'level-6': {
+            'font-size': { $value: '' },
+          },
+        },
+      },
+      basis: {
+        text: {
+          'font-size': {
+            '4xl': { $value: '' },
+            '3xl': { $value: '' },
+            '2xl': { $value: '' },
+            xl: { $value: '' },
+            lg: { $value: '' },
+            md: { $value: '' },
+            sm: { $value: '' },
+          },
+        },
+      },
+    },
   },
 };

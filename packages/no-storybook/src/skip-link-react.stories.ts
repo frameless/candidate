@@ -19,3 +19,9 @@ const meta = {
 export default meta;
 
 export const SkipLink = Stories.SkipLink;
+
+export const SkipLinkTypography = Stories.SkipLinkTypography;
+
+export const SkipLinkSize = Stories.SkipLinkSize;
+
+export const SkipLinkFocus = Stories.SkipLinkFocus;

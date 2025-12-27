@@ -21,6 +21,7 @@ customElements.define(
     constructor() {
       super();
       this.shadowRoot = this.attachShadow({ mode: 'open' });
+      this.style.display = 'contents';
       const text = this.getAttribute('text');
       if (text) {
         this._text = text;
