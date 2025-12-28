@@ -78,8 +78,8 @@ customElements.define(
         ) {
           return createElement('select', {
             defaultValue: Object.hasOwn(this.values, name) ? this._values[name] : undefined,
-            children: argType.options?.map((option) => {
-              return createElement('option', { children: String(option) });
+            children: argType.options?.map((option, index) => {
+              return createElement('option', { key: index, hildren: String(option) });
             }),
             onInput: (evt) => {
               const target = this.getAttribute('target');
@@ -98,7 +98,7 @@ customElements.define(
       };
 
       // Render new version
-      this.renderRoot.render([
+      this.renderRoot.render(
         createElement('dl', {
           children: [
             ...Object.entries(argTypes)
@@ -107,22 +107,23 @@ customElements.define(
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 const argType = value as unknown as any;
                 return [
-                  createElement('div', {
-                    key: name,
-                    children: [
-                      createElement('dt', {
-                        children: createElement('label', { children: argType.name || name || '' }),
-                      }),
-                      createElement('dd', {
-                        children: ArgControl({ argType: argType as InputType, name }),
-                      }),
-                    ],
-                  }),
+                  createElement(
+                    'div',
+                    {
+                      key: name,
+                    },
+                    createElement('dt', {
+                      children: createElement('label', { children: argType.name || name || '' }),
+                    }),
+                    createElement('dd', {
+                      children: ArgControl({ argType: argType as InputType, name }),
+                    }),
+                  ),
                 ];
               }),
           ],
         }),
-      ]);
+      );
     }
   },
 );

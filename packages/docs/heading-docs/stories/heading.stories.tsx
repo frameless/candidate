@@ -3,6 +3,7 @@ import type { StoryObj } from '@storybook/react-vite';
 import { Heading } from '@nl-design-system-candidate/heading-react';
 import type { HeadingProps } from '@nl-design-system-candidate/heading-react';
 import { Paragraph } from '@nl-design-system-candidate/paragraph-react/css';
+import { CSSProperties } from 'react';
 
 type Story = StoryObj<HeadingProps>;
 
@@ -65,11 +66,11 @@ Dit voorbeeld voldoet niet aan de best practices van NL Design System om de teks
   },
 };
 
-const clampStyles = {
+const clampStyles: CSSProperties = {
   display: '-webkit-box',
-  '-webkit-box-orient': 'vertical',
-  '-webkit-line-clamp': '1',
-  'line-clamp': 1,
+  WebkitBoxOrient: 'block-axis',
+  WebkitLineClamp: '1',
+  lineClamp: 1,
   overflow: 'hidden',
 };
 

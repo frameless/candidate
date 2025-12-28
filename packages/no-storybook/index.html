@@ -23,19 +23,19 @@
             <script type="module" src="src/index.ts"></script>
 
             <!-- Web Component dependencies -->
-            <script type="module" src="src/copy-button-element.ts"></script>
-            <script type="module" src="src/inner-html-element.ts"></script>
             <script type="module" src="src/args-docs-element.ts"></script>
             <script type="module" src="src/args-table-element.ts"></script>
-            <script type="module" src="src/story-list-element.ts"></script>
-            <script type="module" src="src/story-canvas-element.ts"></script>
             <script type="module" src="src/code-block-element.ts"></script>
-            <script type="module" src="src/story-react-element.ts"></script>
+            <script type="module" src="src/copy-action-element.ts"></script>
+            <script type="module" src="src/design-tokens-stylesheet-element.ts"></script>
+            <script type="module" src="src/design-tokens-table-element.ts"></script>
+            <script type="module" src="src/inner-html-element.ts"></script>
             <script type="module" src="src/jsx-source-element.ts"></script>
             <script type="module" src="src/markdown-element.ts"></script>
+            <script type="module" src="src/story-canvas-element.ts"></script>
+            <script type="module" src="src/story-list-element.ts"></script>
+            <script type="module" src="src/story-react-element.ts"></script>
             <script type="module" src="src/toc-sidebar-element.ts"></script>
-            <script type="module" src="src/design-tokens-table-element.ts"></script>
-            <script type="module" src="src/design-tokens-stylesheet-element.ts"></script>
             <design-tokens-stylesheet selector="story-canvas"></design-tokens-stylesheet>
 
             <!-- Stories with dependencies, that only work in `pnpm run dev` -->
@@ -79,7 +79,7 @@
           margin-inline-start: 0;
         }
         /* Only show the "Copy CSS" code snippet when there are any CSS properties to copy */
-        design-tokens-table[default] + pre {
+        design-tokens-table:state(default) + pre {
           display: none;
         }
       </style>

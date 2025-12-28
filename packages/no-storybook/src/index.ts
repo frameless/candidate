@@ -48,13 +48,11 @@ const jsons = [
 ];
 
 Promise.all(jsons).then((jsons) => {
-  console.log('jsons', jsons);
   const css = jsons
     .flatMap((json) => getTokenPaths(json.default))
     .map((x) => tokenPathToCSSCustomProperty(x))
     .map((x) => `${x}: initial;`)
     .join('\n');
-  console.log(css);
   const style = document.createElement('style');
   style.textContent = `.reset-theme { ${css} }`;
   document.head.appendChild(style);
@@ -75,7 +73,6 @@ const stories = [
 ];
 
 Promise.all(stories).then((stories) => {
-  console.log(stories);
   stories.forEach((module) => {
     const storyList = document.createElement('story-list') as StoryList;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -113,6 +113,7 @@ customElements.define(
     _theme: TokenNode = {};
     css: string = ''; // temporary, should only expose `_theme`
     themeChange: ((evt: DesignTokensTableInterface) => void) | undefined; // temporary
+    _internals: ElementInternals = this.attachInternals();
 
     set tokens(value: TokenNode) {
       this._tokens = value;
@@ -140,12 +141,12 @@ customElements.define(
 
     constructor() {
       super();
+      this._internals.states.add('default');
       this.renderRoot = createRoot(this);
       this.render();
     }
     render() {
       const tokens = this._tokens;
-      this.setAttribute('default', '');
 
       const tokenPaths = getTokenPaths(tokens);
 
@@ -505,24 +506,22 @@ customElements.define(
         if (this.themeChange) {
           this.themeChange(this);
         }
-        const isDirty = getTokenPaths(this.theme).length > 0;
-        if (isDirty) {
-          this.setAttribute('not-default', '');
-          this.removeAttribute('default');
-        } else {
-          this.setAttribute('default', '');
-          this.removeAttribute('not-default');
-        }
-
         this.dispatchEvent(evt);
         this.render();
       };
+
+      const isDirty = getTokenPaths(this.theme).length > 0;
+      if (isDirty) {
+        this._internals.states.delete('default');
+      } else {
+        this._internals.states.add('default');
+      }
 
       // Hack
       const tokenRefToCss = (arg: string) => arg.replace(/\./g, '-').replace(/^{(.+)}$/, 'var(--$1)');
 
       // Render new version
-      this.renderRoot.render([
+      this.renderRoot.render(
         createElement('dl', {
           children: tokenPaths.map((path) => {
             const id = tokenPathToDottedTokenPath(path);
@@ -541,6 +540,7 @@ customElements.define(
             const isColor = /color/.test(path.at(-1) || '');
             // console.log(id, defaultValue);
             const args = {
+              key: id,
               id,
               defaultValue: String(defaultValue),
               title: originalValue,
@@ -607,53 +607,52 @@ customElements.define(
               });
             }
 
-            return [
-              createElement('div', {
+            return createElement(
+              'div',
+              {
                 key: id,
-                children: [
-                  createElement('dt', {
-                    children: createElement('label', {
-                      htmlFor: id,
-                      children: createElement('code', {
-                        htmlFor: id,
-                        children: id,
-                      }),
-                    }),
+              },
+              createElement('dt', {
+                children: createElement('label', {
+                  htmlFor: id,
+                  children: createElement('code', {
+                    htmlFor: id,
+                    children: id,
                   }),
-                  createElement('dd', {
-                    children: [
-                      designTokenInput,
-                      isColor
-                        ? createElement('data', {
-                            className: 'nl-color-sample',
-                            style: {
-                              backgroundImage: 'none',
-                              backgroundColor: `var(${cssProperty})`,
-                            },
-                          })
-                        : null,
-                      get(this._theme, id)
-                        ? createElement('button', {
-                            className: 'nl-button nl-button--subtle',
-                            children: 'Reset',
-                            onClick: () => {
-                              setToken(path, undefined);
-                              const designTokensStylesheet = document.querySelector('design-tokens-stylesheet');
-
-                              if (designTokensStylesheet instanceof DesignTokensStylesheetElement) {
-                                designTokensStylesheet.unsetToken(path);
-                              }
-                            },
-                          })
-                        : null,
-                    ],
-                  }),
-                ],
+                }),
               }),
-            ];
+              createElement(
+                'dd',
+                {},
+                designTokenInput,
+                isColor
+                  ? createElement('data', {
+                      className: 'nl-color-sample',
+                      style: {
+                        backgroundImage: 'none',
+                        backgroundColor: `var(${cssProperty})`,
+                      },
+                    })
+                  : null,
+                get(this._theme, id)
+                  ? createElement('button', {
+                      className: 'nl-button nl-button--subtle',
+                      children: 'Reset',
+                      onClick: () => {
+                        setToken(path, undefined);
+                        const designTokensStylesheet = document.querySelector('design-tokens-stylesheet');
+
+                        if (designTokensStylesheet instanceof DesignTokensStylesheetElement) {
+                          designTokensStylesheet.unsetToken(path);
+                        }
+                      },
+                    })
+                  : null,
+              ),
+            );
           }),
         }),
-      ]);
+      );
     }
   },
 );
