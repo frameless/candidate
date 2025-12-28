@@ -2,7 +2,9 @@ import '@nl-design-system-candidate/code-block-css/html/code-block.css';
 import '@nl-design-system-candidate/heading-css/html/heading.css';
 import '@nl-design-system-candidate/paragraph-css/html/paragraph.css';
 import '@nl-design-system-candidate/code-css/html/code.css';
-import '@nl-design-system-unstable/voorbeeld-design-tokens/dist/variables.css';
+import '@nl-design-system-candidate/icon-css/icon.css';
+import '@utrecht/icon-css/dist/index.css';
+import '@nl-design-system-unstable/voorbeeld-design-tokens/dist/theme.css';
 import '@gemeente-denhaag/side-navigation/index.css';
 import '@utrecht/drawer-css/dist/index.css';
 import '@utrecht/body-css/dist/index.css';
@@ -38,6 +40,25 @@ import '@fontsource/noto-sans/cyrillic.css';
 import '@fontsource/noto-sans-mono/cyrillic.css';
 import '@fontsource/noto-serif/cyrillic.css';
 import { StoryList } from './story-list-element.js';
+import { getTokenPaths, tokenPathToCSSCustomProperty } from './design-tokens-table-element.js';
+const jsons = [
+  import('@nl-design-system-candidate/button-tokens'),
+  import('@nl-design-system-candidate/code-tokens'),
+  import('@nl-design-system-candidate/link-tokens'),
+];
+
+Promise.all(jsons).then((jsons) => {
+  console.log('jsons', jsons);
+  const css = jsons
+    .flatMap((json) => getTokenPaths(json.default))
+    .map((x) => tokenPathToCSSCustomProperty(x))
+    .map((x) => `${x}: initial;`)
+    .join('\n');
+  console.log(css);
+  const style = document.createElement('style');
+  style.textContent = `.reset-theme { ${css} }`;
+  document.head.appendChild(style);
+});
 
 const stories = [
   import('./button-react.stories.js'),

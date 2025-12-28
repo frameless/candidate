@@ -7,22 +7,24 @@ const _meta = { component: ButtonComponent } satisfies Meta<typeof ButtonCompone
 type Story = StoryObj<typeof _meta>;
 
 const Icon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-    <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
-    <path d="M10 16.5l2 -3l2 3m-2 -3v-2l3 -1m-6 0l3 1" />
-    <circle cx="12" cy="7.5" r=".5" fill="currentColor" />
-  </svg>
+  <span className="nl-icon">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+      <path d="M10 16.5l2 -3l2 3m-2 -3v-2l3 -1m-6 0l3 1" />
+      <circle cx="12" cy="7.5" r=".5" fill="currentColor" />
+    </svg>
+  </span>
 );
 
 export const Button: Story = {
@@ -211,6 +213,22 @@ const RenderButtonStates = ({ ...props }: ButtonProps) => (
     <ButtonComponent {...props} className="nl-button--hover" />
     {' → active → '}
     <ButtonComponent {...props} className="nl-button--active" />
+  </>
+);
+
+const RenderButtonDisabled = ({ ...props }: ButtonProps) => (
+  <>
+    <ButtonComponent {...props} disabled={false} htmlDisabled={undefined} />
+    {' → disabled → '}
+    <ButtonComponent {...props} disabled htmlDisabled={undefined} />
+  </>
+);
+
+const RenderButtonPressed = ({ ...props }: ButtonProps) => (
+  <>
+    <ButtonComponent {...props} pressed={false} />
+    {' → pressed → '}
+    <ButtonComponent {...props} pressed />
   </>
 );
 
@@ -1061,6 +1079,7 @@ export const DesignDisabledButton: Story = {
     label: 'Klik mij!',
     disabled: true,
   },
+  render: RenderButtonDisabled,
   parameters: {
     designStory: true,
     docs: {
@@ -1097,6 +1116,7 @@ export const DesignPrimaryDisabledButton: Story = {
     disabled: true,
     purpose: 'primary',
   },
+  render: RenderButtonDisabled,
   parameters: {
     designStory: true,
     docs: {
@@ -1134,6 +1154,7 @@ export const DesignSecondaryDisabledButton: Story = {
     disabled: true,
     purpose: 'secondary',
   },
+  render: RenderButtonDisabled,
   parameters: {
     designStory: true,
     docs: {
@@ -1171,6 +1192,7 @@ export const DesignSubtleDisabledButton: Story = {
     disabled: true,
     purpose: 'subtle',
   },
+  render: RenderButtonDisabled,
   parameters: {
     designStory: true,
     docs: {
@@ -1202,7 +1224,7 @@ export const DesignSubtleDisabledButton: Story = {
 };
 
 export const AlleenEenIcon: Story = {
-  name: 'Design: Alleen een icon',
+  name: 'Alleen een icon',
   argTypes: {
     iconStart: {
       table: {
@@ -1216,15 +1238,56 @@ export const AlleenEenIcon: Story = {
     label: 'Klik mij!',
   },
   parameters: {
-    designStory: true,
     docs: {
       description: {
         story: `Een button met alleen een icon. Het label is niet zichtbaar, maar wel aanwezig voor toegankelijkheid.`,
       },
     },
+  },
+};
+
+export const DesignAlleenEenIcon: Story = {
+  name: 'Design: Alleen een icon',
+  argTypes: {
+    iconStart: {
+      table: {
+        disable: false,
+      },
+    },
+  },
+  args: {
+    iconOnly: true,
+    iconStart: <Icon />,
+    label: 'Klik mij!',
+  },
+  render: () => (
+    // TODO: Use Action Group
+    <div style={{ display: 'flex', flexDirection: 'row', columnGap: '1ch' }}>
+      <ButtonComponent iconOnly iconStart={<Icon />} />
+      <ButtonComponent iconOnly iconStart={<Icon />} purpose="primary" />
+      <ButtonComponent iconOnly iconStart={<Icon />} purpose="secondary" />
+      <ButtonComponent iconOnly iconStart={<Icon />} purpose="subtle" />
+      <ButtonComponent iconOnly iconStart={<span className="nl-icon">❤️</span>} />
+      <ButtonComponent iconOnly iconStart={<span className="nl-icon">❤️</span>} purpose="primary" />
+      <ButtonComponent iconOnly iconStart={<span className="nl-icon">❤️</span>} purpose="secondary" />
+      <ButtonComponent iconOnly iconStart={<span className="nl-icon">❤️</span>} purpose="subtle" />
+    </div>
+  ),
+  parameters: {
+    designStory: true,
+    docs: {
+      description: {
+        story: `Een button met alleen een icon. Als de icon niet in het midden staat, dan moet je mogelijk een kleinere padding kiezen.`,
+      },
+    },
     tokens: {
       nl: {
         button: {
+          icon: {
+            size: {
+              $value: '',
+            },
+          },
           'icon-only': {
             'padding-block-end': {
               $value: '',
@@ -1381,6 +1444,23 @@ export const PressedButton: Story = {
         story: `Een ingedrukte Button.`,
       },
     },
+  },
+};
+
+export const DesignPressedButton: Story = {
+  name: 'Design: Pressed Button',
+  args: {
+    label: 'Ingedrukt',
+    pressed: true,
+  },
+  render: RenderButtonPressed,
+  parameters: {
+    designStory: true,
+    docs: {
+      description: {
+        story: `Een ingedrukte Button.`,
+      },
+    },
     tokens: {
       nl: {
         button: {
@@ -1403,14 +1483,16 @@ export const PressedButton: Story = {
   },
 };
 
-export const PrimaryPressedButton: Story = {
-  name: 'Primary Pressed Button',
+export const DesignPrimaryPressedButton: Story = {
+  name: 'Design: Primary Pressed Button',
   args: {
     label: 'Ingedrukt',
     pressed: true,
     purpose: 'primary',
   },
+  render: RenderButtonPressed,
   parameters: {
+    designStory: true,
     docs: {
       description: {
         story: `Een ingedrukte Primary Button.`,
@@ -1439,14 +1521,16 @@ export const PrimaryPressedButton: Story = {
   },
 };
 
-export const SecondaryPressedButton: Story = {
-  name: 'Secondary Pressed Button',
+export const DesignSecondaryPressedButton: Story = {
+  name: 'Design: Secondary Pressed Button',
   args: {
     label: 'Ingedrukt',
     pressed: true,
     purpose: 'secondary',
   },
+  render: RenderButtonPressed,
   parameters: {
+    designStory: true,
     docs: {
       description: {
         story: `Een ingedrukte Secondary Button`,
@@ -1475,14 +1559,16 @@ export const SecondaryPressedButton: Story = {
   },
 };
 
-export const SubtlePressedButton: Story = {
-  name: 'Subtle Pressed Button',
+export const DesignSubtlePressedButton: Story = {
+  name: 'Design: Subtle Pressed Button',
   args: {
     label: 'Ingedrukt',
     pressed: true,
     purpose: 'subtle',
   },
+  render: RenderButtonPressed,
   parameters: {
+    designStory: true,
     docs: {
       description: {
         story: `Een ingedrukte Subtle Button.`,
@@ -1511,14 +1597,15 @@ export const SubtlePressedButton: Story = {
   },
 };
 
-export const PrimaryPositiveButton: Story = {
-  name: 'Primary Positive Button',
+export const DesignPrimaryPositiveButton: Story = {
+  name: 'Design: Primary Positive Button',
   args: {
     label: 'Ingedrukt',
     purpose: 'primary',
     hint: 'positive',
   },
   parameters: {
+    designStory: true,
     docs: {
       description: {
         story: `Een ingedrukte positieve Primary Button.`,
@@ -1568,14 +1655,15 @@ export const PrimaryPositiveButton: Story = {
   },
 };
 
-export const PrimaryNegativeButton: Story = {
-  name: 'Primary Negative Button',
+export const DesignPrimaryNegativeButton: Story = {
+  name: 'Design: Primary Negative Button',
   args: {
     label: 'Ingedrukt',
     purpose: 'primary',
     hint: 'negative',
   },
   parameters: {
+    designStory: true,
     docs: {
       description: {
         story: `Een ingedrukte negative Primary Button.`,
@@ -1625,14 +1713,15 @@ export const PrimaryNegativeButton: Story = {
   },
 };
 
-export const SecondaryPositiveButton: Story = {
-  name: 'Secondary Positive Button',
+export const DesignSecondaryPositiveButton: Story = {
+  name: 'Design: Secondary Positive Button',
   args: {
     label: 'Ingedrukt',
     purpose: 'secondary',
     hint: 'positive',
   },
   parameters: {
+    designStory: true,
     docs: {
       description: {
         story: `Een ingedrukte positieve Secondary Button.`,
@@ -1682,14 +1771,15 @@ export const SecondaryPositiveButton: Story = {
   },
 };
 
-export const SecondaryNegativeButton: Story = {
-  name: 'Secondary Negative Button',
+export const DesignSecondaryNegativeButton: Story = {
+  name: 'Design: Secondary Negative Button',
   args: {
     label: 'Ingedrukt',
     purpose: 'secondary',
     hint: 'negative',
   },
   parameters: {
+    designStory: true,
     docs: {
       description: {
         story: `Een ingedrukte negative Secondary Button.`,
@@ -1739,14 +1829,15 @@ export const SecondaryNegativeButton: Story = {
   },
 };
 
-export const SubtlePositiveButton: Story = {
-  name: 'Subtle Positive Button',
+export const DesignSubtlePositiveButton: Story = {
+  name: 'Design: Subtle Positive Button',
   args: {
     label: 'Ingedrukt',
     purpose: 'subtle',
     hint: 'positive',
   },
   parameters: {
+    designStory: true,
     docs: {
       description: {
         story: `Een ingedrukte positieve Subtle Button.`,
@@ -1796,14 +1887,15 @@ export const SubtlePositiveButton: Story = {
   },
 };
 
-export const SubtleNegativeButton: Story = {
-  name: 'Subtle Negative Button',
+export const DesignSubtleNegativeButton: Story = {
+  name: 'Design: Subtle Negative Button',
   args: {
     label: 'Ingedrukt',
     purpose: 'subtle',
     hint: 'negative',
   },
   parameters: {
+    designStory: true,
     docs: {
       description: {
         story: `Een ingedrukte negative Subtle Button.`,
@@ -1853,15 +1945,17 @@ export const SubtleNegativeButton: Story = {
   },
 };
 
-export const PrimaryPositivePressedButton: Story = {
-  name: 'Primary Positive Pressed Button',
+export const DesignPrimaryPositivePressedButton: Story = {
+  name: 'Design: Primary Positive Pressed Button',
   args: {
     label: 'Ingedrukt',
     pressed: true,
     purpose: 'primary',
     hint: 'positive',
   },
+  render: RenderButtonPressed,
   parameters: {
+    designStory: true,
     docs: {
       description: {
         story: `Een ingedrukte positieve Primary Button.`,
@@ -1913,15 +2007,17 @@ export const PrimaryPositivePressedButton: Story = {
   },
 };
 
-export const PrimaryNegativePressedButton: Story = {
-  name: 'Primary Negative Pressed Button',
+export const DesignPrimaryNegativePressedButton: Story = {
+  name: 'Design: Primary Negative Pressed Button',
   args: {
     label: 'Ingedrukt',
     pressed: true,
     purpose: 'primary',
     hint: 'negative',
   },
+  render: RenderButtonPressed,
   parameters: {
+    designStory: true,
     docs: {
       description: {
         story: `Een ingedrukte negative Primary Button.`,
@@ -1973,15 +2069,17 @@ export const PrimaryNegativePressedButton: Story = {
   },
 };
 
-export const SecondaryPositivePressedButton: Story = {
-  name: 'Secondary Positive Pressed Button',
+export const DesignSecondaryPositivePressedButton: Story = {
+  name: 'Design: Secondary Positive Pressed Button',
   args: {
     label: 'Ingedrukt',
     pressed: true,
     purpose: 'secondary',
     hint: 'positive',
   },
+  render: RenderButtonPressed,
   parameters: {
+    designStory: true,
     docs: {
       description: {
         story: `Een ingedrukte positieve Secondary Button.`,
@@ -2033,15 +2131,17 @@ export const SecondaryPositivePressedButton: Story = {
   },
 };
 
-export const SecondaryNegativePressedButton: Story = {
-  name: 'Secondary Negative Pressed Button',
+export const DesignSecondaryNegativePressedButton: Story = {
+  name: 'Design: Secondary Negative Pressed Button',
   args: {
     label: 'Ingedrukt',
     pressed: true,
     purpose: 'secondary',
     hint: 'negative',
   },
+  render: RenderButtonPressed,
   parameters: {
+    designStory: true,
     docs: {
       description: {
         story: `Een ingedrukte negative Secondary Button.`,
@@ -2093,15 +2193,17 @@ export const SecondaryNegativePressedButton: Story = {
   },
 };
 
-export const SubtlePositivePressedButton: Story = {
-  name: 'Subtle Positive Pressed Button',
+export const DesignSubtlePositivePressedButton: Story = {
+  name: 'Design: Subtle Positive Pressed Button',
   args: {
     label: 'Ingedrukt',
     pressed: true,
     purpose: 'subtle',
     hint: 'positive',
   },
+  render: RenderButtonPressed,
   parameters: {
+    designStory: true,
     docs: {
       description: {
         story: `Een ingedrukte positieve Subtle Button.`,
@@ -2153,15 +2255,17 @@ export const SubtlePositivePressedButton: Story = {
   },
 };
 
-export const SubtleNegativePressedButton: Story = {
-  name: 'Subtle Negative Pressed Button',
+export const DesignSubtleNegativePressedButton: Story = {
+  name: 'Design: Subtle Negative Pressed Button',
   args: {
     label: 'Ingedrukt',
     pressed: true,
     purpose: 'subtle',
     hint: 'negative',
   },
+  render: RenderButtonPressed,
   parameters: {
+    designStory: true,
     docs: {
       description: {
         story: `Een ingedrukte negative Subtle Button.`,

@@ -35,6 +35,8 @@
             <script type="module" src="src/markdown-element.ts"></script>
             <script type="module" src="src/toc-sidebar-element.ts"></script>
             <script type="module" src="src/design-tokens-table-element.ts"></script>
+            <script type="module" src="src/design-tokens-stylesheet-element.ts"></script>
+            <design-tokens-stylesheet selector="story-canvas"></design-tokens-stylesheet>
 
             <!-- Stories with dependencies, that only work in `pnpm run dev` -->
             <!--
@@ -69,6 +71,16 @@
           content: '';
           clear: both;
           display: table;
+        }
+        design-tokens-table > dl > div + div {
+          margin-block-start: var(--basis-space-block-3xl);
+        }
+        design-tokens-table > dl > div > dd {
+          margin-inline-start: 0;
+        }
+        /* Only show the "Copy CSS" code snippet when there are any CSS properties to copy */
+        design-tokens-table[default] + pre {
+          display: none;
         }
       </style>
     </div>

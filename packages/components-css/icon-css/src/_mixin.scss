@@ -9,7 +9,9 @@
   block-size: var(--nl-icon-block-size, var(--_nl-icon-block-size));
   color: var(--nl-icon-color, currentcolor);
   display: inline-flex;
-  font-size: var(--nl-icon-font-size, 1em);
+  font-size: var(--nl-icon-font-size, var(--nl-icon-block-size, 1em));
+  font-size-adjust: 0.5;
+  font-synthesis: none;
   inline-size: var(--nl-icon-inline-size, var(--_nl-icon-inline-size));
   inset-block-start: var(--nl-icon-inset-block-start, 0);
   justify-content: center;

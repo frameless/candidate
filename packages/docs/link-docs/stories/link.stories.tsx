@@ -48,6 +48,7 @@ export const DesignLinkDisabled: Story = {
   args: {
     children: 'voorbeeldsite',
     href: 'https://example.com',
+    disabled: true,
   },
   parameters: {
     designStory: true,

@@ -7,6 +7,9 @@ import { JsxSourceInterface } from './jsx-source-element';
 import { DesignTokensTableInterface, excludeTokens, getTokenPaths, TokenNode } from './design-tokens-table-element';
 import merge from 'lodash-es/merge';
 
+// Remove the hierarchy from the title
+const normalizeStoryTitle = (title: string): string => title.replace(/^(.*\/)/, '');
+
 type StoriesFile = {
   default: Meta;
   [index: string]: StoryObj;
@@ -35,7 +38,7 @@ export class StoryList extends HTMLElement {
     const Component = stories.default.component;
     const defaultArgs = stories.default.args;
     this.argTypes = stories.default.argTypes || {};
-    this.storyTitle = stories.default.title || '';
+    this.storyTitle = typeof stories.default.title === 'string' ? normalizeStoryTitle(stories.default.title) : '';
     this.stories = stories;
     this.Component = Component || null;
     this.tokens =
@@ -111,7 +114,7 @@ export class StoryList extends HTMLElement {
                   borderStyle: 'solid',
                 },
                 children: [
-                  createElement('summary', { children: 'Show Design Tokens' }),
+                  createElement('summary', { children: 'Bekijk Design Tokens' }),
                   createElement('pre', {
                     children: createElement('code', {
                       children: [
@@ -122,7 +125,7 @@ export class StoryList extends HTMLElement {
                               float: 'inline-end',
                             },
                             className: 'nl-button nl-button--secondary',
-                            children: 'Copy CSS',
+                            children: 'Kopieer CSS',
                           }),
                         }),
                         createElement('code-block', {
@@ -158,6 +161,42 @@ export class StoryList extends HTMLElement {
               const showJsx = !designStory;
               const showProperties = !designStory;
 
+              const designTokensEditor = [
+                createElement('design-tokens-table', {
+                  tokens: (storyObj.parameters && storyObj.parameters['tokens']) || {},
+                  defaultTokens: this.defaultTheme,
+                  themeChange: (el: Element) => {
+                    const cssCodeBlock = document.getElementById(cssId);
+                    if (cssCodeBlock && isDesignTokensTable(el)) {
+                      cssCodeBlock.textContent = el.css || '';
+                    }
+                  },
+                }),
+                // TODO: Only show code snippet when `desing-tokens-table` has some
+                // modified tokens.
+                createElement('pre', {
+                  children: createElement('code', {
+                    children: [
+                      createElement('copy-action', {
+                        query: `#${cssId}`,
+                        children: createElement('button', {
+                          style: {
+                            float: 'inline-end',
+                          },
+                          className: 'nl-button nl-button--secondary',
+                          children: 'Kopieer CSS',
+                        }),
+                      }),
+                      createElement('code-block', {
+                        id: cssId,
+                        language: 'css',
+                        children: `.example-theme{}`,
+                      }),
+                    ],
+                  }),
+                }),
+              ];
+
               return createElement('section', {
                 key: headingId,
                 className: 'docs-story',
@@ -178,66 +217,39 @@ export class StoryList extends HTMLElement {
                         value: storyObj.parameters['docs'].description.story,
                       })
                     : null,
-                  createElement('story-canvas', {
-                    children: createElement('story-react', {
-                      id: canvasId,
-                      args: storyObj.args,
-                      defaultArgs,
-                      Component: storyObj.render || Component,
-                      jsxChange: (evt: CustomEvent) => {
-                        const target = document.getElementById(jsxId);
-                        if (isJsxSource(target)) {
-                          target.jsx = evt.detail.jsx;
-                        }
-                      },
+                  createElement('div', {
+                    className: 'reset-theme',
+                    children: createElement('div', {
+                      className: 'voorbeeld-theme',
+                      children: createElement('story-canvas', {
+                        children: createElement('story-react', {
+                          id: canvasId,
+                          args: storyObj.args,
+                          defaultArgs,
+                          Component: storyObj.render || Component,
+                          jsxChange: (evt: CustomEvent) => {
+                            const target = document.getElementById(jsxId);
+                            if (isJsxSource(target)) {
+                              target.jsx = evt.detail.jsx;
+                            }
+                          },
+                        }),
+                      }),
                     }),
                   }),
-                  storyObj.parameters && storyObj.parameters['tokens']
+                  storyObj.parameters && storyObj.parameters['tokens'] && !designStory
                     ? createElement('details', {
                         open: true,
-                        children: [
-                          createElement('summary', { children: 'Show Design Tokens' }),
-                          createElement('design-tokens-table', {
-                            tokens: storyObj.parameters['tokens'],
-                            defaultTokens: this.defaultTheme,
-                            themeChange: (el: Element) => {
-                              const cssCodeBlock = document.getElementById(cssId);
-                              if (cssCodeBlock && isDesignTokensTable(el)) {
-                                cssCodeBlock.textContent = el.css || '';
-                              }
-                            },
-                          }),
-                          // TODO: Only show code snippet when `desing-tokens-table` has some
-                          // modified tokens.
-                          createElement('pre', {
-                            children: createElement('code', {
-                              children: [
-                                createElement('copy-action', {
-                                  query: `#${cssId}`,
-                                  children: createElement('button', {
-                                    style: {
-                                      float: 'inline-end',
-                                    },
-                                    className: 'nl-button nl-button--secondary',
-                                    children: 'Copy CSS',
-                                  }),
-                                }),
-                                createElement('code-block', {
-                                  id: cssId,
-                                  language: 'css',
-                                  children: `.example-theme{}`,
-                                }),
-                              ],
-                            }),
-                          }),
-                        ],
+                        children: [createElement('summary', { children: 'Bekijk Design Tokens' }), designTokensEditor],
                       })
                     : null,
+                  // In a design story displaying the design tokens is not optional
+                  storyObj.parameters && storyObj.parameters['tokens'] && designStory ? designTokensEditor : null,
                   showHtml
                     ? createElement('details', {
                         open: true,
                         children: [
-                          createElement('summary', { children: 'Show HTML' }),
+                          createElement('summary', { children: 'HTML en CSS voorbeeldcode' }),
                           createElement('pre', {
                             id: htmlId,
                             children: createElement('code', {
@@ -249,7 +261,7 @@ export class StoryList extends HTMLElement {
                                       float: 'inline-end',
                                     },
                                     className: 'nl-button nl-button--secondary',
-                                    children: 'Copy HTML',
+                                    children: 'Kopieer HTML',
                                   }),
                                 }),
                                 createElement('code-block', {
@@ -268,7 +280,7 @@ export class StoryList extends HTMLElement {
                     ? createElement('details', {
                         open: true,
                         children: [
-                          createElement('summary', { children: 'Show JSX' }),
+                          createElement('summary', { children: 'React voorbeeldcode' }),
                           createElement('pre', {
                             children: createElement('code', {
                               children: [
@@ -279,7 +291,7 @@ export class StoryList extends HTMLElement {
                                       float: 'inline-end',
                                     },
                                     className: 'nl-button nl-button--secondary',
-                                    children: 'Copy JSX',
+                                    children: 'Kopieer JSX',
                                   }),
                                 }),
                                 createElement('code-block', {

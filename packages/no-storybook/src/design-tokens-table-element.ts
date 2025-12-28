@@ -5,14 +5,52 @@ import { createElement, FormEvent, ReactNode, SelectHTMLAttributes } from 'react
 import set from 'lodash-es/set';
 import get from 'lodash-es/get';
 import { cloneDeep, unset } from 'lodash-es';
+import { DesignTokensStylesheetElement } from './design-tokens-stylesheet-element';
 
 // Token utilities are adapted from:
 // https://github.com/nl-design-system/documentatie/blob/main/src/utils.ts
-export type TokenNode = { [key: string]: TokenNode }; //| { $type: unknown };
+export type Token = { $value?: string; $type?: string; $extensions?: { [key: string]: unknown } }; //| { $type: unknown };
+export type TokenGroup = { $extensions?: { [key: string]: unknown } };
+export type TokenNode = { [key: string]: TokenNode | Token } & TokenGroup; //| { $type: unknown };
 export type TokenPath = string[];
 
+getTokenPaths({
+  nl: {
+    code: {
+      'background-color': {
+        $extensions: {
+          'nl.nldesignsystem.css-property-syntax': '<color>',
+          'nl.nldesignsystem.figma-implementation': true,
+        },
+        $type: 'color',
+      },
+      color: {
+        $extensions: {
+          'nl.nldesignsystem.css-property-syntax': '<color>',
+          'nl.nldesignsystem.figma-implementation': true,
+        },
+        $type: 'color',
+      },
+      'font-family': {
+        $extensions: {
+          'nl.nldesignsystem.css-property-syntax': ['<family-name>', '<generic-name>'],
+          'nl.nldesignsystem.figma-implementation': true,
+        },
+        $type: 'fontFamilies',
+      },
+      'font-size': {
+        $extensions: {
+          'nl.nldesignsystem.css-property-syntax': ['<length>', '<percentage>'],
+          'nl.nldesignsystem.figma-implementation': true,
+        },
+        $type: 'fontSizes',
+      },
+    },
+  },
+});
 export const tokenPathToDottedTokenPath = (tokenPath: TokenPath): string => tokenPath.join('.');
 export const tokenPathToCSSCustomProperty = (tokenPath: TokenPath): string => '--' + tokenPath.join('-');
+export const tokenPathToCSSVariable = (tokenPath: TokenPath): string => `var(--${tokenPath.join('-')})`;
 export const tokenAtPath = (obj: TokenNode, path: TokenPath): TokenNode => path.reduce((acc, key) => acc?.[key], obj);
 
 export function getTokenPaths(obj: TokenNode, partialTokenPath: TokenPath = []): TokenPath[] {
@@ -107,6 +145,7 @@ customElements.define(
     }
     render() {
       const tokens = this._tokens;
+      this.setAttribute('default', '');
 
       const tokenPaths = getTokenPaths(tokens);
 
@@ -466,6 +505,15 @@ customElements.define(
         if (this.themeChange) {
           this.themeChange(this);
         }
+        const isDirty = getTokenPaths(this.theme).length > 0;
+        if (isDirty) {
+          this.setAttribute('not-default', '');
+          this.removeAttribute('default');
+        } else {
+          this.setAttribute('default', '');
+          this.removeAttribute('not-default');
+        }
+
         this.dispatchEvent(evt);
         this.render();
       };
@@ -480,10 +528,11 @@ customElements.define(
             const id = tokenPathToDottedTokenPath(path);
             const token = get(this._theme, id);
             const defaultToken = get(this._defaultTokens, id);
+            const originalToken =
+              defaultToken &&
+              ((defaultToken as unknown as TokenNode & { original: TokenNode })['original'] as unknown as TokenNode);
             const originalValue =
-              defaultToken && defaultToken['original']
-                ? (defaultToken['original']['$value'] as unknown as string)
-                : undefined;
+              originalToken && typeof originalToken['$value'] === 'string' ? originalToken['$value'] : undefined;
             const originalCssValue = originalValue ? tokenRefToCss(originalValue) : undefined;
             const defaultValue = token ? token['$value'] : originalValue ? originalCssValue : undefined;
             const cssProperty = tokenPathToCSSCustomProperty(path);
@@ -502,7 +551,12 @@ customElements.define(
                     : undefined;
                 if (typeof cssValue === 'string') {
                   setToken(path, cssValue);
-                  document.documentElement.style.setProperty(cssProperty, cssValue);
+                  const designTokensStylesheet = document.querySelector('design-tokens-stylesheet');
+
+                  if (designTokensStylesheet instanceof DesignTokensStylesheetElement) {
+                    designTokensStylesheet?.setToken(path, cssValue);
+                  }
+                  // document.documentElement.style.setProperty(cssProperty, cssValue);
                 }
               },
             };
@@ -584,8 +638,11 @@ customElements.define(
                             children: 'Reset',
                             onClick: () => {
                               setToken(path, undefined);
-                              const cssProperty = tokenPathToCSSCustomProperty(path);
-                              document.documentElement.style.removeProperty(cssProperty);
+                              const designTokensStylesheet = document.querySelector('design-tokens-stylesheet');
+
+                              if (designTokensStylesheet instanceof DesignTokensStylesheetElement) {
+                                designTokensStylesheet.unsetToken(path);
+                              }
                             },
                           })
                         : null,
