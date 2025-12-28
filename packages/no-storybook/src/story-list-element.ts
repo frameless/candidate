@@ -97,7 +97,6 @@ export class StoryList extends HTMLElement {
           className: 'docs-story-file',
         },
         createElement('h1', { id: `h1-${storyId}` }, String(this.storyTitle)),
-
         createElement(
           'details',
           {
@@ -160,6 +159,7 @@ export class StoryList extends HTMLElement {
             const canvasId = `story-${storyId}-${index}`;
             const jsxId = `story-jsx-${storyId}-${index}`;
             const htmlId = `story-html-${storyId}-${index}`;
+            const sectionId = `section-${storyId}-${index}`;
             const designStory = storyObj.parameters && storyObj.parameters['designStory'] === true;
             const showHtml = !designStory;
             const showJsx = !designStory;
@@ -169,6 +169,7 @@ export class StoryList extends HTMLElement {
               Fragment,
               {},
               createElement('design-tokens-table', {
+                className: 'docs-story__design-tokens',
                 tokens: (storyObj.parameters && storyObj.parameters['tokens']) || {},
                 defaultTokens: this.defaultTheme,
                 themeChange: (el: Element) => {
@@ -218,26 +219,56 @@ export class StoryList extends HTMLElement {
               'section',
               {
                 key: headingId,
+                id: sectionId,
                 className: 'docs-story',
               },
-              createElement('h2', {
-                id: headingId,
-                children: storyObj.name || name,
-              }),
-              // createElement('story-canvas', {
-              //   id: canvasId,
-              //   children: renderComponent(storyObj),
-              // }),
-              storyObj.parameters &&
-                storyObj.parameters['docs'] &&
-                storyObj.parameters['docs'].description &&
-                typeof storyObj.parameters['docs'].description.story === 'string'
-                ? createElement('markdown-html', {
-                    value: storyObj.parameters['docs'].description.story,
-                  })
-                : null,
+              createElement(
+                'div',
+                {
+                  className: 'docs-story__docs',
+                },
+                createElement(
+                  'div',
+                  {
+                    style: {
+                      display: 'flex',
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                    },
+                  },
+                  createElement('h2', {
+                    id: headingId,
+                    children: storyObj.name || name,
+                  }),
+                  createElement('button', {
+                    children: 'Full screen',
+                    // TODO: `useState` for `document.fullscreenElement`
+                    'aria-pressed': document.fullscreenElement ? 'true' : 'false',
+                    className: 'nl-button nl-button--subtle',
+                    onClick: () => {
+                      if (!document.fullscreenElement) {
+                        document.getElementById(sectionId)?.requestFullscreen();
+                      } else {
+                        document.exitFullscreen();
+                      }
+                    },
+                  }),
+                ),
+                // createElement('story-canvas', {
+                //   id: canvasId,
+                //   children: renderComponent(storyObj),
+                // }),
+                storyObj.parameters &&
+                  storyObj.parameters['docs'] &&
+                  storyObj.parameters['docs'].description &&
+                  typeof storyObj.parameters['docs'].description.story === 'string'
+                  ? createElement('markdown-html', {
+                      value: storyObj.parameters['docs'].description.story,
+                    })
+                  : null,
+              ),
               createElement('div', {
-                className: 'reset-theme',
+                className: 'docs-story__canvas reset-theme',
                 children: createElement('div', {
                   className: 'voorbeeld-theme',
                   children: createElement('story-canvas', {
@@ -260,6 +291,7 @@ export class StoryList extends HTMLElement {
                 ? createElement(
                     'details',
                     {
+                      className: 'docs-story__tokens',
                       open: true,
                     },
                     ...[createElement('summary', { children: 'Bekijk Design Tokens' }), designTokensEditor],
@@ -271,6 +303,7 @@ export class StoryList extends HTMLElement {
                 ? createElement(
                     'details',
                     {
+                      className: 'docs-story__code1',
                       open: true,
                     },
                     createElement('summary', { children: 'HTML en CSS voorbeeldcode' }),
@@ -307,6 +340,7 @@ export class StoryList extends HTMLElement {
                     'details',
                     {
                       open: true,
+                      className: 'docs-story__code2',
                     },
                     createElement('summary', { children: 'React voorbeeldcode' }),
                     createElement('pre', {
@@ -345,6 +379,7 @@ export class StoryList extends HTMLElement {
                     'details',
                     {
                       open: false,
+                      className: 'docs-story__properties',
                     },
                     createElement('summary', { children: 'Properties' }),
                     createElement('args-table', {

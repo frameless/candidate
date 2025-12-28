@@ -85,6 +85,49 @@
         .denhaag-side-navigation__link:has(.h1) {
           font-weight: bold;
         }
+        :not(:root):fullscreen {
+          background-color: var(--basis-color-default-bg-document);
+          color: var(--basis-color-default-color-default);
+        }
+
+        .docs-story:fullscreen {
+          display: grid;
+          grid-gap: 0;
+          grid-template-columns: 30% 30% 30%;
+        }
+
+        .docs-story:fullscreen .docs-story__docs,
+        .docs-story:fullscreen .docs-story__properties,
+        .docs-story:fullscreen .docs-story__design-tokens .docs-story:fullscreen .docs-story__code1,
+        .docs-story:fullscreen .docs-story__code2,
+        .docs-story:fullscreen .docs-story__canvas {
+          padding-block: var(--basis-space-block-lg);
+          padding-inline: var(--basis-space-inline-lg);
+          overflow: auto;
+        }
+
+        .docs-story:fullscreen .docs-story__docs {
+          grid-column: 1 / span 2;
+        }
+        .docs-story:fullscreen .docs-story__canvas {
+          grid-column: 1 / span 2;
+        }
+        .docs-story:fullscreen .docs-story__design-tokens,
+        .docs-story:fullscreen .docs-story__properties {
+          grid-column: 3;
+          grid-row: 1 / span 3;
+          border-inline-start: 1px solid var(--basis-color-default-border-default);
+        }
+        .docs-story:fullscreen .docs-story__code1 {
+          border-block-start: 1px solid var(--basis-color-default-border-default);
+          grid-column: 1;
+          grid-row: 3;
+        }
+        .docs-story:fullscreen .docs-story__code2 {
+          border-block-start: 1px solid var(--basis-color-default-border-default);
+          grid-column: 2;
+          grid-row: 3;
+        }
       </style>
     </div>
   </body>
