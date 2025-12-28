@@ -35,6 +35,8 @@ customElements.define(
 
       const isStoryReact = (el: HTMLElement | null): el is StoryReactInterface =>
         !!el && el.localName === 'story-react';
+      const isTextbox = (el: EventTarget | HTMLElement | null): el is HTMLInputElement =>
+        !!el && el instanceof HTMLInputElement && el.type === 'text';
       const isCheckbox = (el: EventTarget | HTMLElement | null): el is HTMLInputElement =>
         !!el && el instanceof HTMLInputElement && el.type === 'checkbox';
       const isSelect = (el: EventTarget | HTMLElement | null): el is HTMLInputElement =>
@@ -46,7 +48,7 @@ customElements.define(
           onInput: (evt) => {
             const target = this.getAttribute('target');
             const targetEl = target ? document.getElementById(target) : null;
-            if (isStoryReact(targetEl) && isCheckbox(evt.target)) {
+            if (isStoryReact(targetEl) && isTextbox(evt.target)) {
               targetEl.args = {
                 ...targetEl.args,
                 [name]: evt.target.value,
@@ -79,7 +81,7 @@ customElements.define(
           return createElement('select', {
             defaultValue: Object.hasOwn(this.values, name) ? this._values[name] : undefined,
             children: argType.options?.map((option, index) => {
-              return createElement('option', { key: index, hildren: String(option) });
+              return createElement('option', { key: index }, String(option));
             }),
             onInput: (evt) => {
               const target = this.getAttribute('target');

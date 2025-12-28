@@ -18,7 +18,7 @@ customElements.define(
     renderRoot: Root;
     observer: MutationObserver;
     throttleScan: () => void;
-    query: string = 'h2[id]';
+    query: string = 'h1[id], h2[id], h3[id], h4[id], h5[id], h6[id]';
     set items(value: SidebarItem[]) {
       this._items = value;
       this.render();
@@ -36,7 +36,6 @@ customElements.define(
         this.query = query;
       }
       this.render();
-
       this.scan();
       this.observer = new MutationObserver(this.throttleScan);
     }
@@ -57,7 +56,8 @@ customElements.define(
         return {
           href: `#${heading.id}`,
           label: heading.textContent,
-          icon: '',
+          // Hack because we're not able to add a class name
+          icon: createElement('span', { className: `level-sentinel ${heading.localName}` }),
         };
       });
     }

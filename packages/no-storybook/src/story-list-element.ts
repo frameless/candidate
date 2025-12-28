@@ -10,6 +10,7 @@ import { ArgsStoryFn } from 'storybook/internal/csf';
 
 // Remove the hierarchy from the title
 const normalizeStoryTitle = (title: string): string => title.replace(/^(.*\/)/, '');
+const slugify = (str: string) => str.replace(/[^\w+]/g, '');
 
 type StoriesFile = {
   default: Meta;
@@ -64,7 +65,7 @@ export class StoryList extends HTMLElement {
       root.render(jsx);
     };
 
-    const storyId = this.storyTitle.replace(/[^\w+]/g, '');
+    const storyId = slugify(this.storyTitle);
     const cssId = `css-${storyId}`;
 
     const isJsxSource = (arg: EventTarget | HTMLElement | null): arg is JsxSourceInterface =>
@@ -95,7 +96,7 @@ export class StoryList extends HTMLElement {
         {
           className: 'docs-story-file',
         },
-        createElement('h1', { children: this.storyTitle }),
+        createElement('h1', { id: `h1-${storyId}` }, String(this.storyTitle)),
 
         createElement(
           'details',

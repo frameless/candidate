@@ -158,11 +158,14 @@ customElements.define(
         return createElement('select', {
           ...args,
           children: options.map(({ value, children }) =>
-            createElement('option', {
-              key: value,
-              value,
+            createElement(
+              'option',
+              {
+                key: value,
+                value,
+              },
               children,
-            }),
+            ),
           ),
         });
       };
