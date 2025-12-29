@@ -5,6 +5,7 @@ import '@nl-design-system-candidate/code-css/html/code.css';
 import '@nl-design-system-candidate/icon-css/icon.css';
 import '@utrecht/icon-css/dist/index.css';
 import '@nl-design-system-unstable/voorbeeld-design-tokens/dist/theme.css';
+import '@nl-design-system-community/ma-design-tokens/dist/theme.css';
 import '@gemeente-denhaag/side-navigation/index.css';
 import '@utrecht/drawer-css/dist/index.css';
 import '@utrecht/body-css/dist/index.css';
@@ -39,6 +40,8 @@ import '@fontsource/noto-serif/greek.css';
 import '@fontsource/noto-sans/cyrillic.css';
 import '@fontsource/noto-sans-mono/cyrillic.css';
 import '@fontsource/noto-serif/cyrillic.css';
+import '@fontsource/fira-sans/latin.css';
+import '@fontsource/source-sans-pro/latin.css';
 import { StoryList } from './story-list-element.js';
 import { getTokenPaths, tokenPathToCSSCustomProperty } from './design-tokens-table-element.js';
 const jsons = [

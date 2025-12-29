@@ -1046,6 +1046,9 @@ importers:
       '@fontsource-variable/noto-serif':
         specifier: 5.2.9
         version: 5.2.9
+      '@fontsource/fira-sans':
+        specifier: 5.2.6
+        version: 5.2.6
       '@fontsource/noto-sans':
         specifier: 5.2.10
         version: 5.2.10
@@ -1055,9 +1058,15 @@ importers:
       '@fontsource/noto-serif':
         specifier: 5.2.6
         version: 5.2.6
+      '@fontsource/source-sans-pro':
+        specifier: 5.2.5
+        version: 5.2.5
       '@gemeente-denhaag/side-navigation':
         specifier: 4.0.3
         version: 4.0.3(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      '@nl-design-system-community/ma-design-tokens':
+        specifier: 3.0.0
+        version: 3.0.0
       '@utrecht/body-css':
         specifier: 2.0.1
         version: 2.0.1
@@ -1544,13 +1553,13 @@ importers:
         version: link:../components-react/paragraph-react
       '@nl-design-system/tsconfig':
         specifier: 1.0.4
-        version: 1.0.4(typescript@5.9.3)
+        version: 1.0.4(typescript@5.9.2)
       '@storybook/addon-docs':
         specifier: 9.1.5
         version: 9.1.5(@types/react@19.2.7)(storybook@10.1.10(@testing-library/dom@10.4.1)(prettier@3.6.2)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))
       '@storybook/react-vite':
         specifier: 9.1.5
-        version: 9.1.5(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(rollup@4.46.2)(storybook@10.1.10(@testing-library/dom@10.4.1)(prettier@3.6.2)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(typescript@5.9.3)(vite@7.1.12(@types/node@22.17.0)(sass@1.89.2)(yaml@2.8.0))
+        version: 9.1.5(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(rollup@4.46.2)(storybook@10.1.10(@testing-library/dom@10.4.1)(prettier@3.6.2)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(typescript@5.9.2)(vite@7.1.12(@types/node@22.17.0)(sass@1.89.2)(yaml@2.8.0))
       '@types/react':
         specifier: 19.2.7
         version: 19.2.7
@@ -2643,6 +2652,9 @@ packages:
   '@fontsource/noto-serif@5.2.6':
     resolution: {integrity: sha512-mEGeD/duOwgEJooUsXpdCz3WdBJBfm7LEP2XQz/OSBXxj/GVwisULiOH2B7oL2tLBT6EGKTzZfmJAo6ZzOG0+w==}
 
+  '@fontsource/source-sans-pro@5.2.5':
+    resolution: {integrity: sha512-ypendqc4pYUc+EgF7qqPY9iVYEz1t/Qr03VojKxG/2g3dnpHa1B6DOlDxWQjQXDj5QrG6inEqGT0g+edjALZyg==}
+
   '@fontsource/source-serif-pro@5.2.5':
     resolution: {integrity: sha512-MTsjMrl2+81dar37wV1taDYzU+o9ArcuBVBkXRNb6JuNCBmrKOIAAmI1wC3cE+Q0eAlgXlfNrvZ7swP3l2M8tQ==}
 
@@ -2788,6 +2800,9 @@ packages:
     peerDependencies:
       '@types/react': '>=16'
       react: '>=16'
+
+  '@nl-design-system-community/ma-design-tokens@3.0.0':
+    resolution: {integrity: sha512-95uF6BODj/RldOGIdB0i4L8ISoJ4CauQVzZb6sgD8GBA4btEdX3Cdc6VOKncKbknads5WePeNFap7lo7YrlRGg==}
 
   '@nl-design-system-unstable/design-tokens-table-react@1.0.0':
     resolution: {integrity: sha512-WBc4wkfGvR42Iw0GwcdXLAv5Y21fUM8rPJ1eAID6ymM1rx8VrN3ZnmTqtsQtKdkCCvHGvl2Zl4WJngG+bmJIlQ==}
@@ -8135,6 +8150,8 @@ snapshots:
 
   '@fontsource/noto-serif@5.2.6': {}
 
+  '@fontsource/source-sans-pro@5.2.5': {}
+
   '@fontsource/source-serif-pro@5.2.5': {}
 
   '@gemeente-denhaag/button@0.2.3-alpha.401(react@19.2.3)':
@@ -8212,6 +8229,15 @@ snapshots:
       wrap-ansi-cjs: wrap-ansi@7.0.0
 
   '@istanbuljs/schema@0.1.3': {}
+
+  '@joshwooding/vite-plugin-react-docgen-typescript@0.6.1(typescript@5.9.2)(vite@7.1.12(@types/node@22.17.0)(sass@1.89.2)(yaml@2.8.0))':
+    dependencies:
+      glob: 12.0.0
+      magic-string: 0.30.21
+      react-docgen-typescript: 2.2.2(typescript@5.9.2)
+      vite: 7.1.12(@types/node@22.17.0)(sass@1.89.2)(yaml@2.8.0)
+    optionalDependencies:
+      typescript: 5.9.2
 
   '@joshwooding/vite-plugin-react-docgen-typescript@0.6.1(typescript@5.9.3)(vite@7.1.12(@types/node@22.17.0)(sass@1.89.2)(yaml@2.8.0))':
     dependencies:
@@ -8295,6 +8321,8 @@ snapshots:
       '@types/react': 19.2.7
       react: 19.2.3
 
+  '@nl-design-system-community/ma-design-tokens@3.0.0': {}
+
   '@nl-design-system-unstable/design-tokens-table-react@1.0.0(@babel/runtime@7.28.2)(react@19.2.3)':
     dependencies:
       '@babel/runtime': 7.28.2
@@ -8354,10 +8382,6 @@ snapshots:
   '@nl-design-system/tsconfig@1.0.4(typescript@5.9.2)':
     dependencies:
       typescript: 5.9.2
-
-  '@nl-design-system/tsconfig@1.0.4(typescript@5.9.3)':
-    dependencies:
-      typescript: 5.9.3
 
   '@nl-design-system/tsconfig@1.0.5(typescript@5.9.3)':
     dependencies:
@@ -8651,6 +8675,26 @@ snapshots:
       react-dom: 19.2.3(react@19.2.3)
       storybook: 9.1.5(@testing-library/dom@10.4.1)(prettier@3.6.2)(vite@7.1.5(@types/node@22.17.0)(sass@1.89.2)(yaml@2.8.0))
 
+  '@storybook/react-vite@9.1.5(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(rollup@4.46.2)(storybook@10.1.10(@testing-library/dom@10.4.1)(prettier@3.6.2)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(typescript@5.9.2)(vite@7.1.12(@types/node@22.17.0)(sass@1.89.2)(yaml@2.8.0))':
+    dependencies:
+      '@joshwooding/vite-plugin-react-docgen-typescript': 0.6.1(typescript@5.9.2)(vite@7.1.12(@types/node@22.17.0)(sass@1.89.2)(yaml@2.8.0))
+      '@rollup/pluginutils': 5.1.2(rollup@4.46.2)
+      '@storybook/builder-vite': 9.1.5(storybook@10.1.10(@testing-library/dom@10.4.1)(prettier@3.6.2)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(vite@7.1.12(@types/node@22.17.0)(sass@1.89.2)(yaml@2.8.0))
+      '@storybook/react': 9.1.5(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(storybook@10.1.10(@testing-library/dom@10.4.1)(prettier@3.6.2)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(typescript@5.9.2)
+      find-up: 7.0.0
+      magic-string: 0.30.21
+      react: 19.2.3
+      react-docgen: 8.0.1
+      react-dom: 19.2.3(react@19.2.3)
+      resolve: 1.22.10
+      storybook: 10.1.10(@testing-library/dom@10.4.1)(prettier@3.6.2)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      tsconfig-paths: 4.2.0
+      vite: 7.1.12(@types/node@22.17.0)(sass@1.89.2)(yaml@2.8.0)
+    transitivePeerDependencies:
+      - rollup
+      - supports-color
+      - typescript
+
   '@storybook/react-vite@9.1.5(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(rollup@4.46.2)(storybook@10.1.10(@testing-library/dom@10.4.1)(prettier@3.6.2)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(typescript@5.9.3)(vite@7.1.12(@types/node@22.17.0)(sass@1.89.2)(yaml@2.8.0))':
     dependencies:
       '@joshwooding/vite-plugin-react-docgen-typescript': 0.6.1(typescript@5.9.3)(vite@7.1.12(@types/node@22.17.0)(sass@1.89.2)(yaml@2.8.0))
@@ -8690,6 +8734,16 @@ snapshots:
       - rollup
       - supports-color
       - typescript
+
+  '@storybook/react@9.1.5(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(storybook@10.1.10(@testing-library/dom@10.4.1)(prettier@3.6.2)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(typescript@5.9.2)':
+    dependencies:
+      '@storybook/global': 5.0.0
+      '@storybook/react-dom-shim': 9.1.5(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(storybook@10.1.10(@testing-library/dom@10.4.1)(prettier@3.6.2)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))
+      react: 19.2.3
+      react-dom: 19.2.3(react@19.2.3)
+      storybook: 10.1.10(@testing-library/dom@10.4.1)(prettier@3.6.2)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+    optionalDependencies:
+      typescript: 5.9.2
 
   '@storybook/react@9.1.5(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(storybook@10.1.10(@testing-library/dom@10.4.1)(prettier@3.6.2)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(typescript@5.9.3)':
     dependencies:
@@ -11886,6 +11940,10 @@ snapshots:
     dependencies:
       react: 19.2.3
       react-dom: 19.2.3(react@19.2.3)
+
+  react-docgen-typescript@2.2.2(typescript@5.9.2):
+    dependencies:
+      typescript: 5.9.2
 
   react-docgen-typescript@2.2.2(typescript@5.9.3):
     dependencies:
