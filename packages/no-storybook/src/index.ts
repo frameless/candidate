@@ -9,6 +9,7 @@ import '@nl-design-system-community/ma-design-tokens/dist/theme.css';
 import '@gemeente-denhaag/side-navigation/index.css';
 import '@utrecht/drawer-css/dist/index.css';
 import '@utrecht/body-css/dist/index.css';
+import '@utrecht/page-header-css/dist/index.css';
 import '@utrecht/page-body-css/dist/index.css';
 import '@utrecht/button-css/dist/index.css';
 import '@utrecht/button-link-css/dist/index.css';
@@ -42,8 +43,14 @@ import '@fontsource/noto-sans-mono/cyrillic.css';
 import '@fontsource/noto-serif/cyrillic.css';
 import '@fontsource/fira-sans/latin.css';
 import '@fontsource/source-sans-pro/latin.css';
+import '@nl-design-system-community/clippy-components/clippy-font-combobox';
+
 import { StoryList } from './story-list-element.js';
 import { getTokenPaths, tokenPathToCSSCustomProperty } from './design-tokens-table-element.js';
+
+// customElements.define('clippy-combobox', ClippyCombobox);
+// customElements.define('clippy-font-combobox', ClippyFontCombobox);
+
 const jsons = [
   import('@nl-design-system-candidate/button-tokens'),
   import('@nl-design-system-candidate/code-tokens'),

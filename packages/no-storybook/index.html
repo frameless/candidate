@@ -6,40 +6,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
   </head>
   <body class="utrecht-body">
-    <dialog open class="utrecht-drawer utrecht-drawer--inline-start">
-      <toc-sidebar></toc-sidebar>
-    </dialog>
     <a href="#main" class="nl-skip-link nl-skip-link--visible-on-focus">Direct naar de hoofdinhoud</a>
-    <div class="utrecht-page-layout">
-      <header class="utrecht-page-header">
-        <div class="utrecht-page-header__content">
-          <h1>No Storybook</h1>
-        </div>
-      </header>
-      <div class="utrecht-page-body">
-        <div class="utrecht-page-body__content">
-          <main id="main">
-            <!-- CSS dependencies -->
-            <script type="module" src="src/index.ts"></script>
+    <div class="docs-sidebar-layout">
+      <div class="docs-sidebar-layout__panel">
+        <dialog open class="ma-navigation-drawer">
+          <toc-sidebar></toc-sidebar>
+        </dialog>
+      </div>
+      <div class="docs-sidebar-layout__panel">
+        <div class="utrecht-page-layout">
+          <header class="utrecht-page-header">
+            <div class="utrecht-page-header__content">
+              <h1>No Storybook</h1>
+            </div>
+          </header>
+          <div class="utrecht-page-body">
+            <div class="utrecht-page-body__content">
+              <main id="main">
+                <!-- CSS dependencies -->
+                <script type="module" src="src/index.ts"></script>
 
-            <!-- Web Component dependencies -->
-            <script type="module" src="src/args-docs-element.ts"></script>
-            <script type="module" src="src/args-table-element.ts"></script>
-            <script type="module" src="src/code-block-element.ts"></script>
-            <script type="module" src="src/copy-action-element.ts"></script>
-            <script type="module" src="src/design-tokens-stylesheet-element.ts"></script>
-            <script type="module" src="src/design-tokens-table-element.ts"></script>
-            <script type="module" src="src/inner-html-element.ts"></script>
-            <script type="module" src="src/jsx-source-element.ts"></script>
-            <script type="module" src="src/markdown-element.ts"></script>
-            <script type="module" src="src/story-canvas-element.ts"></script>
-            <script type="module" src="src/story-list-element.ts"></script>
-            <script type="module" src="src/story-react-element.ts"></script>
-            <script type="module" src="src/toc-sidebar-element.ts"></script>
-            <design-tokens-stylesheet selector="story-canvas"></design-tokens-stylesheet>
+                <!-- Web Component dependencies -->
+                <script type="module" src="src/args-docs-element.ts"></script>
+                <script type="module" src="src/args-table-element.ts"></script>
+                <script type="module" src="src/code-block-element.ts"></script>
+                <script type="module" src="src/copy-action-element.ts"></script>
+                <script type="module" src="src/design-tokens-stylesheet-element.ts"></script>
+                <script type="module" src="src/design-tokens-table-element.ts"></script>
+                <script type="module" src="src/inner-html-element.ts"></script>
+                <script type="module" src="src/jsx-source-element.ts"></script>
+                <script type="module" src="src/markdown-element.ts"></script>
+                <script type="module" src="src/story-canvas-element.ts"></script>
+                <script type="module" src="src/story-list-element.ts"></script>
+                <script type="module" src="src/story-react-element.ts"></script>
+                <script type="module" src="src/toc-sidebar-element.ts"></script>
+                <design-tokens-stylesheet selector="story-canvas"></design-tokens-stylesheet>
 
-            <!-- Stories with dependencies, that only work in `pnpm run dev` -->
-            <!--
+                <!-- Stories with dependencies, that only work in `pnpm run dev` -->
+                <!--
             <story-list src="./button-react.stories.js"></story-list>
             <story-list src="./code-react.stories.js"></story-list>
             <story-list src="./code-block-react.stories.js"></story-list>
@@ -52,86 +56,111 @@
             <story-list src="./paragraph-react.stories.js"></story-list>
             <story-list src="./skip-link-react.stories.js"></story-list>
             -->
-          </main>
+              </main>
+            </div>
+          </div>
+          <footer class="utrecht-page-footer">
+            <div class="utrecht-page-footer__content">Licentie: EUPL-1.2</div>
+          </footer>
+          <style>
+            .docs-story-file + .docs-story-file,
+            story-list + story-list > .docs-story-file:only-child {
+              margin-block-start: 16rem;
+            }
+            .docs-story + .docs-story {
+              margin-block-start: 10rem;
+            }
+            pre::after {
+              /* Stretch the code block to fit the the "Copy code" buttons. */
+              content: '';
+              clear: both;
+              display: table;
+            }
+            design-tokens-table > dl > div + div {
+              margin-block-start: var(--basis-space-block-3xl);
+            }
+            design-tokens-table > dl > div > dd {
+              margin-inline-start: 0;
+            }
+            /* Only show the "Copy CSS" code snippet when there are any CSS properties to copy */
+            design-tokens-table:state(default) + pre {
+              display: none;
+            }
+            .denhaag-side-navigation__link:has(.h1) {
+              font-weight: bold;
+            }
+            :not(:root):fullscreen {
+              background-color: var(--basis-color-default-bg-document);
+              color: var(--basis-color-default-color-default);
+            }
+
+            .docs-story:fullscreen {
+              display: grid;
+              grid-gap: 0;
+              grid-template-columns: 30% 30% 30%;
+            }
+
+            .docs-story:fullscreen .docs-story__docs,
+            .docs-story:fullscreen .docs-story__properties,
+            .docs-story:fullscreen .docs-story__design-tokens,
+            .docs-story:fullscreen .docs-story__code1,
+            .docs-story:fullscreen .docs-story__code2,
+            .docs-story:fullscreen .docs-story__canvas {
+              padding-block: var(--basis-space-block-lg);
+              padding-inline: var(--basis-space-inline-lg);
+              overflow: auto;
+            }
+
+            .docs-story:fullscreen .docs-story__docs {
+              grid-column: 1 / span 2;
+            }
+            .docs-story:fullscreen .docs-story__canvas {
+              grid-column: 1 / span 2;
+            }
+            .docs-story:fullscreen .docs-story__design-tokens,
+            .docs-story:fullscreen .docs-story__properties {
+              grid-column: 3;
+              grid-row: 1 / span 3;
+              border-inline-start: 1px solid var(--basis-color-default-border-default);
+            }
+            .docs-story:fullscreen .docs-story__code1 {
+              border-block-start: 1px solid var(--basis-color-default-border-default);
+              grid-column: 1;
+              grid-row: 3;
+            }
+            .docs-story:fullscreen .docs-story__code2 {
+              border-block-start: 1px solid var(--basis-color-default-border-default);
+              grid-column: 2;
+              grid-row: 3;
+            }
+            .ma-theme {
+              /* --nlds-typography-default-font-family: 'Source Sans Pro', 'Fira Sans', sans-serif !important; */
+              --utrecht-page-header-content-padding-inline-end: var(--basis-space-inline-4xl);
+              --utrecht-page-header-content-padding-inline-start: var(--basis-space-inline-4xl);
+              --utrecht-page-body-content-padding-inline-end: var(--basis-space-inline-4xl);
+              --utrecht-page-body-content-padding-inline-start: var(--basis-space-inline-4xl);
+              --utrecht-page-footer-content-padding-inline-end: var(--basis-space-inline-4xl);
+              --utrecht-page-footer-content-padding-inline-start: var(--basis-space-inline-4xl);
+            }
+            .docs-sidebar-layout {
+              display: flex;
+              flex-direction: row;
+              max-block-size: 100%;
+              inline-size: 100%;
+            }
+            .docs-sidebar-layout__panel {
+              overflow: auto;
+              inline-size: 100%;
+            }
+            .docs-sidebar-layout__panel:first-of-type {
+              max-inline-size: 30%;
+            }
+            .docs-sidebar-layout__panel > .ma-navigation-drawer {
+              position: static;
+            }
+          </style>
         </div>
       </div>
-      <footer class="utrecht-page-footer">
-        <div class="utrecht-page-footer__content">Licentie: EUPL-1.2</div>
-      </footer>
-      <style>
-        .docs-story-file + .docs-story-file,
-        story-list + story-list > .docs-story-file:only-child {
-          margin-block-start: 16rem;
-        }
-        .docs-story + .docs-story {
-          margin-block-start: 10rem;
-        }
-        pre::after {
-          /* Stretch the code block to fit the the "Copy code" buttons. */
-          content: '';
-          clear: both;
-          display: table;
-        }
-        design-tokens-table > dl > div + div {
-          margin-block-start: var(--basis-space-block-3xl);
-        }
-        design-tokens-table > dl > div > dd {
-          margin-inline-start: 0;
-        }
-        /* Only show the "Copy CSS" code snippet when there are any CSS properties to copy */
-        design-tokens-table:state(default) + pre {
-          display: none;
-        }
-        .denhaag-side-navigation__link:has(.h1) {
-          font-weight: bold;
-        }
-        :not(:root):fullscreen {
-          background-color: var(--basis-color-default-bg-document);
-          color: var(--basis-color-default-color-default);
-        }
-
-        .docs-story:fullscreen {
-          display: grid;
-          grid-gap: 0;
-          grid-template-columns: 30% 30% 30%;
-        }
-
-        .docs-story:fullscreen .docs-story__docs,
-        .docs-story:fullscreen .docs-story__properties,
-        .docs-story:fullscreen .docs-story__design-tokens .docs-story:fullscreen .docs-story__code1,
-        .docs-story:fullscreen .docs-story__code2,
-        .docs-story:fullscreen .docs-story__canvas {
-          padding-block: var(--basis-space-block-lg);
-          padding-inline: var(--basis-space-inline-lg);
-          overflow: auto;
-        }
-
-        .docs-story:fullscreen .docs-story__docs {
-          grid-column: 1 / span 2;
-        }
-        .docs-story:fullscreen .docs-story__canvas {
-          grid-column: 1 / span 2;
-        }
-        .docs-story:fullscreen .docs-story__design-tokens,
-        .docs-story:fullscreen .docs-story__properties {
-          grid-column: 3;
-          grid-row: 1 / span 3;
-          border-inline-start: 1px solid var(--basis-color-default-border-default);
-        }
-        .docs-story:fullscreen .docs-story__code1 {
-          border-block-start: 1px solid var(--basis-color-default-border-default);
-          grid-column: 1;
-          grid-row: 3;
-        }
-        .docs-story:fullscreen .docs-story__code2 {
-          border-block-start: 1px solid var(--basis-color-default-border-default);
-          grid-column: 2;
-          grid-row: 3;
-        }
-        .ma-theme {
-          --nlds-typography-default-font-family: 'Source Sans Pro', 'Fira Sans', sans-serif !important;
-        }
-      </style>
     </div>
   </body>
 </html>

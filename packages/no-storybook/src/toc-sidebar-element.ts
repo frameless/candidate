@@ -1,6 +1,7 @@
 import { createRoot, Root } from 'react-dom/client';
 import { createElement, type ReactNode } from 'react';
-import { SideNavigation } from '@gemeente-denhaag/side-navigation';
+// import { SideNavigation } from '@gemeente-denhaag/side-navigation';
+import { NavigationList, NavigationListItem } from './navigation-list';
 import throttle from 'lodash-es/throttle';
 
 interface SidebarItem {
@@ -65,7 +66,11 @@ customElements.define(
       const { items: _items } = this;
 
       // Render new version
-      this.renderRoot.render(createElement(SideNavigation, { items: [this._items] }));
+      this.renderRoot.render(
+        createElement(NavigationList, {
+          children: this._items.map(({ label, href }) => createElement(NavigationListItem, { label, href, key: href })),
+        }),
+      );
     }
   },
 );

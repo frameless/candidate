@@ -1,11 +1,12 @@
 import { createRoot, Root } from 'react-dom/client';
 import { ArgTypes } from '@storybook/react-vite';
 import type { InputType } from 'storybook/internal/csf';
-import { createElement, FormEvent, ReactNode, SelectHTMLAttributes } from 'react';
+import { createElement, FormEvent, HTMLAttributes, ReactNode, SelectHTMLAttributes } from 'react';
 import set from 'lodash-es/set';
 import get from 'lodash-es/get';
 import { cloneDeep, unset } from 'lodash-es';
 import { DesignTokensStylesheetElement } from './design-tokens-stylesheet-element';
+import { ClippyFontCombobox } from './ClippyFontCombobox';
 
 // Token utilities are adapted from:
 // https://github.com/nl-design-system/documentatie/blob/main/src/utils.ts
@@ -539,6 +540,8 @@ customElements.define(
             const defaultValue = token ? token['$value'] : originalValue ? originalCssValue : undefined;
             const cssProperty = tokenPathToCSSCustomProperty(path);
 
+            type FormAssociatedCustomElement = HTMLAttributes<HTMLElement> & { value: string };
+
             // TODO: Replace with checking token[$type] === 'color'
             const isColor = /color/.test(path.at(-1) || '');
             // console.log(id, defaultValue);
@@ -547,9 +550,11 @@ customElements.define(
               id,
               defaultValue: String(defaultValue),
               title: originalValue,
-              onInput: (evt: FormEvent<HTMLInputElement | HTMLSelectElement>) => {
+              onInput: (evt: FormEvent<HTMLInputElement | HTMLSelectElement | FormAssociatedCustomElement>) => {
                 const cssValue =
-                  evt.target instanceof HTMLInputElement || evt.target instanceof HTMLSelectElement
+                  evt.target instanceof HTMLInputElement ||
+                  evt.target instanceof HTMLSelectElement ||
+                  ('value' in evt.target && typeof evt.target.value === 'string')
                     ? evt.target.value
                     : undefined;
                 if (typeof cssValue === 'string') {
@@ -594,7 +599,27 @@ customElements.define(
               value: '',
               children: originalValue,
             };
-            if (tokenScale) {
+
+            if (path.at(-1) === 'font-family' || tokenScale) {
+              // designTokenInput = createElement('clippy-font-combobox', {
+              designTokenInput = createElement(ClippyFontCombobox, {
+                onInput: (evt) => {
+                  console.log('input', evt);
+                  return args.onInput(evt as unknown as FormEvent<HTMLInputElement>);
+                },
+                onChange: (evt) => {
+                  console.log('change', evt);
+                  return args.onInput(evt as unknown as FormEvent<HTMLInputElement>);
+                },
+                defaultValue: args.defaultValue,
+                options: createOptionKeys(valueExistsAsOption ? [unknownOption, ...options] : options).map(
+                  ({ value, children }) => ({
+                    label: String(children),
+                    value,
+                  }),
+                ),
+              });
+            } else if (tokenScale) {
               // TODO: If it is a `negative` token, prioritize the `negative` color scale
               // TODO: If it is a `positive` token, prioritize the `positive` color scale
               // TODO: If it is a `info` token, prioritize the `info` color scale
