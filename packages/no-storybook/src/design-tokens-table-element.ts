@@ -703,6 +703,17 @@ customElements.define(
               }
             }
 
+            // Terrible implementation, but gives you an idea
+            const hasAlphaChannel = (value: string) => /^(rgba|hsla)|^transparent$/i.test(value);
+
+            let warningMessage = null;
+            if (path.at(-1) === 'background-color') {
+              if (hasAlphaChannel(validationValue)) {
+                warningMessage =
+                  'Let op: met een transparante achtergrondkleur is er niet gegarandeerd voldoende contrast, en de component kan in bepaalde situaties ontoegankelijk zijn.';
+              }
+            }
+
             return createElement(
               'div',
               {
@@ -746,6 +757,9 @@ customElements.define(
                   : null,
                 validationMessage
                   ? createElement('div', { className: 'utrecht-alert utrecht-alert--error' }, validationMessage)
+                  : null,
+                warningMessage
+                  ? createElement('div', { className: 'utrecht-alert utrecht-alert--warning' }, warningMessage)
                   : null,
               ),
             );
