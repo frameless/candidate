@@ -8,6 +8,7 @@ import '@nl-design-system-unstable/voorbeeld-design-tokens/dist/theme.css';
 import '@nl-design-system-community/ma-design-tokens/dist/theme.css';
 import '@gemeente-denhaag/side-navigation/index.css';
 import '@utrecht/drawer-css/dist/index.css';
+import '@utrecht/alert-css/dist/index.css';
 import '@utrecht/body-css/dist/index.css';
 import '@utrecht/page-header-css/dist/index.css';
 import '@utrecht/page-body-css/dist/index.css';

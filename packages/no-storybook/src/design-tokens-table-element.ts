@@ -635,6 +635,74 @@ customElements.define(
               });
             }
 
+            let validationMessage = null;
+
+            const validationValue = String(defaultValue);
+            const isCssPxValue = (value: string) => /px$/i.test(value);
+            const isCssRemValue = (value: string) => /rem$/i.test(value);
+            const isUnitlessValue = (value: string) => /^-?(\d+|\d*\.\d+|\d+.?\d*)$/.test(value);
+            const isUnitValue = (value: string) => /^-?(\d+|\d*\.\d+|\d+.?\d*)([a-z]+|%)$/.test(value);
+            // https://www.w3.org/TR/css-values-3/#font-relative-lengths
+            const isFontRelativeValue = (value: string) => /^-?(\d+|\d*\.\d+|\d+.?\d*)(rem|em|ch|ex)$/i.test(value);
+            if (path.at(-1) === 'font-size') {
+              if (isCssPxValue(validationValue) && parseFloat(validationValue) < 16) {
+                validationMessage = 'font-size values must be at least 16px';
+              }
+              if (isCssRemValue(validationValue) && parseFloat(validationValue) < 1) {
+                validationMessage = 'font-size values must be at least 1rem';
+              } else if (isCssPxValue(validationValue)) {
+                validationMessage = 'font-size kan beter met rem ingesteld worden dan met px';
+              }
+              //
+            } else if (path.at(-1) === 'line-height') {
+              if (isUnitlessValue(validationValue) && parseFloat(validationValue) < 1.5) {
+                validationMessage = 'line-height values must be at least 1.5';
+              } else if (isUnitValue(validationValue)) {
+                validationMessage = 'line-height values should use unitless values';
+              }
+            }
+
+            if (['text-underline-offset', 'text-decoration-thickness'].includes(path.at(-1) || '')) {
+              if (!isFontRelativeValue(validationValue) && !/^auto$/.test(validationValue)) {
+                validationMessage = 'use font-relative values for best results';
+              }
+            }
+
+            if (
+              !validationMessage &&
+              [
+                'padding-inline-start',
+                'padding-inline-end',
+                'padding-block-start',
+                'padding-block-end',
+                'padding-block',
+                'padding-inline',
+                'margin-inline-start',
+                'margin-inline-end',
+                'margin-block-start',
+                'margin-block-end',
+                'margin-block',
+                'margin-inline',
+                'border-radius',
+                'border-width',
+                'outline-width',
+                'text-underline-offset',
+                'text-decoration-thickness',
+                'block-size',
+                'min-block-size',
+                'max-block-size',
+                'inline-size',
+                'min-inline-size',
+                'max-inline-size',
+                'row-gap',
+                'column-gap',
+              ].includes(path.at(-1) || '')
+            ) {
+              if (parseFloat(validationValue) < 0) {
+                validationMessage = 'value must be positive';
+              }
+            }
+
             return createElement(
               'div',
               {
@@ -675,6 +743,9 @@ customElements.define(
                         }
                       },
                     })
+                  : null,
+                validationMessage
+                  ? createElement('div', { className: 'utrecht-alert utrecht-alert--error' }, validationMessage)
                   : null,
               ),
             );

@@ -78,6 +78,7 @@
     "@types/lodash-es": "4.17.12",
     "@types/react": "19.2.7",
     "@types/react-dom": "19.2.3",
+    "@utrecht/alert-css": "3.0.1",
     "@vitest/browser-playwright": "4.0.12",
     "@vitest/coverage-v8": "4.0.12",
     "http-server": "14.1.1",
