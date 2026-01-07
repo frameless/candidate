@@ -121,6 +121,7 @@
     "@utrecht/root-css": "2.0.1",
     "@utrecht/select-css": "2.0.1",
     "@utrecht/textbox-css": "3.0.1",
+    "colorjs.io": "0.6.0",
     "lit": "3.3.1",
     "lodash-es": "4.17.21",
     "preact": "10.28.0",

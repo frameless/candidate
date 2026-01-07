@@ -4,9 +4,14 @@ import type { InputType } from 'storybook/internal/csf';
 import { createElement, FormEvent, HTMLAttributes, ReactNode, SelectHTMLAttributes } from 'react';
 import set from 'lodash-es/set';
 import get from 'lodash-es/get';
-import { cloneDeep, unset } from 'lodash-es';
+import cloneDeep from 'lodash-es/cloneDeep';
+import unset from 'lodash-es/unset';
+import merge from 'lodash-es/merge';
 import { DesignTokensStylesheetElement } from './design-tokens-stylesheet-element';
 import { ClippyFontCombobox } from './ClippyFontCombobox';
+import { parse as parseColor, ColorSpace, sRGB, contrastWCAG21, contrastAPCA } from 'colorjs.io/fn';
+
+ColorSpace.register(sRGB);
 
 // Token utilities are adapted from:
 // https://github.com/nl-design-system/documentatie/blob/main/src/utils.ts
@@ -502,7 +507,7 @@ customElements.define(
         if (typeof value === 'undefined') {
           unset(newTheme, tokenPathToDottedTokenPath(path));
         } else {
-          set(newTheme, tokenPathToDottedTokenPath(path), { $value: value });
+          set(newTheme, tokenPathToDottedTokenPath(path), { $value: value, original: null });
         }
         this._theme = newTheme;
         this.css = tokens2css(this._theme, '.example-theme');
@@ -523,6 +528,24 @@ customElements.define(
 
       // Hack
       const tokenRefToCss = (arg: string) => arg.replace(/\./g, '-').replace(/^{(.+)}$/, 'var(--$1)');
+      const getOriginalToken = (token?: TokenNode) =>
+        token && ((token as unknown as TokenNode & { original: TokenNode })['original'] as unknown as TokenNode);
+      const getTokenValue = (token?: TokenNode) =>
+        token && (typeof token['$value'] === 'string' ? token['$value'] : undefined);
+
+      const resolveValue = (tokens: TokenNode, value: string): string =>
+        value.replace(/\{([^}]+)\}/g, (_, tokenName) => {
+          const token = tokenAtPath(tokens, tokenName.split('.'));
+          const value = getTokenValue(token);
+
+          if (typeof value === 'string') {
+            return resolveValue(tokens, value);
+          } else {
+            return 'x';
+          }
+        });
+
+      const currentTree = merge({}, this._defaultTokens, this._theme);
 
       // Render new version
       this.renderRoot.render(
@@ -531,13 +554,10 @@ customElements.define(
             const id = tokenPathToDottedTokenPath(path);
             const token = get(this._theme, id);
             const defaultToken = get(this._defaultTokens, id);
-            const originalToken =
-              defaultToken &&
-              ((defaultToken as unknown as TokenNode & { original: TokenNode })['original'] as unknown as TokenNode);
-            const originalValue =
-              originalToken && typeof originalToken['$value'] === 'string' ? originalToken['$value'] : undefined;
+            const originalToken = getOriginalToken(defaultToken);
+            const originalValue = originalToken && getTokenValue(originalToken);
             const originalCssValue = originalValue ? tokenRefToCss(originalValue) : undefined;
-            const defaultValue = token ? token['$value'] : originalValue ? originalCssValue : undefined;
+            const defaultValue = token ? getTokenValue(token) : originalValue ? originalCssValue : undefined;
             const cssProperty = tokenPathToCSSCustomProperty(path);
 
             type FormAssociatedCustomElement = HTMLAttributes<HTMLElement> & { value: string };
@@ -636,6 +656,7 @@ customElements.define(
             }
 
             let validationMessage = null;
+            let warningMessage = null;
 
             const validationValue = String(defaultValue);
             const isCssPxValue = (value: string) => /px$/i.test(value);
@@ -665,6 +686,53 @@ customElements.define(
             if (['text-underline-offset', 'text-decoration-thickness'].includes(path.at(-1) || '')) {
               if (!isFontRelativeValue(validationValue) && !/^auto$/.test(validationValue)) {
                 validationMessage = 'use font-relative values for best results';
+              }
+            }
+
+            const getRelatedToken = (tree: TokenNode, path: TokenPath, name: string): Token => {
+              const relatedPath = [...path.slice(0, path.length - 1), name];
+              return tokenAtPath(tree, relatedPath);
+            };
+            const getRelatedTokenValue = (tree: TokenNode, path: TokenPath, name: string) =>
+              getTokenValue(getRelatedToken(tree, path, name));
+
+            if (path.at(-1) === 'background-color') {
+              const contrastColorPath = [...path.slice(0, path.length - 1), 'color'];
+              const contrastToken = getRelatedToken(currentTree, path, 'color');
+              const originalContrastToken = getOriginalToken(contrastToken);
+              const originalConstrastValue = getTokenValue(originalContrastToken) || getTokenValue(contrastToken);
+              const token = tokenAtPath(currentTree, path);
+              const resolvedValue = resolveValue(currentTree, getTokenValue(token) || '');
+              const resolvedConstrastValue = resolveValue(currentTree, originalConstrastValue || '');
+
+              // TODO: Get font size of parent
+              const fontSize = getRelatedTokenValue(currentTree, path, 'font-size');
+
+              if (
+                resolvedValue &&
+                resolvedConstrastValue &&
+                typeof resolvedValue === 'string' &&
+                typeof resolvedConstrastValue === 'string'
+              ) {
+                try {
+                  const bg = parseColor(resolvedValue);
+                  const fg = parseColor(resolvedConstrastValue);
+                  const contrast = contrastWCAG21(bg, fg);
+                  const contrastValueAPCA = contrastAPCA(bg, fg);
+
+                  if (contrast < 4.5) {
+                    warningMessage = `Contrast is between background ${tokenPathToDottedTokenPath(path)} (${resolvedValue}) and foreground ${tokenPathToDottedTokenPath(contrastColorPath)} (${resolvedConstrastValue}) is ${contrast}, should be at least 4.5`;
+
+                    if (fontSize) {
+                      warningMessage += ` (font-size: ${fontSize})`;
+                    }
+                  } else if (contrastValueAPCA < 60) {
+                    warningMessage = `APCA not happy ${contrastValueAPCA}`;
+                  }
+                } catch (e) {
+                  console.log({ resolvedValue, resolvedConstrastValue });
+                  console.error(e);
+                }
               }
             }
 
@@ -706,7 +774,6 @@ customElements.define(
             // Terrible implementation, but gives you an idea
             const hasAlphaChannel = (value: string) => /^(rgba|hsla)|^transparent$/i.test(value);
 
-            let warningMessage = null;
             if (path.at(-1) === 'background-color') {
               if (hasAlphaChannel(validationValue)) {
                 warningMessage =
